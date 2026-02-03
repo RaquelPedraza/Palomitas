@@ -1,0 +1,48 @@
+# --- Archivos del Sistema Operativo (¡Basura común!) ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Entornos de Desarrollo (IDEs) ---
+# VS Code
+.vscode/
+*.code-workspace
+# IntelliJ / PHPStorm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# --- XAMPP / PHP Errores ---
+# Archivos de log de errores que genera XAMPP
+error_log
+access.log
+php_error_log
+xdebug
+
+# --- Dependencias (Si usáis Composer o NPM en el futuro) ---
+/vendor/
+/node_modules/
+package-lock.json
+composer.lock
+
+# --- Seguridad y Configuración Local ---
+# ¡MUY IMPORTANTE! Evita subir contraseñas de la BD
+.env
+config_local.php
+db_credentials.php
+
+# --- Archivos temporales o de compilación ---
+*.log
+*.tmp
+*.bak
+*.swp
+
+# --- Subidas de usuarios (Si probáis subidas de imágenes) ---
+# Mantenemos la carpeta pero no el contenido
+/uploads/*
+!/uploads/.gitkeep
+
+secrets.php
+config/secrets.php 
