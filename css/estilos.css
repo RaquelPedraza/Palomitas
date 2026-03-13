@@ -148,3 +148,115 @@ body {
   font-size: 0.8em;
   margin-right: 10px;
 }
+/* Año a la izquierda y el País a la derecha */
+.meta-datos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  color: #888;
+  font-size: 0.9em;
+}
+.etiqueta-pais {
+  border: 1px solid #444;
+  background-color: #222;
+  color: #ddd;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+/* --- NAVEGACIÓN (NAVBAR) --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000; /* Fondo negro puro */
+  padding: 15px 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar .logo {
+  color: #e50914; /* Rojo Netflix */
+  font-size: 1.8em;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar .enlaces a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 1.1em;
+  transition: color 0.3s;
+}
+
+.navbar .enlaces a:hover {
+  color: #e50914;
+}
+
+/* --- ESTILOS DEL FORMULARIO DE REGISTRO --- */
+.contenedor-formulario {
+  background-color: rgba(0, 0, 0, 0.75);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.contenedor-formulario h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+.grupo-input {
+  margin-bottom: 20px;
+}
+
+.grupo-input input {
+  width: 100%;
+  padding: 12px;
+  background-color: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  box-sizing: border-box; /* Para que el padding no rompa el ancho */
+}
+
+.grupo-input input:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+.btn-rojo {
+  width: 100%;
+  background-color: #e50914;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-rojo:hover {
+  background-color: #f40612;
+}
+
+/* Mensajes de validación */
+.rojo {
+  color: #e87c03;
+  margin-top: 5px;
+  font-size: 0.9em;
+} /* Naranja/rojo de alerta */
+.verde {
+  color: #2ea32e;
+  margin-top: 5px;
+  font-size: 0.9em;
+}

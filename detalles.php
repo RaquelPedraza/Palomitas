@@ -57,9 +57,17 @@ try {
             <h1><?= $peli['titulo'] ?></h1>
             
             <div class="meta">
-                <span class="etiqueta"><?= strtoupper($peli['idioma_original']) ?></span>
+               <div class="meta">
+                <?php if (!empty($peli['pais'])): ?>
+                    <span class="etiqueta" style="background-color: #e50914; color: white;">
+                        <?= $peli['pais'] ?>
+                    </span>
+                <?php endif; ?>
+
                 <span class="etiqueta"><?= $peli['anio'] ?></span>
+                <span class="etiqueta"><?= strtoupper($peli['idioma_original']) ?></span>
                 <span class="etiqueta">PELÍCULA</span>
+            </div>
             </div>
 
             <h3>Sinopsis</h3>
