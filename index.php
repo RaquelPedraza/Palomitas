@@ -1,13 +1,12 @@
 <?php
 // index.php - Catálogo con Paginación
-session_start();
 
 // 1. CONFIGURACIÓN
 $host = '127.0.0.1';
-$db   = 'palomitas';
-$user = 'raquel';
-$pass = 'cine';
-$port = '3307'; 
+$db   = 'palomitas_db';
+$user = 'root';
+$pass = '';
+$port = '3306';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
@@ -19,9 +18,9 @@ try {
 }
 
 // 2. LÓGICA DE PAGINACIÓN
-$pelis_por_pagina = 15; // Mostramos 15
+$pelis_por_pagina = 15; // Mostramos 12 para que quede bonito en rejilla (3x4 o 4x3)
 
-// ¿En qué página estamos? (Si no hay número, es la 1)
+// ¿En qué página estamos? (Si no hay numero, es la 1)
 $pagina_actual = isset($_GET['pag']) ? (int)$_GET['pag'] : 1;
 if ($pagina_actual < 1) $pagina_actual = 1;
 
@@ -30,7 +29,7 @@ if ($pagina_actual < 1) $pagina_actual = 1;
 $inicio = ($pagina_actual - 1) * $pelis_por_pagina;
 
 // 3. CONSULTA SQL INTELIGENTE
-// LIMIT: Cuantas traigo. OFFSET: Cuántas me salto.
+// LIMIT: Cuantas traigo. OFFSET: Cuantas me salto.
 $sql = "SELECT * FROM producciones LIMIT :limit OFFSET :offset";
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':limit', $pelis_por_pagina, PDO::PARAM_INT);
@@ -49,53 +48,24 @@ $total_paginas = ceil($total_pelis / $pelis_por_pagina);
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=2"></link>
+    <link rel="stylesheet" href= "css/estilos.css"></link>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.php" class="logo">🍿 Palomitas</a>
-        <div class="enlaces">
-            <a href="index.php">Catálogo</a>
-            
-            <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                <span style="color: #ccc; margin-left: 20px;">
-                    Hola, <strong style="color: white;"><?= htmlspecialchars($_SESSION['usuario_nombre']) ?></strong>
-                </span>
-                <a href="logout.php" style="color: #e50914; margin-left: 15px;">Cerrar Sesión</a>
-            <?php else: ?>
-                <a href="login.php">Iniciar Sesión</a>
-                <a href="registro.php">Crear Cuenta</a>
-            <?php endif; ?>
-        </div>
-    </nav>
-    <h1>🍿 Palomitas - Catálogo Hispano</h1>
- 
-    <div class="galeria">
 
+    <h1>🍿 Palomitas - Catálogo Hispano</h1>
+
+    <div class="galeria">
         <?php foreach ($peliculas as $peli): ?>
-            
             <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                
                 <div class="tarjeta">
-                    
                     <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
-                    
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
-                        
-                        <div class="meta-datos">
-                            <span class="anio"><?= $peli['anio'] ?></span>
-                            
-                            <?php if (!empty($peli['pais']) && $peli['pais'] !== '??'): ?>
-                                <span class="etiqueta-pais"><?= $peli['pais'] ?></span>
-                            <?php endif; ?>
-                        </div>
+                        <div class="anio"><?= $peli['anio'] ?></div>
                     </div>
-                    </div>
-                </a>
-
+                </div>
+            </a>
         <?php endforeach; ?>
-
     </div>
 
     <div class="paginacion">
