@@ -29,19 +29,57 @@ if ($pagina_actual < 1) $pagina_actual = 1;
 // Pag 1: empieza en 0. Pag 2: empieza en 12...
 $inicio = ($pagina_actual - 1) * $pelis_por_pagina;
 
-// 3. CONSULTA SQL INTELIGENTE
-// LIMIT: Cuantas traigo. OFFSET: Cuántas me salto.
-$sql = "SELECT * FROM producciones LIMIT :limit OFFSET :offset";
+// --- 1. CAPTURAR LO QUE EL USUARIO BUSCA ---
+$busqueda = $_GET['q'] ?? '';
+$pais_filtro = $_GET['pais'] ?? '';
+
+// --- 2. PREPARAR LA CONSULTA SQL BASE ---
+$sql = "SELECT * FROM producciones WHERE 1=1"; // El 1=1 es un truco para poder añadir "ANDs" después
+$parametros = [];
+$url_filtros = ""; // Para no perder los filtros al cambiar de página
+
+// Si escribió algo en el buscador...
+if ($busqueda !== '') {
+    $sql .= " AND titulo LIKE ?";
+    $parametros[] = "%$busqueda%";
+    $url_filtros .= "&q=" . urlencode($busqueda);
+}
+
+// Si seleccionó un país...
+if ($pais_filtro !== '') {
+    $sql .= " AND pais = ?";
+    $parametros[] = $pais_filtro;
+    $url_filtros .= "&pais=" . urlencode($pais_filtro);
+}
+
+// --- 3. APLICAR LÍMITE Y PAGINACIÓN A LA CONSULTA ---
+$sql .= " LIMIT $inicio, $pelis_por_pagina";
+
+// Ejecutamos la consulta principal con los filtros
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(':limit', $pelis_por_pagina, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $inicio, PDO::PARAM_INT);
-$stmt->execute();
+$stmt->execute($parametros);
 $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 4. CALCULAR TOTAL DE PÁGINAS (Para saber cuándo parar el botón "Siguiente")
-$sql_total = "SELECT COUNT(*) FROM producciones";
-$total_pelis = $pdo->query($sql_total)->fetchColumn();
+// --- 4. CALCULAR TOTAL DE PÁGINAS (Escuchando a los filtros) ---
+$sql_total = "SELECT COUNT(*) FROM producciones WHERE 1=1";
+$parametros_total = [];
+
+if ($busqueda !== '') {
+    $sql_total .= " AND titulo LIKE ?";
+    $parametros_total[] = "%$busqueda%";
+}
+
+if ($pais_filtro !== '') {
+    $sql_total .= " AND pais = ?";
+    $parametros_total[] = $pais_filtro;
+}
+
+$stmt_total = $pdo->prepare($sql_total);
+$stmt_total->execute($parametros_total);
+$total_pelis = $stmt_total->fetchColumn();
+
 $total_paginas = ceil($total_pelis / $pelis_por_pagina);
+if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +87,7 @@ $total_paginas = ceil($total_pelis / $pelis_por_pagina);
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=2"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=4"></link>
 </head>
 <body>
     <nav class="navbar">
@@ -69,7 +107,32 @@ $total_paginas = ceil($total_pelis / $pelis_por_pagina);
         </div>
     </nav>
     <h1>🍿 Palomitas - Catálogo Hispano</h1>
- 
+                
+    <div class="barra-filtros">
+        <form action="index.php" method="GET" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <input type="text" name="q" placeholder="Buscar película..." value="<?= htmlspecialchars($busqueda) ?>" class="input-filtro">
+            
+            <select name="pais" class="input-filtro">
+                <option value="">🌍 Todos los países</option>
+                <option value="ES" <?= $pais_filtro == 'ES' ? 'selected' : '' ?>>🇪🇸 España</option>
+                <option value="MX" <?= $pais_filtro == 'MX' ? 'selected' : '' ?>>🇲🇽 México</option>
+                <option value="AR" <?= $pais_filtro == 'AR' ? 'selected' : '' ?>>🇦🇷 Argentina</option>
+                <option value="CO" <?= $pais_filtro == 'CO' ? 'selected' : '' ?>>🇨🇴 Colombia</option>
+                <option value="CL" <?= $pais_filtro == 'CL' ? 'selected' : '' ?>>🇨🇱 Chile</option>
+            </select>
+            
+            <button type="submit" class="btn-rojo" style="width: auto; padding: 10px 20px;">Filtrar</button>
+            
+            <?php if ($busqueda !== '' || $pais_filtro !== ''): ?>
+                <a href="index.php" class="btn-rojo" style="background-color: #555; text-decoration: none; padding: 10px 20px;">✖ Limpiar</a>
+            <?php endif; ?>
+        </form>
+    </div>
+
+    <?php if (count($peliculas) == 0): ?>
+        <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬🤷‍♀️</h2>
+    <?php endif; ?>
+    <div class="galeria">
     <div class="galeria">
 
         <?php foreach ($peliculas as $peli): ?>
@@ -100,16 +163,14 @@ $total_paginas = ceil($total_pelis / $pelis_por_pagina);
 
     <div class="paginacion">
         <?php if ($pagina_actual > 1): ?>
-            <a href="?pag=<?= $pagina_actual - 1 ?>" class="btn">⬅ Anterior</a>
-        <?php else: ?>
+<a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>" class="btn">⬅ Anterior</a>        <?php else: ?>
             <span class="btn desactivado">⬅ Anterior</span>
         <?php endif; ?>
 
         <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
 
         <?php if ($pagina_actual < $total_paginas): ?>
-            <a href="?pag=<?= $pagina_actual + 1 ?>" class="btn">Siguiente ➡</a>
-        <?php else: ?>
+<a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>" class="btn">Siguiente ➡</a>        <?php else: ?>
             <span class="btn desactivado">Siguiente ➡</span>
         <?php endif; ?>
     </div>

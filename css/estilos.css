@@ -13,6 +13,40 @@ h1 {
   margin-bottom: 30px;
 }
 
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
+   ========================================= */
+
+.barra-filtros {
+  background-color: #141414; /* Mismo fondo oscuro */
+  padding: 20px;
+  margin-bottom: 30px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.input-filtro {
+  padding: 12px 15px;
+  background-color: #000; /* Fondo negro puro para el cajón */
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  min-width: 220px;
+  transition: border-color 0.3s ease;
+}
+
+/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
+.input-filtro:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+/* Pequeño ajuste para que el desplegable de países se vea bien */
+select.input-filtro option {
+  background-color: #222;
+  color: white;
+}
 /* Grid responsive */
 .galeria {
   display: grid;
@@ -197,6 +231,56 @@ body {
   color: #e50914;
 }
 
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
+   ========================================= */
+
+.barra-filtros {
+  background-color: #141414; /* Mismo fondo oscuro */
+  padding: 20px;
+  margin-bottom: 30px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.input-filtro {
+  padding: 12px 15px;
+  background-color: #000; /* Fondo negro puro para el cajón */
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  min-width: 220px;
+  transition: border-color 0.3s ease;
+}
+
+/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
+.input-filtro:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+/* Pequeño ajuste para que el desplegable de países se vea bien */
+select.input-filtro option {
+  background-color: #222;
+  color: white;
+}
+
+/* =========================================
+   CORRECCIÓN: ESPACIO PARA LA PAGINACIÓN
+   ========================================= */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 10;
+  clear: both;
+  width: 100%;
+}
 /* --- ESTILOS DEL FORMULARIO DE REGISTRO --- */
 .contenedor-formulario {
   background-color: rgba(0, 0, 0, 0.75);
