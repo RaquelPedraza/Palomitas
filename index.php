@@ -19,7 +19,7 @@ try {
 }
 
 // 2. LÓGICA DE PAGINACIÓN
-$pelis_por_pagina = 15; // Mostramos 15
+$pelis_por_pagina = 14; 
 
 // ¿En qué página estamos? (Si no hay número, es la 1)
 $pagina_actual = isset($_GET['pag']) ? (int)$_GET['pag'] : 1;
@@ -87,7 +87,7 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=4"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=6"></link>
 </head>
 <body>
     <nav class="navbar">
@@ -132,7 +132,6 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
     <?php if (count($peliculas) == 0): ?>
         <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬🤷‍♀️</h2>
     <?php endif; ?>
-    <div class="galeria">
     <div class="galeria">
 
         <?php foreach ($peliculas as $peli): ?>

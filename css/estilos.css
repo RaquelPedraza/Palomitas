@@ -52,8 +52,9 @@ select.input-filtro option {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 25px;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 20px 0;
+  height: auto;
+  min-height: 50vh;
 }
 
 .tarjeta {
@@ -266,21 +267,24 @@ select.input-filtro option {
   color: white;
 }
 
-/* =========================================
-   CORRECCIÓN: ESPACIO PARA LA PAGINACIÓN
-   ========================================= */
+/* --- ESPACIO PARA LA PAGINACIÓN --- */
 .paginacion {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  position: relative;
-  z-index: 10;
+  margin: 50px auto;
+  padding: 0;
+
+  /* Evita que se solape con elementos flotantes */
   clear: both;
-  width: 100%;
+
+  width: 100%; /* Control de tamaño para evitar desbordamiento */
+
+  max-width: 1200px; /* Igual al ancho máximo que .galeria */
+  box-sizing: border-box;
 }
+
 /* --- ESTILOS DEL FORMULARIO DE REGISTRO --- */
 .contenedor-formulario {
   background-color: rgba(0, 0, 0, 0.75);
@@ -348,107 +352,106 @@ select.input-filtro option {
 /* --- NUEVOS ESTILOS PARA INTERACTIVIDAD EN DETALLES --- */
 
 .seccion-interactiva {
-    margin-top: 40px;
-    border-top: 1px solid #333;
-    padding-top: 20px;
+  margin-top: 40px;
+  border-top: 1px solid #333;
+  padding-top: 20px;
 }
 
-
 .nota-media-container {
-    display: flex;
-    align-items: center;
-    gap: 8px; 
-    margin-top: 15px; 
-    margin-bottom: 20px; 
-    padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding: 5px 0;
 }
 
 .estrellas-media {
-    display: flex;
-    gap: 2px;
-    color: #f5b50a; 
+  display: flex;
+  gap: 2px;
+  color: #f5b50a;
 }
 
 .numero-nota {
-    color: white;
-    font-weight: bold;
-    font-size: 1.1em;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
 /* FORMULARIO CALIFICACION*/
 .rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .rating input {
-    display: none; 
+  display: none;
 }
 
 .rating label {
-    font-size: 30px;
-    color: #444;
-    cursor: pointer;
-    transition: color 0.2s;
-    margin-right: 5px;
+  font-size: 30px;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-right: 5px;
 }
 
 .rating label:hover,
 .rating label:hover ~ label,
 .rating input:checked ~ label {
-    color: #f5b50a;
+  color: #f5b50a;
 }
 
 /* FORMULARIO COMENTARIOS*/
 .contenedor-formulario-resena {
-    background: #222;
-    padding: 20px;
-    border-radius: 8px;
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .textarea-resena {
-    width: 100%;
-    background: #333;
-    color: white;
-    border: 1px solid #444;
-    padding: 10px;
-    box-sizing: border-box;
-    resize: vertical;
-    margin-bottom: 10px;
+  width: 100%;
+  background: #333;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-bottom: 10px;
 }
 
 .separador-resena {
-    border: 0;
-    border-top: 1px solid #444;
-    margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 20px 0;
 }
 
 .caja-comentario {
-    background: #111;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #e50914; 
+  background: #111;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #e50914;
 }
 
 .caja-comentario strong {
-    color: #e50914;
-    display: block;
-    margin-bottom: 5px;
+  color: #e50914;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .fecha-comentario {
-    display: block;
-    color: #666;
-    font-size: 0.8em;
-    margin-top: 8px;
+  display: block;
+  color: #666;
+  font-size: 0.8em;
+  margin-top: 8px;
 }
 
 .sin-resenas {
-    color: #888;
-    text-align: center;
-    padding: 20px;
+  color: #888;
+  text-align: center;
+  padding: 20px;
 }
