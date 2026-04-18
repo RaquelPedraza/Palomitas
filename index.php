@@ -18,6 +18,43 @@ try {
     die("Error: " . $e->getMessage());
 }
 
+// Diccionario de traducción de códigos ISO a nombres reales
+$nombres_paises = [
+    'ES' => 'España',
+    'MX' => 'México',
+    'AR' => 'Argentina',
+    'CO' => 'Colombia',
+    'CL' => 'Chile',
+    'PE' => 'Perú',
+    'VE' => 'Venezuela',
+    'EC' => 'Ecuador',
+    'GT' => 'Guatemala',
+    'CU' => 'Cuba',
+    'BO' => 'Bolivia',
+    'DO' => 'República Dominicana',
+    'HN' => 'Honduras',
+    'PY' => 'Paraguay',
+    'SV' => 'El Salvador',
+    'NI' => 'Nicaragua',
+    'CR' => 'Costa Rica',
+    'PR' => 'Puerto Rico',
+    'UY' => 'Uruguay',
+    'PA' => 'Panamá',
+    // Coproducciones comunes
+    'US' => 'Estados Unidos', 
+    'FR' => 'Francia',
+    'IT' => 'Italia'
+];
+
+// 2. Convertimos las claves del diccionario en formato SQL: 'ES','MX','AR'...
+$codigos_permitidos = array_keys($nombres_paises);
+$lista_sql = "'" . implode("', '", $codigos_permitidos) . "'";
+
+// 3. Consultamos SOLO los países que coincidan con nuestra lista permitida
+$query_paises = "SELECT DISTINCT pais FROM producciones WHERE pais IN ($lista_sql) ORDER BY pais ASC";
+$stmt_paises = $pdo->query($query_paises);
+$paises_en_db = $stmt_paises->fetchAll(PDO::FETCH_COLUMN);
+
 // 2. LÓGICA DE PAGINACIÓN
 $pelis_por_pagina = 14; 
 
@@ -87,7 +124,7 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=6"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=7"></link>
 </head>
 <body>
     <nav class="navbar">
@@ -113,13 +150,15 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
             <input type="text" name="q" placeholder="Buscar película..." value="<?= htmlspecialchars($busqueda) ?>" class="input-filtro">
             
             <select name="pais" class="input-filtro">
-                <option value="">🌍 Todos los países</option>
-                <option value="ES" <?= $pais_filtro == 'ES' ? 'selected' : '' ?>>🇪🇸 España</option>
-                <option value="MX" <?= $pais_filtro == 'MX' ? 'selected' : '' ?>>🇲🇽 México</option>
-                <option value="AR" <?= $pais_filtro == 'AR' ? 'selected' : '' ?>>🇦🇷 Argentina</option>
-                <option value="CO" <?= $pais_filtro == 'CO' ? 'selected' : '' ?>>🇨🇴 Colombia</option>
-                <option value="CL" <?= $pais_filtro == 'CL' ? 'selected' : '' ?>>🇨🇱 Chile</option>
-            </select>
+    <option value="">🌍 Todos los países</option>
+    <?php foreach ($paises_en_db as $p): ?>
+        
+        <option value="<?= htmlspecialchars($p) ?>" <?= $pais_filtro == $p ? 'selected' : '' ?>>
+            <?= htmlspecialchars($nombres_paises[$p]) ?>
+        </option>
+        
+    <?php endforeach; ?>
+</select>
             
             <button type="submit" class="btn-rojo" style="width: auto; padding: 10px 20px;">Filtrar</button>
             
@@ -140,7 +179,8 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
                 
                 <div class="tarjeta">
                     
-                    <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
+                    <img src="<?= htmlspecialchars($peli['portada']) ?>" alt="<?= htmlspecialchars($peli['titulo']) ?>"onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width%3D%22200%22 height%3D%22300%22 xmlns%3D%22http%3D%2F%2Fwww.w3.org%2F200%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id%3D%22b%22 x1%3D%220%22 y1%3D%220%22 x2%3D%220%22 y2%3D%221%22%3E%3Cstop offset%3D%220%22 stop-color%3D%22%231a1a1a%22%2F%3E%3Cstop offset%3D%221%22 stop-color%3D%22%23000%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect width%3D%22100%25%22 height%3D%22100%25%22 fill%3D%22url(%23b)%22%2F%3E%3Ctext x%3D%2250%25%22 y%3D%2245%25%22 font-size%3D%2240%22 font-family%3D%22Helvetica%2c Arial%2c sans-serif%22 fill%3D%22%23e50914%22 text-anchor%3D%22middle%22 dy%3D%22.3em%22%3E🍿%3C%2Ftext%3E%3Ctext x%3D%2250%25%22 y%3D%2260%25%22 font-size%3D%2214%22 font-family%3D%22Helvetica%2c Arial%2c sans-serif%22 fill%3D%22%23666%22 text-anchor%3D%22middle%22 dy%3D%22.3em%22%3EImagen no disponible%3C%2Ftext%3E%3Crect width%3D%22100%25%22 height%3D%22100%25%22 fill%3D%22none%22 stroke%3D%22%23333%22 stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E';">
+>
                     
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
