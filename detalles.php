@@ -50,6 +50,17 @@ try {
     die("Error: " . $e->getMessage());
 }
 
+$nombres_paises = [
+    'ES' => 'España', 'MX' => 'México', 'AR' => 'Argentina',
+    'CO' => 'Colombia', 'CL' => 'Chile', 'PE' => 'Perú',
+    'VE' => 'Venezuela', 'EC' => 'Ecuador', 'GT' => 'Guatemala',
+    'CU' => 'Cuba', 'BO' => 'Bolivia', 'DO' => 'República Dominicana',
+    'HN' => 'Honduras', 'PY' => 'Paraguay', 'SV' => 'El Salvador',
+    'NI' => 'Nicaragua', 'CR' => 'Costa Rica', 'PR' => 'Puerto Rico',
+    'UY' => 'Uruguay', 'PA' => 'Panamá',
+    'US' => 'Estados Unidos', 'FR' => 'Francia', 'IT' => 'Italia'
+];
+
 //FUNCIÓN PARA MOSTRAR ESTRELLAS DE CALIFICACIÓN
 function mostrarEstrellas($nota) {
     $html = "";
@@ -72,7 +83,8 @@ function mostrarEstrellas($nota) {
 </head>
 <body>
 
-    <a href="index.php" class="boton-volver">⬅ Volver al catálogo</a>
+    <a href="javascript:history.back()" class="boton-volver">
+    ⬅ Volver al catálogo </a>
 
     <div class="ficha">
         <div class="poster">
@@ -85,10 +97,17 @@ function mostrarEstrellas($nota) {
             
             <div class="meta">
                 <?php if (!empty($peli['pais'])): ?>
-                    <span class="etiqueta" style="background-color: #e50914; color: white;">
-                        <?= $peli['pais'] ?>
-                    </span>
-                <?php endif; ?>
+                    <?php 
+                        $pais_codigo = $peli['pais'];
+                        $pais_nombre = isset($nombres_paises[$pais_codigo]) ? $nombres_paises[$pais_codigo] : $pais_codigo;
+                    ?>
+                    <div class="contenedor-tooltip">
+                        <span class="etiqueta" style="background-color: #e50914; color: white;">
+                            <?= htmlspecialchars($pais_codigo) ?>
+                        </span>
+                        <span class="tooltip-personalizado"><?= htmlspecialchars($pais_nombre) ?></span>
+                    </div>
+            <?php endif; ?>
 
                 <span class="etiqueta"><?= $peli['anio'] ?></span>
                 <span class="etiqueta"><?= strtoupper($peli['idioma_original']) ?></span>
