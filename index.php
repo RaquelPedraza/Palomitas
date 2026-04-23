@@ -124,7 +124,7 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=7"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=3"></link>
 </head>
 <body>
     <nav class="navbar">
@@ -143,30 +143,28 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
             <?php endif; ?>
         </div>
     </nav>
-    <h1>🍿 Palomitas - Catálogo Hispano</h1>
-                
-    <div class="barra-filtros">
-        <form action="index.php" method="GET" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            <input type="text" name="q" placeholder="Buscar película..." value="<?= htmlspecialchars($busqueda) ?>" class="input-filtro">
+    <h1>🍿 Palomitas - Catálogo Hispano</h1>            
+           
+    <section class="barra-filtros">
+    <form action="index.php" method="GET" class="formulario-busqueda">
+        <div class="controles-principales">
+            <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
             
             <select name="pais" class="input-filtro">
-    <option value="">🌍 Todos los países</option>
-    <?php foreach ($paises_en_db as $p): ?>
-        
-        <option value="<?= htmlspecialchars($p) ?>" <?= $pais_filtro == $p ? 'selected' : '' ?>>
-            <?= htmlspecialchars($nombres_paises[$p]) ?>
-        </option>
-        
-    <?php endforeach; ?>
-</select>
+                <option value="">🌍 Todos los países</option>
+                <?php foreach ($paises_en_db as $p): ?>
+                    <option value="<?= $p ?>" <?= ($pais_filtro == $p) ? 'selected' : '' ?>>
+                        <?= $nombres_paises[$p] ?? $p ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
             
-            <button type="submit" class="btn-rojo" style="width: auto; padding: 10px 20px;">Filtrar</button>
-            
-            <?php if ($busqueda !== '' || $pais_filtro !== ''): ?>
-                <a href="index.php" class="btn-rojo" style="background-color: #555; text-decoration: none; padding: 10px 20px;">✖ Limpiar</a>
-            <?php endif; ?>
-        </form>
-    </div>
+            <button type="submit" class="btn-filtrar">Filtrar</button>
+        </div>
+
+        <a href="index.php" class="btn-limpiar">❌ Limpiar filtros</a>
+    </form>
+</section>
 
     <?php if (count($peliculas) == 0): ?>
         <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬🤷‍♀️</h2>
@@ -178,10 +176,17 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
             <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
                 
                 <div class="tarjeta">
-                    
-                    <img src="<?= htmlspecialchars($peli['portada']) ?>" alt="<?= htmlspecialchars($peli['titulo']) ?>"onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg width%3D%22200%22 height%3D%22300%22 xmlns%3D%22http%3D%2F%2Fwww.w3.org%2F200%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id%3D%22b%22 x1%3D%220%22 y1%3D%220%22 x2%3D%220%22 y2%3D%221%22%3E%3Cstop offset%3D%220%22 stop-color%3D%22%231a1a1a%22%2F%3E%3Cstop offset%3D%221%22 stop-color%3D%22%23000%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect width%3D%22100%25%22 height%3D%22100%25%22 fill%3D%22url(%23b)%22%2F%3E%3Ctext x%3D%2250%25%22 y%3D%2245%25%22 font-size%3D%2240%22 font-family%3D%22Helvetica%2c Arial%2c sans-serif%22 fill%3D%22%23e50914%22 text-anchor%3D%22middle%22 dy%3D%22.3em%22%3E🍿%3C%2Ftext%3E%3Ctext x%3D%2250%25%22 y%3D%2260%25%22 font-size%3D%2214%22 font-family%3D%22Helvetica%2c Arial%2c sans-serif%22 fill%3D%22%23666%22 text-anchor%3D%22middle%22 dy%3D%22.3em%22%3EImagen no disponible%3C%2Ftext%3E%3Crect width%3D%22100%25%22 height%3D%22100%25%22 fill%3D%22none%22 stroke%3D%22%23333%22 stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E';">
->
-                    
+               
+<?php 
+// 1. PHP comprueba si el campo de la base de datos está vacío
+$enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
+?>
+
+<img 
+    src="<?= htmlspecialchars($enlace_portada) ?>" 
+    alt="<?= htmlspecialchars($peli['titulo']) ?>" 
+    onerror="this.onerror=null; this.src='img/no-poster.png';"
+>                    
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
                         
@@ -199,20 +204,43 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
         <?php endforeach; ?>
 
     </div>
-
+<div class="contenedor-navegacion">
     <div class="paginacion">
         <?php if ($pagina_actual > 1): ?>
-<a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>" class="btn">⬅ Anterior</a>        <?php else: ?>
+            <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>" class="btn">⬅ Anterior</a>        <?php else: ?>
             <span class="btn desactivado">⬅ Anterior</span>
         <?php endif; ?>
 
         <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
 
         <?php if ($pagina_actual < $total_paginas): ?>
-<a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>" class="btn">Siguiente ➡</a>        <?php else: ?>
+            <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>" class="btn">Siguiente ➡</a>        <?php else: ?>
             <span class="btn desactivado">Siguiente ➡</span>
         <?php endif; ?>
     </div>
+
+    <div class="salto-pagina">
+        <form action="index.php" method="GET" style="display: inline-flex; align-items: center; gap: 8px;">
+            <?php if (!empty($_GET['busqueda'])): ?>
+                <input type="hidden" name="busqueda" value="<?= htmlspecialchars($_GET['busqueda']) ?>">
+            <?php endif; ?>
+            <?php if (!empty($_GET['pais'])): ?>
+                <input type="hidden" name="pais" value="<?= htmlspecialchars($_GET['pais']) ?>">
+            <?php endif; ?>
+
+            <label for="input-pag" style="font-size: 1em; color: #ccc;">Ir a:</label>
+            <input type="number" 
+                name="pag" 
+                id="input-pag" 
+                min="1" 
+                max="<?= $total_paginas ?>" 
+                value="<?= $pagina_actual ?>" 
+                style="width: 50px; background: #222; color: white; border: 1px solid #444; border-radius: 4px; padding: 4px;">
+            
+            <button type="submit" class="btn-ir">Ir</button>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>
