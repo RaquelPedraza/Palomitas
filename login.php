@@ -2,7 +2,11 @@
 session_start();
 require_once 'config/secrets.php';
 
-$host = '127.0.0.1'; $port = '3307'; $db = 'palomitas'; $user = 'raquel'; $pass = 'cine';
+$host = '127.0.0.1'; 
+$port = '3306'; 
+$db = 'palomitas'; 
+$user = 'root'; 
+$pass = '';
 $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
 
 $error = "";

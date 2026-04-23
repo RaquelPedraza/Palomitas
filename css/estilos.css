@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 20px;
 }
+
 h1 {
   text-align: center;
   color: #e50914;
@@ -31,10 +32,12 @@ h1 {
     box-shadow 0.3s;
   position: relative;
 }
+
 .tarjeta:hover {
   transform: scale(1.05);
   z-index: 2;
-  box-shadow: 0 0 15px rgba(229, 9, 20, 0.6); /* Brillo rojo al pasar ratón */
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.6);
+  /* Brillo rojo al pasar ratón */
 }
 
 .tarjeta img {
@@ -46,6 +49,7 @@ h1 {
 .info {
   padding: 12px;
 }
+
 .titulo {
   font-weight: bold;
   font-size: 1em;
@@ -54,6 +58,7 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .anio {
   color: #888;
   font-size: 0.9em;
@@ -65,6 +70,7 @@ h1 {
   margin-top: 40px;
   margin-bottom: 40px;
 }
+
 .btn {
   background-color: #e50914;
   color: white;
@@ -75,29 +81,23 @@ h1 {
   margin: 0 5px;
   display: inline-block;
 }
+
 .btn:hover {
   background-color: #f40612;
 }
+
 .btn.desactivado {
   background-color: #333;
   color: #666;
   pointer-events: none;
 }
+
 .info-pag {
   color: #888;
   margin: 0 15px;
 }
 
 /*---- DETALLES.PHP ----*/
-
-body {
-  background-color: #141414;
-  color: white;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 40px;
-}
-
 .boton-volver {
   display: inline-block;
   margin-bottom: 20px;
@@ -105,6 +105,7 @@ body {
   text-decoration: none;
   font-weight: bold;
 }
+
 .boton-volver:hover {
   color: white;
 }
@@ -131,16 +132,19 @@ body {
   margin-top: 0;
   font-size: 2.5em;
 }
+
 .meta {
   color: #888;
   margin-bottom: 20px;
   font-size: 1.1em;
 }
+
 .sinopsis {
   line-height: 1.6;
   font-size: 1.1em;
   color: #ddd;
 }
+
 .etiqueta {
   background-color: #333;
   padding: 5px 10px;
@@ -148,6 +152,7 @@ body {
   font-size: 0.8em;
   margin-right: 10px;
 }
+
 /* Año a la izquierda y el País a la derecha */
 .meta-datos {
   display: flex;
@@ -157,6 +162,7 @@ body {
   color: #888;
   font-size: 0.9em;
 }
+
 .etiqueta-pais {
   border: 1px solid #444;
   background-color: #222;
@@ -167,19 +173,22 @@ body {
   font-weight: bold;
   text-transform: uppercase;
 }
+
 /* --- NAVEGACIÓN (NAVBAR) --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000; /* Fondo negro puro */
+  background-color: #000;
+  /* Fondo negro puro */
   padding: 15px 40px;
   margin-bottom: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .navbar .logo {
-  color: #e50914; /* Rojo Netflix */
+  color: #e50914;
+  /* Rojo Netflix */
   font-size: 1.8em;
   font-weight: bold;
   text-decoration: none;
@@ -224,7 +233,8 @@ body {
   border-radius: 4px;
   color: white;
   font-size: 1em;
-  box-sizing: border-box; /* Para que el padding no rompa el ancho */
+  box-sizing: border-box;
+  /* Para que el padding no rompa el ancho */
 }
 
 .grupo-input input:focus {
@@ -254,7 +264,9 @@ body {
   color: #e87c03;
   margin-top: 5px;
   font-size: 0.9em;
-} /* Naranja/rojo de alerta */
+}
+
+/* Naranja/rojo de alerta */
 .verde {
   color: #2ea32e;
   margin-top: 5px;
@@ -264,107 +276,123 @@ body {
 /* --- NUEVOS ESTILOS PARA INTERACTIVIDAD EN DETALLES --- */
 
 .seccion-interactiva {
-    margin-top: 40px;
-    border-top: 1px solid #333;
-    padding-top: 20px;
+  margin-top: 40px;
+  border-top: 1px solid #333;
+  padding-top: 20px;
 }
 
-
 .nota-media-container {
-    display: flex;
-    align-items: center;
-    gap: 8px; 
-    margin-top: 15px; 
-    margin-bottom: 20px; 
-    padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding: 5px 0;
 }
 
 .estrellas-media {
-    display: flex;
-    gap: 2px;
-    color: #f5b50a; 
+  display: flex;
+  gap: 2px;
+  color: #f5b50a;
 }
 
 .numero-nota {
-    color: white;
-    font-weight: bold;
-    font-size: 1.1em;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.btn-detalles {
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-detalles:hover {
+  background-color: #f40612;
+  transform: scale(1.05);
 }
 
 /* FORMULARIO CALIFICACION*/
 .rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .rating input {
-    display: none; 
+  display: none;
 }
 
 .rating label {
-    font-size: 30px;
-    color: #444;
-    cursor: pointer;
-    transition: color 0.2s;
-    margin-right: 5px;
+  font-size: 30px;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-right: 5px;
 }
 
 .rating label:hover,
-.rating label:hover ~ label,
-.rating input:checked ~ label {
-    color: #f5b50a;
+.rating label:hover~label,
+.rating input:checked~label {
+  color: #f5b50a;
 }
 
 /* FORMULARIO COMENTARIOS*/
 .contenedor-formulario-resena {
-    background: #222;
-    padding: 20px;
-    border-radius: 8px;
+  background: #222;
+  border-radius: 8px;
 }
 
 .textarea-resena {
-    width: 100%;
-    background: #333;
-    color: white;
-    border: 1px solid #444;
-    padding: 10px;
-    box-sizing: border-box;
-    resize: vertical;
-    margin-bottom: 10px;
+  width: 100%;
+  background: #333;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-bottom: 10px;
+  resize: none;
 }
 
 .separador-resena {
-    border: 0;
-    border-top: 1px solid #444;
-    margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 20px 0;
 }
 
 .caja-comentario {
-    background: #111;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #e50914; 
+  background: #111;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #e50914;
 }
 
 .caja-comentario strong {
-    color: #e50914;
-    display: block;
-    margin-bottom: 5px;
+  color: #e50914;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .fecha-comentario {
-    display: block;
-    color: #666;
-    font-size: 0.8em;
-    margin-top: 8px;
+  display: block;
+  color: #666;
+  font-size: 0.8em;
+  margin-top: 8px;
 }
 
 .sin-resenas {
-    color: #888;
-    text-align: center;
-    padding: 20px;
+  color: #888;
+  text-align: center;
+  padding: 20px;
 }
