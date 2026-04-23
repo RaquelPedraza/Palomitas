@@ -98,15 +98,17 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="top10">
         <?php foreach ($top_pelis as $peli): ?>
-            <div class="tarjeta">
-                <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
-                <div class="info">
-                    <div class="titulo"><?= $peli['titulo'] ?></div>
-                    <div class="estrellas">
-                        <?= mostrarEstrellas($peli['media']) ?>
+            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                <div class="tarjeta">
+                    <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
+                    <div class="info">
+                        <div class="titulo"><?= $peli['titulo'] ?></div>
+                        <div class="estrellas">
+                            <?= mostrarEstrellas($peli['media']) ?>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         <?php endforeach; ?>
 
     </div>
