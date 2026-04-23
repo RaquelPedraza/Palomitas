@@ -396,3 +396,29 @@ h1 {
   text-align: center;
   padding: 20px;
 }
+
+
+/* CARRUSEL DEL TOP 10 */
+.top10 {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+.top10::-webkit-scrollbar {
+  display: none;
+}
+
+/* Control del tamaño del carrusel*/
+.top10 .tarjeta {
+  min-width: 180px;
+  flex-shrink: 0;
+}
+
+.estrellas {
+  margin-top: 5px;
+  color: #f5b50a;
+  font-size: 14px;
+}

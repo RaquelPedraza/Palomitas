@@ -65,12 +65,15 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
+<!-- HTML -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
     <link rel="stylesheet" href= "css/estilos.css?v=2"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 <body>
     <nav class="navbar">
@@ -89,27 +92,28 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
     </nav>
-    <h1>🍿 Palomitas - Catálogo Hispano</h1>
 
     <!-- TOP 10 -->
+     <h1>Top 10 mejor valoradas</h1>
+
     <div class="top10">
         <?php foreach ($top_pelis as $peli): ?>
-            <div class="top-card">
+            <div class="tarjeta">
                 <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
-                <h3><?= $peli['titulo'] ?></h3>
-
-                <div class="estrellas">
-                    <?= mostrarEstrellas($peli['media']) ?>
+                <div class="info">
+                    <div class="titulo"><?= $peli['titulo'] ?></div>
+                    <div class="estrellas">
+                        <?= mostrarEstrellas($peli['media']) ?>
+                    </div>
                 </div>
-
-                <span class="nota">
-                    <?= number_format($peli['media'], 1) ?>/5
-                </span>
             </div>
         <?php endforeach; ?>
+
     </div>
 
     <!-- CATÁLOGO -->
+
+    <h1> Catálogo Hispano</h1>
     <div class="galeria">
 
         <?php foreach ($peliculas as $peli): ?>
