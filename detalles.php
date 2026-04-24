@@ -1,8 +1,7 @@
 <?php
-//iniciar sesión del usuario
+//Iniciar sesión y cargar configuración
 session_start();
-
-// Ficha técnica de la película
+require_once 'config/secrets.php';
 
 // CAPTURAR EL ID DE LA URL
 // Si no hay ID, nos devuelve al inicio
@@ -12,18 +11,13 @@ if (!isset($_GET['id'])) {
 }
 $id_pelicula = $_GET['id'];
 
-// CONEXIÓN 
-$host = '127.0.0.1'; 
-$db   = 'palomitas';
-$user = 'root';       
-$pass = '';           
-$port = '3307';
+// CONEXIÓN (secrets.php)
 $charset = 'utf8mb4';
-
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
 
 try {
     $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // CONSULTA SEGURA (? evita hackeos)
     $stmt = $pdo->prepare("SELECT * FROM producciones WHERE id_produccion = ?");
