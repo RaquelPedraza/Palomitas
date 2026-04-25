@@ -2,23 +2,17 @@
 // index.php - Catálogo con Paginación
 session_start();
 
-// FUNCIÓN MOSTRAR ESTRELLAS
-require_once 'includes/functions.php';
-
 // 1. CONFIGURACIÓN
-$host = '127.0.0.1';
-$db   = 'palomitas';
-$user = 'root';
-$pass = '';
-$port = '3306'; 
-$charset = 'utf8mb4';
+require_once 'includes/functions.php';
+require_once 'config/secrets.php';
 
-$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+$pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
 
-try {
-    $pdo = new PDO($dsn, $user, $pass);
-} catch (\PDOException $e) {
-    die("Error: " . $e->getMessage());
+$error = "";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'] ?? '';
+    $password = $_POST['password'] ?? '';
 }
 
 // Diccionario de traducción de códigos ISO a nombres reales

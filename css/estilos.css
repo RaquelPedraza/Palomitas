@@ -314,6 +314,17 @@ h1 {
   font-size: 2.5em;
 }
 
+.meta {
+  color: #888;
+  margin-bottom: 20px;
+  font-size: 1.1em;
+}
+.sinopsis {
+  line-height: 1.6;
+  font-size: 1.1em;
+  color: #ddd;
+}
+
 /*ETIQUETAS*/
 .etiqueta {
   background: #333;

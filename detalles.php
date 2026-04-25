@@ -2,6 +2,7 @@
 //Iniciar sesión y cargar configuración
 session_start();
 require_once 'includes/functions.php';
+require_once 'config/secrets.php';
 
 // Ficha técnica de la película
 
@@ -64,17 +65,6 @@ $nombres_paises = [
     'UY' => 'Uruguay', 'PA' => 'Panamá',
     'US' => 'Estados Unidos', 'FR' => 'Francia', 'IT' => 'Italia'
 ];
-
-//FUNCIÓN PARA MOSTRAR ESTRELLAS DE CALIFICACIÓN
-function mostrarEstrellas($nota) {
-    $html = "";
-    $notaEntera = round($nota);
-    for ($i = 1; $i <= 5; $i++) {
-        $color = ($i <= $notaEntera) ? "#f5b50a" : "#444";
-        $html .= "<i class='fas fa-star' style='color: $color;'></i>";
-    }
-    return $html;
-}
 ?>
 
 <!DOCTYPE html>
