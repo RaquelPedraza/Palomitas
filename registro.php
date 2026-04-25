@@ -18,6 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    // VALIDACIÓN DE CONTRASEÑA
+        if (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $password)) {
+            $mensaje_servidor = "<p class='rojo'>La contraseña debe tener mínimo 8 caracteres, una mayúscula y un número.</p>";
+        } else {
 
     // 1. Comprobar si el usuario ya existe (por si no usaron el botón AJAX)
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE nombre = ? OR email = ?");
@@ -33,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'usuario')");
         if ($stmt->execute([$nombre, $email, $hash_password])) {
             $mensaje_servidor = "<p class='verde'>¡Registro exitoso! Ya puedes iniciar sesión.</p>";
+            mail($email, "Bienvenido a Palomitas", "Hola $nombre, gracias por registrarte en Palomitas");
+        }
         }
     }
 }

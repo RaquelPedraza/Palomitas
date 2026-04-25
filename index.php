@@ -1,6 +1,5 @@
 <?php
 // index.php - Catálogo con Paginación
-session_start();
 
 // 1. CONFIGURACIÓN
 require_once 'includes/functions.php';
@@ -55,7 +54,7 @@ $paises_en_db = $stmt_paises->fetchAll(PDO::FETCH_COLUMN);
 // 2. LÓGICA DE PAGINACIÓN
 $pelis_por_pagina = 14; 
 
-// ¿En qué página estamos? (Si no hay número, es la 1)
+// ¿En qué página estamos? (Si no hay numero, es la 1)
 $pagina_actual = isset($_GET['pag']) ? (int)$_GET['pag'] : 1;
 if ($pagina_actual < 1) $pagina_actual = 1;
 
@@ -210,7 +209,6 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
         <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬🤷‍♀️</h2>
     <?php endif; ?>
     <div class="galeria">
-
         <?php foreach ($peliculas as $peli): ?>
             <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
                 <div class="tarjeta">
@@ -238,7 +236,6 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
             </a>
 
         <?php endforeach; ?>
-
     </div>
 <div class="contenedor-navegacion">
     <div class="paginacion">
