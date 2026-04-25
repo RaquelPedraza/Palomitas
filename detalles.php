@@ -148,7 +148,7 @@ $nombres_paises = [
                             </div>
 
                             <!-- Enviar -->
-                            <button type="submit" class="btn-detalles">Calificar</button>
+                            <button type="submit" class="btn btn-detalles">Calificar</button>
                         </form>
                     </div>
                 <?php endif; ?>
