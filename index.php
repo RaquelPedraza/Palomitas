@@ -2,12 +2,15 @@
 // index.php - Catálogo con Paginación
 session_start();
 
+// FUNCIÓN MOSTRAR ESTRELLAS
+require_once 'includes/functions.php';
+
 // 1. CONFIGURACIÓN
 $host = '127.0.0.1';
 $db   = 'palomitas';
-$user = 'raquel';
-$pass = 'cine';
-$port = '3307'; 
+$user = 'root';
+$pass = '';
+$port = '3306'; 
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
@@ -117,14 +120,35 @@ $total_pelis = $stmt_total->fetchColumn();
 
 $total_paginas = ceil($total_pelis / $pelis_por_pagina);
 if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
+
+// 5. MOSTRAR EL TOP 10
+$sql_top = "
+SELECT 
+    p.id_produccion,
+    p.titulo,
+    p.portada,
+    AVG(r.puntuacion) AS media
+FROM producciones p
+JOIN resenas r ON p.id_produccion = r.id_produccion
+GROUP BY p.id_produccion
+HAVING media IS NOT NULL
+ORDER BY media DESC
+LIMIT 10
+";
+
+$top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
+<!-- HTML -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
     <link rel="stylesheet" href= "css/estilos.css?v=3"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 <body>
     <nav class="navbar">
@@ -143,9 +167,31 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
             <?php endif; ?>
         </div>
     </nav>
-    <h1>🍿 Palomitas - Catálogo Hispano</h1>            
-           
-    <section class="barra-filtros">
+
+    <!-- TOP 10 -->
+     <h1>Top 10 mejor valoradas</h1>
+
+    <div class="top10">
+        <?php foreach ($top_pelis as $peli): ?>
+            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                <div class="tarjeta">
+                    <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
+                    <div class="info">
+                        <div class="titulo"><?= $peli['titulo'] ?></div>
+                        <div class="estrellas">
+                            <?= mostrarEstrellas($peli['media']) ?>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach; ?>
+
+    </div>
+
+    <!-- CATÁLOGO -->
+
+    <h1> Catálogo Hispano</h1>            
+              <section class="barra-filtros">
     <form action="index.php" method="GET" class="formulario-busqueda">
         <div class="controles-principales">
             <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
@@ -172,9 +218,7 @@ if ($total_paginas == 0) $total_paginas = 1; // Para que no haya página 0
     <div class="galeria">
 
         <?php foreach ($peliculas as $peli): ?>
-            
             <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                
                 <div class="tarjeta">
                
 <?php 
@@ -189,17 +233,15 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
 >                    
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
-                        
                         <div class="meta-datos">
                             <span class="anio"><?= $peli['anio'] ?></span>
-                            
                             <?php if (!empty($peli['pais']) && $peli['pais'] !== '??'): ?>
                                 <span class="etiqueta-pais"><?= $peli['pais'] ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    </div>
-                </a>
+                </div>
+            </a>
 
         <?php endforeach; ?>
 

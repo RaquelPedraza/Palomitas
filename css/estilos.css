@@ -1,15 +1,37 @@
-/*---- INDEX.PHP ----*/
+/*PALETA DE COLORES*/
+:root {
+  --bg: #141414;
+  --bg-card: #222;
+  --bg-dark: #000;
 
+  --text: #fff;
+  --text-muted: #888;
+  --text-soft: #ddd;
+
+  --primary: #e50914;
+  --primary-hover: #f40612;
+
+  --accent: #f5b50a;
+
+  --border: #444;
+
+  --shadow-dark: rgba(0, 0, 0, 0.5);
+  --shadow-soft: rgba(0, 0, 0, 0.8);
+  --glow-primary: rgba(229, 9, 20, 0.6);
+}
+
+/*BASE*/
 body {
-  background-color: #141414;
-  color: white;
+  background: var(--bg);
+  color: var(--text);
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 20px;
 }
+
 h1 {
   text-align: center;
-  color: #e50914;
+  color: var(--primary);
   margin-bottom: 30px;
 }
 
@@ -65,7 +87,59 @@ h1 {
   }
 }
 
-/* Grid responsive */
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS 
+   ========================================= */
+.formulario-busqueda {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 700px; /* Ajusta según el ancho de tu web */
+  margin: 20px auto;
+}
+
+.controles-principales {
+  display: grid;
+  /* 3 columnas: el buscador crece (1fr), los otros dos se ajustan al contenido */
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+}
+
+.btn-filtrar {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.btn-limpiar {
+  /* Aquí está el truco: le decimos que se alinee al final (derecha) */
+  align-self: flex-end;
+  padding: 8px 20px;
+  background-color: #333;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+}
+
+.btn-limpiar:hover {
+  background-color: #444;
+  color: white;
+}
+
+/* Para que en el móvil no se vea apretado */
+@media (max-width: 600px) {
+  .controles-principales {
+    grid-template-columns: 1fr;
+  }
+  .btn-limpiar {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+/*GRID*/
 .galeria {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -75,19 +149,21 @@ h1 {
   min-height: 50vh;
 }
 
+/*TARJETAS*/
 .tarjeta {
-  background-color: #222;
+  background: var(--bg-card);
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
   transition:
     transform 0.3s,
     box-shadow 0.3s;
-  position: relative;
 }
+
 .tarjeta:hover {
   transform: scale(1.05);
   z-index: 2;
-  box-shadow: 0 0 15px rgba(229, 9, 20, 0.6); /* Brillo rojo al pasar ratón */
+  box-shadow: 0 0 15px var(--glow-primary);
 }
 
 .tarjeta img {
@@ -99,39 +175,66 @@ h1 {
 .info {
   padding: 12px;
 }
+
 .titulo {
   font-weight: bold;
-  font-size: 1em;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/*TEXTOS SECUNDARIOS*/
+.anio,
+.info-pag,
+.meta,
+.meta-datos,
+.sin-resenas {
+  color: var(--text-muted);
+}
+
 .anio {
-  color: #888;
   font-size: 0.9em;
 }
 
-/* Botones de Paginación */
+.sinopsis {
+  line-height: 1.6;
+  font-size: 1.1em;
+  color: var(--text-soft);
+}
+
+/*PAGINACIÓN*/
 .paginacion {
   text-align: center;
-  margin-top: 40px;
+  margin: 40px 0;
 }
+
+.btn,
+.btn-detalles,
+.btn-rojo {
+  background: var(--primary);
+  color: var(--text);
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 .btn {
-  background-color: #e50914;
-  color: white;
   padding: 10px 20px;
   text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
   margin: 0 5px;
   display: inline-block;
 }
-.btn:hover {
-  background-color: #f40612;
+
+.btn:hover,
+.btn-detalles:hover,
+.btn-rojo:hover {
+  background: var(--primary-hover);
 }
+
 .btn.desactivado {
-  background-color: #333;
+  background: #333;
   color: #666;
   pointer-events: none;
 }
@@ -164,16 +267,18 @@ h1 {
   background: #b20710;
 }
 
-/*---- DETALLES.PHP ----*/
-
-body {
-  background-color: #141414;
-  color: white;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 40px;
+.btn-detalles:hover {
+  transform: scale(1.05);
 }
 
+.btn-rojo {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  font-size: 1.1em;
+}
+
+/*---- SECCIÓN DE DETALLES ----*/
 .boton-volver {
   display: inline-block;
   margin-bottom: 20px;
@@ -181,62 +286,55 @@ body {
   text-decoration: none;
   font-weight: bold;
 }
+
 .boton-volver:hover {
-  color: white;
+  color: var(--text);
 }
 
 .ficha {
   display: flex;
   gap: 40px;
   max-width: 900px;
-  margin: 0 auto;
-  background: #222;
+  margin: auto;
+  background: var(--bg-card);
   padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px var(--shadow-dark);
 }
 
 .poster img {
   width: 300px;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 15px var(--shadow-soft);
 }
 
 .datos h1 {
-  color: #e50914;
+  color: var(--primary);
   margin-top: 0;
   font-size: 2.5em;
 }
-.meta {
-  color: #888;
-  margin-bottom: 20px;
-  font-size: 1.1em;
-}
-.sinopsis {
-  line-height: 1.6;
-  font-size: 1.1em;
-  color: #ddd;
-}
+
+/*ETIQUETAS*/
 .etiqueta {
-  background-color: #333;
+  background: #333;
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 0.8em;
   margin-right: 10px;
 }
-/* Año a la izquierda y el País a la derecha */
+
 .meta-datos {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-  color: #888;
   font-size: 0.9em;
 }
+
 .etiqueta-pais {
-  border: 1px solid #444;
-  background-color: #222;
-  color: #ddd;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-soft);
   padding: 1px 6px;
   border-radius: 4px;
   font-size: 0.8em;
@@ -300,21 +398,21 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000; /* Fondo negro puro */
+  background: var(--bg-dark);
   padding: 15px 40px;
   margin-bottom: 30px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 10px var(--shadow-dark);
 }
 
 .navbar .logo {
-  color: #e50914; /* Rojo Netflix */
+  color: var(--primary);
   font-size: 1.8em;
   font-weight: bold;
   text-decoration: none;
 }
 
 .navbar .enlaces a {
-  color: white;
+  color: var(--text);
   text-decoration: none;
   margin-left: 20px;
   font-size: 1.1em;
@@ -322,7 +420,7 @@ body {
 }
 
 .navbar .enlaces a:hover {
-  color: #e50914;
+  color: var(--primary);
 }
 
 /* =========================================
@@ -383,39 +481,96 @@ select.input-filtro option {
   box-sizing: border-box;
 }
 
-/* --- ESTILOS DEL FORMULARIO DE REGISTRO --- */
-.contenedor-formulario {
-  background-color: rgba(0, 0, 0, 0.75);
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
+   ========================================= */
+
+.barra-filtros {
+  background-color: #141414;
+  margin-bottom: 30px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
 }
 
-.contenedor-formulario h2 {
-  margin-top: 0;
-  margin-bottom: 25px;
+.input-filtro {
+  padding: 12px 15px;
+  background-color: #000; /* Fondo negro puro para el cajón */
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  min-width: 220px;
+  transition: border-color 0.3s ease;
+}
+
+/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
+.input-filtro:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+/* Pequeño ajuste para que el desplegable de países se vea bien */
+select.input-filtro option {
+  background-color: #222;
+  color: white;
+}
+
+.contenedor-navegacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  gap: 0px;
+}
+
+/* --- ESPACIO PARA LA PAGINACIÓN --- */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 50px auto;
+  margin-bottom: 20px;
+  padding: 0;
+  /* Evita que se solape con elementos flotantes */
+  clear: both;
+  width: 100%;
+  max-width: 1200px; /* Igual al ancho máximo que .galeria */
+  box-sizing: border-box;
+}
+
+/*FORMULARIO*/
+.contenedor-formulario {
+  background: rgba(0, 0, 0, 0.75);
+  max-width: 400px;
+  margin: auto;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px var(--shadow-soft);
 }
 
 .grupo-input {
   margin-bottom: 20px;
 }
 
-.grupo-input input {
+.grupo-input input,
+.textarea-resena {
   width: 100%;
-  padding: 12px;
-  background-color: #333;
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: white;
-  font-size: 1em;
-  box-sizing: border-box; /* Para que el padding no rompa el ancho */
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .grupo-input input:focus {
   outline: none;
-  border-color: #e50914;
+  border-color: var(--primary);
+}
+
+.textarea-resena {
+  margin-bottom: 10px;
+  resize: none;
 }
 
 /* Mensajes de validación */
@@ -430,11 +585,10 @@ select.input-filtro option {
   font-size: 0.9em;
 }
 
-/* --- NUEVOS ESTILOS PARA INTERACTIVIDAD EN DETALLES --- */
-
+/*INTERACTIVO*/
 .seccion-interactiva {
   margin-top: 40px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--border);
   padding-top: 20px;
 }
 
@@ -442,9 +596,12 @@ select.input-filtro option {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 15px;
-  margin-bottom: 20px;
-  padding: 5px 0;
+  margin: 15px 0 20px;
+}
+
+.estrellas,
+.estrellas-media {
+  color: var(--accent);
 }
 
 .estrellas-media {
@@ -459,7 +616,7 @@ select.input-filtro option {
   font-size: 1.1em;
 }
 
-/* FORMULARIO CALIFICACION*/
+/*RATING*/
 .rating {
   display: flex;
   flex-direction: row-reverse;
@@ -483,7 +640,7 @@ select.input-filtro option {
 .rating label:hover,
 .rating label:hover ~ label,
 .rating input:checked ~ label {
-  color: #f5b50a;
+  color: var(--accent);
 }
 
 /* FORMULARIO COMENTARIOS*/
@@ -515,11 +672,11 @@ select.input-filtro option {
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 8px;
-  border-left: 4px solid #e50914;
+  border-left: 4px solid var(--primary);
 }
 
 .caja-comentario strong {
-  color: #e50914;
+  color: var(--primary);
   display: block;
   margin-bottom: 5px;
 }
@@ -535,4 +692,22 @@ select.input-filtro option {
   color: #888;
   text-align: center;
   padding: 20px;
+}
+
+/*CARRUSEL*/
+.top10 {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+.top10::-webkit-scrollbar {
+  display: none;
+}
+
+.top10 .tarjeta {
+  min-width: 180px;
+  flex-shrink: 0;
 }

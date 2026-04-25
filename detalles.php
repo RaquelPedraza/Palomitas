@@ -1,7 +1,9 @@
 <?php
 //Iniciar sesión y cargar configuración
 session_start();
-require_once 'config/secrets.php';
+require_once 'includes/functions.php';
+
+// Ficha técnica de la película
 
 // CAPTURAR EL ID DE LA URL
 // Si no hay ID, nos devuelve al inicio
@@ -36,7 +38,15 @@ try {
     $notaMedia = $datoMedia['media'] ?? 0;
 
     //COMENTARIOS
-    $stmtCom = $pdo->prepare("SELECT * FROM resenas WHERE id_produccion = ? AND contenido IS NOT NULL AND contenido != '' ORDER BY fecha DESC");
+    $stmtCom = $pdo->prepare("
+        SELECT r.*, u.nombre AS nombre_usuario
+        FROM resenas r
+        INNER JOIN usuarios u ON r.id_usuario = u.id_usuario
+        WHERE r.id_produccion = ?
+        AND r.contenido IS NOT NULL
+        AND r.contenido != ''
+        ORDER BY r.fecha DESC
+    ");
     $stmtCom->execute([$id_pelicula]);
     $comentarios = $stmtCom->fetchAll(PDO::FETCH_ASSOC);
 
@@ -117,7 +127,7 @@ function mostrarEstrellas($nota) {
                 </b>
             </div>
 
-            <h3>Sinopsis</h3>
+            <h2>Sinopsis</h2>
             <p class="sinopsis">
                 <?= $peli['sinopsis'] ?>
             </p>
@@ -128,29 +138,27 @@ function mostrarEstrellas($nota) {
                     <div class="contenedor-formulario-resena">
                         
                         <h2>Tu valoración</h2>
-
-                        <!-- Puntuación/Calificación -->
-                        <form action="guardar_calificacion.php" method="POST">
-                            <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
-                            <div class="rating">
-                                <input type="radio" id="star5" name="puntuacion" value="5" required><label for="star5"><i class="fas fa-star"></i></label>
+                        <form action="guardar_resena.php" method="POST">
+                           <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
+                            <!-- Puntuación/Calificación -->
+                             <h3>Puntuación</h3>
+                             <div class="rating">
+                                <input type="radio" id="star5" name="puntuacion" value="5" ><label for="star5"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star4" name="puntuacion" value="4"><label for="star4"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star3" name="puntuacion" value="3"><label for="star3"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star2" name="puntuacion" value="2"><label for="star2"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star1" name="puntuacion" value="1"><label for="star1"><i class="fas fa-star"></i></label>
                             </div>
-                            <button type="submit" class="btn-rojo">Calificar</button>
-                        </form>
-                        
-                        <hr class="separador-resena">
 
-                        <!-- Comentario -->
-                        <form action="guardar_comentario.php" method="POST">
-                            <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
-                            <div class="grupo-input">
-                                <textarea name="texto" rows="3" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
+
+                            <!-- Comentario -->
+                             <h3>Comentario</h3>
+                             <div class="grupo-input">
+                                <textarea name="texto" rows="3" placeholder="Escribe tu reseña..." class="textarea-resena"></textarea>
                             </div>
-                            <button type="submit" class="btn-rojo">Publicar</button>
+
+                            <!-- Enviar -->
+                            <button type="submit" class="btn-detalles">Calificar</button>
                         </form>
                     </div>
                 <?php endif; ?>
@@ -159,7 +167,7 @@ function mostrarEstrellas($nota) {
                     <?php if (!empty($comentarios)): ?>
                         <?php foreach ($comentarios as $coment): ?>
                             <div class="caja-comentario">
-                                <strong><?= htmlspecialchars($coment['id_usuario']) ?></strong>
+                                <strong><?= htmlspecialchars($coment['nombre_usuario']) ?></strong>
                                 <p><?= nl2br(htmlspecialchars($coment['contenido'])) ?></p>
                                 <p class="fecha-comentario"><?= $coment['fecha'] ?></p>
                             </div>
