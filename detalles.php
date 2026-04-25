@@ -1,7 +1,8 @@
 <?php
-//iniciar sesión del usuario
+//Iniciar sesión y cargar configuración
 session_start();
 require_once 'includes/functions.php';
+require_once 'config/secrets.php';
 
 // Ficha técnica de la película
 
@@ -13,18 +14,13 @@ if (!isset($_GET['id'])) {
 }
 $id_pelicula = $_GET['id'];
 
-// CONEXIÓN 
-$host = '127.0.0.1'; 
-$db   = 'palomitas';
-$user = 'root';       
-$pass = '';           
-$port = '3306';
+// CONEXIÓN (secrets.php)
 $charset = 'utf8mb4';
-
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
 
 try {
     $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // CONSULTA SEGURA (? evita hackeos)
     $stmt = $pdo->prepare("SELECT * FROM producciones WHERE id_produccion = ?");
@@ -58,6 +54,17 @@ try {
 } catch (\PDOException $e) {
     die("Error: " . $e->getMessage());
 }
+
+$nombres_paises = [
+    'ES' => 'España', 'MX' => 'México', 'AR' => 'Argentina',
+    'CO' => 'Colombia', 'CL' => 'Chile', 'PE' => 'Perú',
+    'VE' => 'Venezuela', 'EC' => 'Ecuador', 'GT' => 'Guatemala',
+    'CU' => 'Cuba', 'BO' => 'Bolivia', 'DO' => 'República Dominicana',
+    'HN' => 'Honduras', 'PY' => 'Paraguay', 'SV' => 'El Salvador',
+    'NI' => 'Nicaragua', 'CR' => 'Costa Rica', 'PR' => 'Puerto Rico',
+    'UY' => 'Uruguay', 'PA' => 'Panamá',
+    'US' => 'Estados Unidos', 'FR' => 'Francia', 'IT' => 'Italia'
+];
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +77,8 @@ try {
 </head>
 <body>
 
-    <a href="index.php" class="boton-volver">⬅ Volver al catálogo</a>
+    <a href="javascript:history.back()" class="boton-volver">
+    ⬅ Volver al catálogo </a>
 
     <div class="ficha">
         <div class="poster">
@@ -83,10 +91,17 @@ try {
             
             <div class="meta">
                 <?php if (!empty($peli['pais'])): ?>
-                    <span class="etiqueta" style="background-color: #e50914; color: white;">
-                        <?= $peli['pais'] ?>
-                    </span>
-                <?php endif; ?>
+                    <?php 
+                        $pais_codigo = $peli['pais'];
+                        $pais_nombre = isset($nombres_paises[$pais_codigo]) ? $nombres_paises[$pais_codigo] : $pais_codigo;
+                    ?>
+                    <div class="contenedor-tooltip">
+                        <span class="etiqueta" style="background-color: #e50914; color: white;">
+                            <?= htmlspecialchars($pais_codigo) ?>
+                        </span>
+                        <span class="tooltip-personalizado"><?= htmlspecialchars($pais_nombre) ?></span>
+                    </div>
+            <?php endif; ?>
 
                 <span class="etiqueta"><?= $peli['anio'] ?></span>
                 <span class="etiqueta"><?= strtoupper($peli['idioma_original']) ?></span>

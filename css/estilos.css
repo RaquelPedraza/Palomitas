@@ -15,8 +15,8 @@
 
   --border: #444;
 
-  --shadow-dark: rgba(0,0,0,0.5);
-  --shadow-soft: rgba(0,0,0,0.8);
+  --shadow-dark: rgba(0, 0, 0, 0.5);
+  --shadow-soft: rgba(0, 0, 0, 0.8);
   --glow-primary: rgba(229, 9, 20, 0.6);
 }
 
@@ -35,13 +35,118 @@ h1 {
   margin-bottom: 30px;
 }
 
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS 
+   ========================================= */
+.formulario-busqueda {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 700px; /* Ajusta según el ancho de tu web */
+  margin: 20px auto;
+}
+
+.controles-principales {
+  display: grid;
+  /* 3 columnas: el buscador crece (1fr), los otros dos se ajustan al contenido */
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+}
+
+.btn-filtrar {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.btn-limpiar {
+  /* Aquí está el truco: le decimos que se alinee al final (derecha) */
+  align-self: flex-end;
+  padding: 8px 20px;
+  background-color: #333;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+}
+
+.btn-limpiar:hover {
+  background-color: #444;
+  color: white;
+}
+
+/* Para que en el móvil no se vea apretado */
+@media (max-width: 600px) {
+  .controles-principales {
+    grid-template-columns: 1fr;
+  }
+  .btn-limpiar {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS 
+   ========================================= */
+.formulario-busqueda {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 700px; /* Ajusta según el ancho de tu web */
+  margin: 20px auto;
+}
+
+.controles-principales {
+  display: grid;
+  /* 3 columnas: el buscador crece (1fr), los otros dos se ajustan al contenido */
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+}
+
+.btn-filtrar {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.btn-limpiar {
+  /* Aquí está el truco: le decimos que se alinee al final (derecha) */
+  align-self: flex-end;
+  padding: 8px 20px;
+  background-color: #333;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+}
+
+.btn-limpiar:hover {
+  background-color: #444;
+  color: white;
+}
+
+/* Para que en el móvil no se vea apretado */
+@media (max-width: 600px) {
+  .controles-principales {
+    grid-template-columns: 1fr;
+  }
+  .btn-limpiar {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
 /*GRID*/
 .galeria {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 25px;
-  max-width: 1200px;
-  margin: auto;
+  padding: 20px 0;
+  height: auto;
+  min-height: 50vh;
 }
 
 /*TARJETAS*/
@@ -50,7 +155,9 @@ h1 {
   border-radius: 8px;
   overflow: hidden;
   position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .tarjeta:hover {
@@ -65,7 +172,9 @@ h1 {
   object-fit: cover;
 }
 
-.info { padding: 12px; }
+.info {
+  padding: 12px;
+}
 
 .titulo {
   font-weight: bold;
@@ -84,7 +193,9 @@ h1 {
   color: var(--text-muted);
 }
 
-.anio { font-size: 0.9em; }
+.anio {
+  font-size: 0.9em;
+}
 
 .sinopsis {
   line-height: 1.6;
@@ -127,11 +238,33 @@ h1 {
   color: #666;
   pointer-events: none;
 }
+.info-pag {
+  color: #888;
+}
 
-.btn-detalles {
+.salto-pagina {
+  display: flex;
+  justify-content: center;
+}
+
+#input-pag {
+  border-radius: 4px;
+  font-size: 1em;
+  padding: auto 12px;
+}
+.btn-ir {
+  background: #e50914;
+  color: white;
   border: none;
-  padding: 10px 24px;
-  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.btn-ir:hover {
+  background: #b20710;
 }
 
 .btn-detalles:hover {
@@ -181,6 +314,17 @@ h1 {
   font-size: 2.5em;
 }
 
+.meta {
+  color: #888;
+  margin-bottom: 20px;
+  font-size: 1.1em;
+}
+.sinopsis {
+  line-height: 1.6;
+  font-size: 1.1em;
+  color: #ddd;
+}
+
 /*ETIQUETAS*/
 .etiqueta {
   background: #333;
@@ -209,7 +353,58 @@ h1 {
   text-transform: uppercase;
 }
 
-/*NAVBAR*/
+/* Contenedor para que el tooltip sepa dónde posicionarse */
+.contenedor-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Estilo del flotante (el que queremos que sea igual a la etiqueta) */
+.tooltip-personalizado {
+  visibility: hidden;
+  opacity: 0;
+  width: auto;
+  white-space: nowrap; /* Para que no se parta el nombre en dos líneas */
+  background-color: #e50914; /* Tu rojo corporativo */
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85em;
+  text-transform: uppercase;
+
+  /* Posicionamiento */
+  position: absolute;
+  z-index: 100;
+  bottom: 125%; /* Aparece justo arriba de la etiqueta */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease; /* Efecto suave al aparecer */
+
+  /* Sombrita para darle profundidad */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* La flechita de abajo del tooltip */
+.tooltip-personalizado::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #e50914 transparent transparent transparent;
+}
+
+/* Mostrar al pasar el ratón */
+.contenedor-tooltip:hover .tooltip-personalizado {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* --- NAVEGACIÓN (NAVBAR) --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -239,9 +434,125 @@ h1 {
   color: var(--primary);
 }
 
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
+   ========================================= */
+
+.barra-filtros {
+  background-color: #141414;
+  margin-bottom: 30px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.input-filtro {
+  padding: 12px 15px;
+  background-color: #000; /* Fondo negro puro para el cajón */
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  min-width: 220px;
+  transition: border-color 0.3s ease;
+}
+
+/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
+.input-filtro:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+/* Pequeño ajuste para que el desplegable de países se vea bien */
+select.input-filtro option {
+  background-color: #222;
+  color: white;
+}
+
+.contenedor-navegacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  gap: 0px;
+}
+
+/* --- ESPACIO PARA LA PAGINACIÓN --- */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 50px auto;
+  margin-bottom: 20px;
+  padding: 0;
+  /* Evita que se solape con elementos flotantes */
+  clear: both;
+  width: 100%;
+  max-width: 1200px; /* Igual al ancho máximo que .galeria */
+  box-sizing: border-box;
+}
+
+/* =========================================
+   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
+   ========================================= */
+
+.barra-filtros {
+  background-color: #141414;
+  margin-bottom: 30px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.input-filtro {
+  padding: 12px 15px;
+  background-color: #000; /* Fondo negro puro para el cajón */
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  min-width: 220px;
+  transition: border-color 0.3s ease;
+}
+
+/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
+.input-filtro:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+/* Pequeño ajuste para que el desplegable de países se vea bien */
+select.input-filtro option {
+  background-color: #222;
+  color: white;
+}
+
+.contenedor-navegacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  gap: 0px;
+}
+
+/* --- ESPACIO PARA LA PAGINACIÓN --- */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 50px auto;
+  margin-bottom: 20px;
+  padding: 0;
+  /* Evita que se solape con elementos flotantes */
+  clear: both;
+  width: 100%;
+  max-width: 1200px; /* Igual al ancho máximo que .galeria */
+  box-sizing: border-box;
+}
+
 /*FORMULARIO*/
 .contenedor-formulario {
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   max-width: 400px;
   margin: auto;
   padding: 40px;
@@ -273,6 +584,18 @@ h1 {
   resize: none;
 }
 
+/* Mensajes de validación */
+.rojo {
+  color: #e87c03;
+  margin-top: 5px;
+  font-size: 0.9em;
+} /* Naranja/rojo de alerta */
+.verde {
+  color: #2ea32e;
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+
 /*INTERACTIVO*/
 .seccion-interactiva {
   margin-top: 40px;
@@ -295,9 +618,11 @@ h1 {
 .estrellas-media {
   display: flex;
   gap: 2px;
+  color: #f5b50a;
 }
 
 .numero-nota {
+  color: white;
   font-weight: bold;
   font-size: 1.1em;
 }
@@ -307,17 +632,20 @@ h1 {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
-  margin: 10px 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.rating input { display: none; }
+.rating input {
+  display: none;
+}
 
 .rating label {
   font-size: 30px;
   color: #444;
   cursor: pointer;
-  margin-right: 5px;
   transition: color 0.2s;
+  margin-right: 5px;
 }
 
 .rating label:hover,
@@ -326,7 +654,30 @@ h1 {
   color: var(--accent);
 }
 
-/*COMENTARIOS*/
+/* FORMULARIO COMENTARIOS*/
+.contenedor-formulario-resena {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.textarea-resena {
+  width: 100%;
+  background: #333;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.separador-resena {
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 20px 0;
+}
+
 .caja-comentario {
   background: #111;
   padding: 15px;
@@ -346,6 +697,12 @@ h1 {
   color: #666;
   font-size: 0.8em;
   margin-top: 8px;
+}
+
+.sin-resenas {
+  color: #888;
+  text-align: center;
+  padding: 20px;
 }
 
 /*CARRUSEL*/
