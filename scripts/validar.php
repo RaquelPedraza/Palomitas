@@ -1,5 +1,3 @@
-
-
 <?php
 // Archivo de Procesamiento: VALIDACIÓN EN  SERVIDOR
 // Indicamos que la resultado será JSON 

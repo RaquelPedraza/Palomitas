@@ -4,14 +4,6 @@
 set_time_limit(0); // Tiempo ilimitado 
 require_once '../config/secrets.php';
 
-// --- CONFIGURACIÓN ---
-$host = '127.0.0.1';
-$db   = 'palomitas';
-$user = 'root';
-$pass = '';
-$port = '3306';
-$charset = 'utf8mb4';
-
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
 $options = [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ];
 
