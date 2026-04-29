@@ -1,6 +1,6 @@
 <?php
 // 1. Conexión (usa tus datos de siempre)
-$host = '127.0.0.1'; $db = 'palomitas'; $user = 'root'; $pass = ''; $port = '3307';
+require_once 'config/secrets.php';
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 $pdo = new PDO($dsn, $user, $pass);
 
