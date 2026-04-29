@@ -1,8 +1,8 @@
 <?php
 //Iniciar sesión y cargar configuración
 session_start();
-require_once 'includes/functions.php';
 require_once 'config/secrets.php';
+require_once 'includes/functions.php';
 
 // Ficha técnica de la película
 
@@ -73,6 +73,8 @@ $nombres_paises = [
     <meta charset="UTF-8">
     <title><?= $peli['titulo'] ?> | Palomitas</title>
     <link rel="stylesheet" href= "css/estilos.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+
 </head>
 <body>
 
@@ -121,33 +123,36 @@ $nombres_paises = [
                 <?= $peli['sinopsis'] ?>
             </p>
             
+                        
             <!-- CALIFICACIONES Y COMENTARIOS -->
             <div class="seccion-interactiva">
                 <?php if (isset($_SESSION['usuario_nombre'])): ?>
                     <div class="contenedor-formulario-resena">
                         
                         <h2>Tu valoración</h2>
+
+                        <!-- Puntuación/Calificación -->
                         <form action="guardar_resena.php" method="POST">
-                           <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
-                            <!-- Puntuación/Calificación -->
-                             <h3>Puntuación</h3>
-                             <div class="rating">
-                                <input type="radio" id="star5" name="puntuacion" value="5" ><label for="star5"><i class="fas fa-star"></i></label>
+                            <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
+                            <div class="rating">
+                                <input type="radio" id="star5" name="puntuacion" value="5" required><label for="star5"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star4" name="puntuacion" value="4"><label for="star4"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star3" name="puntuacion" value="3"><label for="star3"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star2" name="puntuacion" value="2"><label for="star2"><i class="fas fa-star"></i></label>
                                 <input type="radio" id="star1" name="puntuacion" value="1"><label for="star1"><i class="fas fa-star"></i></label>
                             </div>
+                            <button type="submit" class="btn-rojo">Calificar</button>
+                        </form>
+                        
+                        <hr class="separador-resena">
 
-
-                            <!-- Comentario -->
-                             <h3>Comentario</h3>
-                             <div class="grupo-input">
-                                <textarea name="texto" rows="3" placeholder="Escribe tu reseña..." class="textarea-resena"></textarea>
+                        <!-- Comentario -->
+                        <form action="guardar_resena.php" method="POST">
+                            <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
+                            <div class="grupo-input">
+                                <textarea name="texto" rows="3" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
                             </div>
-
-                            <!-- Enviar -->
-                            <button type="submit" class="btn-detalles">Calificar</button>
+                            <button type="submit" class="btn-rojo">Publicar</button>
                         </form>
                     </div>
                 <?php endif; ?>
@@ -156,7 +161,7 @@ $nombres_paises = [
                     <?php if (!empty($comentarios)): ?>
                         <?php foreach ($comentarios as $coment): ?>
                             <div class="caja-comentario">
-                                <strong><?= htmlspecialchars($coment['nombre_usuario']) ?></strong>
+                                <strong><?= htmlspecialchars($coment['id_usuario']) ?></strong>
                                 <p><?= nl2br(htmlspecialchars($coment['contenido'])) ?></p>
                                 <p class="fecha-comentario"><?= $coment['fecha'] ?></p>
                             </div>
@@ -166,6 +171,7 @@ $nombres_paises = [
                     <?php endif; ?>
                 </div>
             </div>
+
         </div>
     </div>
 

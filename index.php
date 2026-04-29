@@ -139,14 +139,17 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=3"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=6"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.php" class="logo">🍿 Palomitas</a>
-        <div class="enlaces">
+    <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="img/icono.png" alt="Icono Palomitas" style="height: 50px; margin-right: 10px;">
+    </a>
+    
+    <div class="enlaces">
             <a href="index.php">Catálogo</a>
             
             <?php if (isset($_SESSION['usuario_nombre'])): ?>
@@ -161,8 +164,13 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </nav>
 
+   <!-- TÍTULO PRINCIPAL --> 
+    <img class="logo-principal" src="img/icono.png" alt="Icono Palomitas">
+    <h1>PALOMITAS</h1>
+    <div class = eslogan-sitio>Tu Catálogo Hispano</div>     
+
     <!-- TOP 10 -->
-     <h1>Top 10 mejor valoradas</h1>
+     <h2>Top 10 mejor valoradas</h2>
 
     <div class="top10">
         <?php foreach ($top_pelis as $peli): ?>
@@ -183,14 +191,14 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- CATÁLOGO -->
 
-    <h1> Catálogo Hispano</h1>            
-              <section class="barra-filtros">
+    <h2> Catálogo</h2>            
+    <section class="barra-filtros" id="filtrar">
     <form action="index.php" method="GET" class="formulario-busqueda">
         <div class="controles-principales">
             <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
             
-            <select name="pais" class="input-filtro">
-                <option value="">🌍 Todos los países</option>
+            <select name="pais" class="input-filtro select-con-icono">
+                <option value="">Todos los países</option>
                 <?php foreach ($paises_en_db as $p): ?>
                     <option value="<?= $p ?>" <?= ($pais_filtro == $p) ? 'selected' : '' ?>>
                         <?= $nombres_paises[$p] ?? $p ?>
@@ -201,7 +209,7 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
             <button type="submit" class="btn-filtrar">Filtrar</button>
         </div>
 
-        <a href="index.php" class="btn-limpiar">❌ Limpiar filtros</a>
+        <a href="index.php" class="btn-limpiar">Limpiar filtros</a>
     </form>
 </section>
 
@@ -214,7 +222,7 @@ $top_pelis = $pdo->query($sql_top)->fetchAll(PDO::FETCH_ASSOC);
                 <div class="tarjeta">
                
 <?php 
-// 1. PHP comprueba si el campo de la base de datos está vacío
+// PHP comprueba si el campo de la base de datos está vacío
 $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
 ?>
 
@@ -239,18 +247,28 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
     </div>
 <div class="contenedor-navegacion">
     <div class="paginacion">
-        <?php if ($pagina_actual > 1): ?>
-            <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>" class="btn">⬅ Anterior</a>        <?php else: ?>
-            <span class="btn desactivado">⬅ Anterior</span>
-        <?php endif; ?>
+    <?php if ($pagina_actual > 1): ?>
+        <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
+            <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
+        </a>        
+    <?php else: ?>
+        <span class="btn desactivado">
+            <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
+        </span>
+    <?php endif; ?>
 
-        <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
+    <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
 
-        <?php if ($pagina_actual < $total_paginas): ?>
-            <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>" class="btn">Siguiente ➡</a>        <?php else: ?>
-            <span class="btn desactivado">Siguiente ➡</span>
-        <?php endif; ?>
-    </div>
+    <?php if ($pagina_actual < $total_paginas): ?>
+        <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
+            Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
+        </a>        
+    <?php else: ?>
+        <span class="btn desactivado">
+            Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
+        </span>
+    <?php endif; ?>
+</div>
 
     <div class="salto-pagina">
         <form action="index.php" method="GET" style="display: inline-flex; align-items: center; gap: 8px;">
