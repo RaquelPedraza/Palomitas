@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$id_usuario = $_SESSION['id_usuario'] ?? null;
+$id_usuario = $_SESSION['usuario_id'] ?? null;
 
 // CONEXIÓN
 require_once 'includes/functions.php';
@@ -61,7 +61,7 @@ if ($pagina_actual < 1) $pagina_actual = 1;
 $inicio = ($pagina_actual - 1) * $pelis_por_pagina;
 
 // BUSQUEDA FILTRADA
-$busqueda = $_GET['q'] ?? '';
+$busqueda = $_GET['busqueda'] ?? '';
 $pais_filtro = $_GET['pais'] ?? '';
 
 $sql = "SELECT * FROM producciones WHERE 1=1";
@@ -155,8 +155,8 @@ if ($id_usuario) {
         <div class="enlaces">
             <a href="index.php">Catálogo</a>
 
-            <?php if (isset($_SESSION['id_usuario'])): ?>
-                <a href="mi_lista.php">Mis listas</a>
+            <?php if (isset($_SESSION['usuario_id'])): ?>
+                <a href="mis_listas.php">Mis listas</a>
             <?php endif; ?>
             <?php if (isset($_SESSION['usuario_nombre'])): ?>
                 <span style="color: #ccc; margin-left: 20px;">
@@ -171,7 +171,7 @@ if ($id_usuario) {
     </nav>
 
     <!-- TOP 10 -->
-     <h1>Top 10 mejor valoradas</h1>
+    <h1>Top 10 mejor valoradas</h1>
 
     <div class="top10">
         <?php foreach ($top_pelis as $peli): ?>
@@ -224,12 +224,23 @@ if ($id_usuario) {
     <div class="galeria">
 
         <?php foreach ($peliculas as $peli): ?>
-            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                <div class="tarjeta">
-               
-                    <?php 
-                    $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
-                    ?>
+            <?php 
+                $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
+                $esFav = isset($favoritos[$peli['id_produccion']]); 
+            ?>
+
+        
+            <div class="tarjeta">
+                <?php if ($id_usuario): ?>
+                    <button 
+                        class="corazon" 
+                        onclick="toggleFavorito(this, <?= $peli['id_produccion'] ?>)"
+                    >
+                        <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
+                    </button>
+                <?php endif; ?>
+
+                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
 
                     <img 
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
@@ -245,8 +256,8 @@ if ($id_usuario) {
                             <?php endif; ?>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         <?php endforeach; ?>
     </div>
 
@@ -287,5 +298,6 @@ if ($id_usuario) {
             </form>
         </div>
     </div>
+    <script src="js/favoritos.js"></script>
 </body>
 </html>
