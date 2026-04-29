@@ -162,7 +162,7 @@ $nombres_paises = [
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?> 
-                        <p class="sin-resenas"> Aún no hay reseñas para esta película. ¡Sé el primero en opinar! </p>
+                        <p class="nada"> Aún no hay reseñas para esta película. ¡Sé el primero en opinar! </p>
                     <?php endif; ?>
                 </div>
             </div>

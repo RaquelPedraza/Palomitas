@@ -189,7 +189,7 @@ h1 {
 .info-pag,
 .meta,
 .meta-datos,
-.sin-resenas {
+.nada {
   color: var(--text-muted);
 }
 
@@ -700,7 +700,7 @@ select.input-filtro option {
   margin-top: 8px;
 }
 
-.sin-resenas {
+.nada{
   color: #888;
   text-align: center;
   padding: 20px;
@@ -722,4 +722,41 @@ select.input-filtro option {
 .top10 .tarjeta {
   min-width: 180px;
   flex-shrink: 0;
+}
+
+/* FAVORITOS */
+.corazon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 22px;
+    color: #e50914;
+    z-index: 2;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+}
+
+.corazon i {
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.corazon i.pop {
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.4);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
