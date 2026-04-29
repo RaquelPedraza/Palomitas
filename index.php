@@ -145,14 +145,17 @@ if ($id_usuario) {
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=3"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=6"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.php" class="logo">🍿 Palomitas</a>
-        <div class="enlaces">
+    <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="img/icono.png" alt="Icono Palomitas" style="height: 50px; margin-right: 10px;">
+    </a>
+    
+    <div class="enlaces">
             <a href="index.php">Catálogo</a>
 
             <?php if (isset($_SESSION['usuario_id'])): ?>
@@ -170,8 +173,13 @@ if ($id_usuario) {
         </div>
     </nav>
 
+   <!-- TÍTULO PRINCIPAL --> 
+    <img class="logo-principal" src="img/icono.png" alt="Icono Palomitas">
+    <h1>PALOMITAS</h1>
+    <div class = eslogan-sitio>Tu Catálogo Hispano</div>     
+
     <!-- TOP 10 -->
-    <h1>Top 10 mejor valoradas</h1>
+     <h2>Top 10 mejor valoradas</h2>
 
     <div class="top10">
         <?php foreach ($top_pelis as $peli): ?>
@@ -192,29 +200,27 @@ if ($id_usuario) {
 
     <!-- CATÁLOGO -->
 
-    <h1> Catálogo Hispano</h1>    
-    
-    <!-- FILTROS -->
-    <section class="barra-filtros">
-        <form action="index.php" method="GET" class="formulario-busqueda">
-            <div class="controles-principales">
-                <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
-                
-                <select name="pais" class="input-filtro">
-                    <option value=""> Todos los países</option>
-                    <?php foreach ($paises_en_db as $p): ?>
-                        <option value="<?= $p ?>" <?= ($pais_filtro == $p) ? 'selected' : '' ?>>
-                            <?= $nombres_paises[$p] ?? $p ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                
-                <button type="submit" class="btn-filtrar">Filtrar</button>
-            </div>
+    <h2> Catálogo</h2>            
+    <section class="barra-filtros" id="filtrar">
+    <form action="index.php" method="GET" class="formulario-busqueda">
+        <div class="controles-principales">
+            <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
+            
+            <select name="pais" class="input-filtro select-con-icono">
+                <option value="">Todos los países</option>
+                <?php foreach ($paises_en_db as $p): ?>
+                    <option value="<?= $p ?>" <?= ($pais_filtro == $p) ? 'selected' : '' ?>>
+                        <?= $nombres_paises[$p] ?? $p ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <button type="submit" class="btn-filtrar">Filtrar</button>
+        </div>
 
-            <a href="index.php" class="btn-limpiar"> Limpiar filtros</a>
-        </form>
-    </section>
+        <a href="index.php" class="btn-limpiar">Limpiar filtros</a>
+    </form>
+</section>
 
     <?php if (count($peliculas) == 0): ?>
         <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬🤷‍♀️</h2>
@@ -223,6 +229,19 @@ if ($id_usuario) {
     <!-- GALERIA -->
     <div class="galeria">
         <?php foreach ($peliculas as $peli): ?>
+            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                <div class="tarjeta">
+               
+<?php 
+// PHP comprueba si el campo de la base de datos está vacío
+$enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
+?>
+
+<img 
+    src="<?= htmlspecialchars($enlace_portada) ?>" 
+    alt="<?= htmlspecialchars($peli['titulo']) ?>" 
+    onerror="this.onerror=null; this.src='img/no-poster.png';"
+>                    
             <?php 
                 $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
                 $esFav = isset($favoritos[$peli['id_produccion']]); 
@@ -259,6 +278,30 @@ if ($id_usuario) {
             </div>
         <?php endforeach; ?>
     </div>
+<div class="contenedor-navegacion">
+    <div class="paginacion">
+    <?php if ($pagina_actual > 1): ?>
+        <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
+            <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
+        </a>        
+    <?php else: ?>
+        <span class="btn desactivado">
+            <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
+        </span>
+    <?php endif; ?>
+
+    <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
+
+    <?php if ($pagina_actual < $total_paginas): ?>
+        <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
+            Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
+        </a>        
+    <?php else: ?>
+        <span class="btn desactivado">
+            Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
+        </span>
+    <?php endif; ?>
+</div>
 
     <!-- PAGINACIÓN -->
     <div class="contenedor-navegacion">
