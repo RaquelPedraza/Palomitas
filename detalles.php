@@ -73,7 +73,6 @@ $nombres_paises = [
     <meta charset="UTF-8">
     <title><?= $peli['titulo'] ?> | Palomitas</title>
     <link rel="stylesheet" href= "css/estilos.css"></link>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -84,8 +83,7 @@ $nombres_paises = [
         <div class="poster">
             <img src="<?= $peli['portada'] ?>" alt="Póster">
         </div>
-        
-        <!-- DATOS -->
+
         <div class="datos">
             <h1><?= $peli['titulo'] ?></h1>
             
@@ -105,6 +103,7 @@ $nombres_paises = [
 
                 <span class="etiqueta"><?= $peli['anio'] ?></span>
                 <span class="etiqueta"><?= strtoupper($peli['idioma_original']) ?></span>
+                <span class="etiqueta"><?= $peli['anio'] ?></span>
                 <span class="etiqueta">PELÍCULA</span>
             </div>
 

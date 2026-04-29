@@ -222,7 +222,6 @@ if ($id_usuario) {
 
     <!-- GALERIA -->
     <div class="galeria">
-
         <?php foreach ($peliculas as $peli): ?>
             <?php 
                 $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
