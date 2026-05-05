@@ -4,8 +4,6 @@ session_start();
 require_once 'config/secrets.php';
 require_once 'includes/functions.php';
 
-// Ficha técnica de la película
-
 // CAPTURAR EL ID DE LA URL
 // Si no hay ID, nos devuelve al inicio
 if (!isset($_GET['id'])) {
@@ -31,6 +29,24 @@ try {
     if (!$peli) {
         die("❌ Película no encontrada.");
     }
+
+    // NOTA DEL USUARIO
+    $notaUsuario = null;
+
+    if (isset($_SESSION['usuario_id'])) {
+    $stmtUser = $pdo->prepare("
+        SELECT puntuacion 
+        FROM resenas 
+        WHERE id_usuario = ? AND id_produccion = ?
+        LIMIT 1
+    ");
+    $stmtUser->execute([$_SESSION['usuario_id'], $id_pelicula]);
+    $datoUser = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
+    if ($datoUser) {
+        $notaUsuario = $datoUser['puntuacion'];
+    }
+}
 
     //CALIFICACIÓN
     $stmtMedia = $pdo->prepare("SELECT AVG(puntuacion) as media FROM resenas WHERE id_produccion = ?");
@@ -111,14 +127,14 @@ $nombres_paises = [
 
             <div class="nota-media-container">
                 <span class="estrellas-media">
-                    <?= mostrarEstrellas($notaMedia) ?>
+                    <i class="fas fa-star"></i>
                 </span>
                 <b class="numero-nota">
                     <?= number_format($notaMedia, 1) ?>
                 </b>
             </div>
 
-            <h2>Sinopsis</h2>
+            <h3>Sinopsis</h3>
             <p class="sinopsis">
                 <?= $peli['sinopsis'] ?>
             </p>
@@ -127,36 +143,70 @@ $nombres_paises = [
             <!-- CALIFICACIONES Y COMENTARIOS -->
             <div class="seccion-interactiva">
                 <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                    <div class="contenedor-formulario-resena">
-                        
-                        <h2>Tu valoración</h2>
+                    <div class="contenedor-formulario-resena"> 
+                        <div class="acciones-usuario">
+                            <!-- RATING -->
+                             <div class="btn-rating" onclick="abrirModal('modalRating')">
+                                <i class="fas fa-star"></i>
 
-                        <!-- Puntuación/Calificación -->
+                                <span class="texto-rating">
+                                    <?php if ($notaUsuario !== null): ?>
+                                        <?= number_format($notaUsuario, 1) ?>
+                                    <?php else: ?>
+                                        Valorar
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                            <!-- COMENTARIO -->
+                             <div class="btn-comentario" onclick="abrirModal('modalComentario')">
+                                <i class="fas fa-comment"></i>
+                                <span>Escribir reseña</span>
+                            </div>
+                        </div>
+                    </div>               
+                <?php endif; ?>
+
+                <!-- MODALES -->
+                <div id="modalRating" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar" onclick="cerrarModal('modalRating')">&times;</span>
+                        <h2>Tu valoración</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <div class="rating">
-                                <input type="radio" id="star5" name="puntuacion" value="5" required><label for="star5"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star4" name="puntuacion" value="4"><label for="star4"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star3" name="puntuacion" value="3"><label for="star3"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star2" name="puntuacion" value="2"><label for="star2"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star1" name="puntuacion" value="1"><label for="star1"><i class="fas fa-star"></i></label>
+                                <?php for ($i = 10; $i >= 1; $i--): ?>
+                                    <input 
+                                        type="radio" 
+                                        id="star<?= $i ?>" 
+                                        name="puntuacion" 
+                                        value="<?= $i ?>"
+                                        <?= ($notaUsuario == $i) ? 'checked' : '' ?>
+                                        required
+                                    >
+                                    <label for="star<?= $i ?>"><i class="fas fa-star"></i></label>
+                                <?php endfor; ?>
                             </div>
-                            <button type="submit" class="btn-rojo">Calificar</button>
-                        </form>
-                        
-                        <hr class="separador-resena">
 
-                        <!-- Comentario -->
+                            <button type="submit" class="btn-rojo">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="modalComentario" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar" onclick="cerrarModal('modalComentario')">&times;</span>
+                        <h2>Tu reseña</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
-                            <div class="grupo-input">
-                                <textarea name="texto" rows="3" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
-                            </div>
+
+                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
+
                             <button type="submit" class="btn-rojo">Publicar</button>
                         </form>
                     </div>
-                <?php endif; ?>
-
+                </div>
+                
+                <!-- LISTA DE COMENTARIOS -->
                 <div class="comentarios-lista" style="margin-top: 20px;">
                     <?php if (!empty($comentarios)): ?>
                         <?php foreach ($comentarios as $coment): ?>
@@ -174,6 +224,6 @@ $nombres_paises = [
 
         </div>
     </div>
-
+    <script src="js/modales.js"></script>
 </body>
 </html>

@@ -44,11 +44,11 @@ h1 {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-size: 60px;
-  font-weight: 500;
+  font-weight: bold;
   text-transform: uppercase;
   color: var(--text);
   letter-spacing: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 20px;
 }
 /* ESTILOS PARA EL ESLOGAN */
 .eslogan-sitio {
@@ -69,72 +69,18 @@ h2 {
   margin-top: 50px;
 }
 
-/* =========================================
-   ESTILOS DEL BUSCADOR Y FILTROS 
-   ========================================= */
+
+/*FORMULARIO DE BÚSQUEDA Y FILTROS*/
 .formulario-busqueda {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 700px; /* Ajusta según el ancho de tu web */
+  max-width: 700px; 
   margin: 20px auto;
 }
 
 .controles-principales {
   display: grid;
-  /* 3 columnas: el buscador crece (1fr), los otros dos se ajustan al contenido */
-  grid-template-columns: 1fr auto auto;
-  gap: 10px;
-}
-
-.btn-filtrar {
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1em;
-  padding: 0 15px;
-}
-
-.btn-limpiar {
-  /* Aquí está el truco: le decimos que se alinee al final (derecha) */
-  align-self: flex-end;
-  padding: 8px 20px;
-  background-color: #333;
-  color: var(--primary) !important;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 0.95em;
-  transition: all 0.3s ease;
-}
-
-.btn-limpiar:hover {
-  background-color: #444;
-}
-
-/* Para que en el móvil no se vea apretado */
-@media (max-width: 600px) {
-  .controles-principales {
-    grid-template-columns: 1fr;
-  }
-  .btn-limpiar {
-    align-self: stretch;
-    text-align: center;
-  }
-}
-
-/* =========================================
-   ESTILOS DEL BUSCADOR Y FILTROS 
-   ========================================= */
-.formulario-busqueda {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 700px; /* Ajusta según el ancho de tu web */
-  margin: 20px auto;
-}
-
-.controles-principales {
-  display: grid;
-  /* 3 columnas: el buscador crece (1fr), los otros dos se ajustan al contenido */
   grid-template-columns: 1fr auto auto;
   gap: 10px;
 }
@@ -146,7 +92,6 @@ h2 {
 }
 
 .btn-limpiar {
-  /* Aquí está el truco: le decimos que se alinee al final (derecha) */
   align-self: flex-end;
   padding: 8px 20px;
   background-color: #333;
@@ -295,31 +240,6 @@ h2 {
 }
 .info-pag {
   color: #888;
-}
-
-.salto-pagina {
-  display: flex;
-  justify-content: center;
-}
-
-#input-pag {
-  border-radius: 4px;
-  font-size: 1em;
-  padding: auto 12px;
-}
-.btn-ir {
-  background: #e50914;
-  color: white;
-  border: none;
-  padding: 6px 18px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9em;
-  font-weight: bold;
-}
-
-.btn-ir:hover {
-  background: #b20710;
 }
 
 .btn-detalles:hover {
@@ -489,76 +409,8 @@ h2 {
   color: var(--primary);
 }
 
-/* =========================================
-   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
-   ========================================= */
 
-.barra-filtros {
-  background-color: #141414;
-  margin-bottom: 30px;
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
-}
-
-.input-filtro {
-  padding: 12px 45px;
-  background-color: #000;
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: white;
-  font-size: 1em;
-  min-width: 220px;
-  transition: border-color 0.3s ease;
-}
-
-/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
-.input-filtro:focus {
-  outline: none;
-  border-color: #e50914;
-}
-
-/* Pequeño ajuste para que el desplegable de países se vea bien */
-select.input-filtro option {
-  background-color: #222;
-  color: white;
-}
-
-.select-con-icono {
-  background-image: url("../img/south_america.svg");
-  background-repeat: no-repeat;
-  background-position: 10px center; /* Lo separa 10px de la izquierda y lo centra verticalmente */
-  background-size: 20px;
-  padding-left: 35px !important;
-}
-
-.contenedor-navegacion {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-  gap: 0px;
-}
-
-/* --- ESPACIO PARA LA PAGINACIÓN --- */
-.paginacion {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin: 50px auto;
-  margin-bottom: 20px;
-  padding: 0;
-  /* Evita que se solape con elementos flotantes */
-  clear: both;
-  width: 100%;
-  max-width: 1200px; /* Igual al ancho máximo que .galeria */
-  box-sizing: border-box;
-}
-
-/* =========================================
-   ESTILOS DEL BUSCADOR Y FILTROS (NUEVO)
-   ========================================= */
-
+/* ESTILOS DEL BUSCADOR Y FILTROS */
 .barra-filtros {
   background-color: #141414;
   margin-bottom: 30px;
@@ -568,7 +420,7 @@ select.input-filtro option {
 
 .input-filtro {
   padding: 12px 15px;
-  background-color: #000; /* Fondo negro puro para el cajón */
+  background-color: #000; 
   border: 1px solid #555;
   border-radius: 4px;
   color: white;
@@ -577,13 +429,11 @@ select.input-filtro option {
   transition: border-color 0.3s ease;
 }
 
-/* Cuando el usuario hace clic para escribir, el borde se pone rojo */
 .input-filtro:focus {
   outline: none;
   border-color: #e50914;
 }
 
-/* Pequeño ajuste para que el desplegable de países se vea bien */
 select.input-filtro option {
   background-color: #222;
   color: white;
@@ -606,10 +456,9 @@ select.input-filtro option {
   margin: 50px auto;
   margin-bottom: 20px;
   padding: 0;
-  /* Evita que se solape con elementos flotantes */
   clear: both;
   width: 100%;
-  max-width: 1200px; /* Igual al ancho máximo que .galeria */
+  max-width: 1200px;
   box-sizing: border-box;
 }
 
@@ -676,12 +525,7 @@ select.input-filtro option {
 .estrellas,
 .estrellas-media {
   color: var(--accent);
-}
-
-.estrellas-media {
-  display: flex;
-  gap: 2px;
-  color: #f5b50a;
+  font-size: 20px;
 }
 
 .numero-nota {
@@ -735,12 +579,6 @@ select.input-filtro option {
   margin-bottom: 10px;
 }
 
-.separador-resena {
-  border: 0;
-  border-top: 1px solid #444;
-  margin: 20px 0;
-}
-
 .caja-comentario {
   background: #111;
   padding: 15px;
@@ -767,6 +605,46 @@ select.input-filtro option {
   text-align: center;
   padding: 20px;
 }
+
+/* MODALES */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.75);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contenido {
+  background: #222;
+  padding: 25px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+
+  position: relative;
+  color: white;
+}
+
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.cerrar:hover {
+  color: white;
+}
+
 
 /*CARRUSEL*/
 .top10 {

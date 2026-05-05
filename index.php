@@ -176,7 +176,7 @@ if ($id_usuario) {
    <!-- TÍTULO PRINCIPAL --> 
     <img class="logo-principal" src="img/icono.png" alt="Icono Palomitas">
     <h1>PALOMITAS</h1>
-    <div class = eslogan-sitio>Tu Catálogo Hispano</div>     
+    <div class = "eslogan-sitio">Tu Catálogo Hispano</div>     
 
     <!-- TOP 10 -->
      <h2>Top 10 mejor valoradas</h2>
@@ -189,7 +189,10 @@ if ($id_usuario) {
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
                         <div class="estrellas">
-                            <?= mostrarEstrellas($peli['media']) ?>
+                            <i class="fas fa-star"></i>
+                            <span class="nota-media">
+                                <?= number_format($peli['media'], 1) ?>
+                            </span>
                         </div>
                     </div>
                 </div>
