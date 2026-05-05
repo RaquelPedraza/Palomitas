@@ -35,12 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login | Palomitas</title>
-    <link rel="stylesheet" href="css/estilos.css?v=2">
-    <style>body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; }</style>
+    <link rel="stylesheet" href="css/estilos.css?v=3">
+    <style>body { background-color: #141414; color: white; margin: 0; }</style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.php" class="logo">🍿 Palomitas</a>
+     <nav class="navbar">
+        <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+            <img src="img/logo.png" alt="Logo Palomitas" style="height: 60px; margin-right: 10px;">
+        </a>
         <div class="enlaces">
             <a href="index.php">Catálogo</a>
             <a href="registro.php">Crear Cuenta</a>

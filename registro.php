@@ -3,6 +3,10 @@
 session_start();
 require_once 'config/secrets.php';
 
+$pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
+
+$error = "";
+
 // Conexión a la BD
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
@@ -50,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Registro | Palomitas</title>
     <link rel="stylesheet" href="css/estilos.css?v=2">
     <style>
-        body { background-color: #141414; color: white; font-family: Arial, sans-serif; margin: 0; }
+        body { background-color: #141414; color: white; margin: 0; }
         .ajax-check { display: flex; gap: 10px; align-items: center; }
         .ajax-check input { flex: 1; }
         .ajax-check button { width: auto; padding: 12px; background: #333; color: white; border: 1px solid #555; cursor: pointer;}
@@ -60,7 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
     <nav class="navbar">
-        <a href="index.php" class="logo">🍿 Palomitas</a>
+        <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+            <img src="img/logo.png" alt="Logo Palomitas" style="height: 60px; margin-right: 10px;">
+        </a>
         <div class="enlaces">
             <a href="index.php">Catálogo</a>
             <a href="login.php">Iniciar Sesión</a>

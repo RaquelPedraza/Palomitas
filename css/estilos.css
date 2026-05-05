@@ -1,3 +1,6 @@
+/* IMPORTAR LA FUENTE */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap");
+
 /*PALETA DE COLORES*/
 :root {
   --bg: #141414;
@@ -24,15 +27,46 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: Arial, sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 20px;
 }
 
+.logo-principal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ESTILOS PARA EL TÍTULO */
 h1 {
   text-align: center;
-  color: var(--primary);
-  margin-bottom: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 60px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text);
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+/* ESTILOS PARA EL ESLOGAN */
+.eslogan-sitio {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.1px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+h2 {
+  color: var(--text);
+  background-color: var(--bg-card);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  padding: 10px;
+  margin-top: 50px;
 }
 
 /* =========================================
@@ -57,6 +91,7 @@ h1 {
   text-decoration: none;
   font-weight: bold;
   font-size: 1em;
+  padding: 0 15px;
 }
 
 .btn-limpiar {
@@ -64,7 +99,7 @@ h1 {
   align-self: flex-end;
   padding: 8px 20px;
   background-color: #333;
-  color: #ccc;
+  color: var(--primary) !important;
   text-decoration: none;
   border-radius: 4px;
   font-size: 0.95em;
@@ -73,7 +108,6 @@ h1 {
 
 .btn-limpiar:hover {
   background-color: #444;
-  color: white;
 }
 
 /* Para que en el móvil no se vea apretado */
@@ -209,7 +243,7 @@ h1 {
   margin: 40px 0;
 }
 
-.btn,
+.btn-pag,
 .btn-detalles,
 .btn-rojo {
   background: var(--primary);
@@ -221,17 +255,37 @@ h1 {
   border: none;
 }
 
-.btn {
+.btn-pag {
   padding: 10px 20px;
   text-decoration: none;
   margin: 0 5px;
   display: inline-block;
 }
 
+.btn-pag:hover {
+  background: #b20710;
+}
+
 .btn:hover,
 .btn-detalles:hover,
 .btn-rojo:hover {
   background: var(--primary-hover);
+}
+
+.paginacion .btn-pag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Iconos de las flechas */
+.icono-pag {
+  width: 16px;
+  height: 16px;
+}
+
+.btn.desactivado .icono-pag {
+  opacity: 0.5;
 }
 
 .btn.desactivado {
@@ -257,7 +311,7 @@ h1 {
   background: #e50914;
   color: white;
   border: none;
-  padding: 6px 16px;
+  padding: 6px 18px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9em;
@@ -411,8 +465,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   background: var(--bg-dark);
-  padding: 15px 40px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   box-shadow: 0 4px 10px var(--shadow-dark);
 }
 
@@ -426,6 +479,7 @@ h1 {
 .navbar .enlaces a {
   color: var(--text);
   text-decoration: none;
+  letter-spacing: -0.2px;
   margin-left: 20px;
   font-size: 1.1em;
   transition: color 0.3s;
@@ -447,8 +501,8 @@ h1 {
 }
 
 .input-filtro {
-  padding: 12px 15px;
-  background-color: #000; /* Fondo negro puro para el cajón */
+  padding: 12px 45px;
+  background-color: #000;
   border: 1px solid #555;
   border-radius: 4px;
   color: white;
@@ -467,6 +521,14 @@ h1 {
 select.input-filtro option {
   background-color: #222;
   color: white;
+}
+
+.select-con-icono {
+  background-image: url("../img/south_america.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center; /* Lo separa 10px de la izquierda y lo centra verticalmente */
+  background-size: 20px;
+  padding-left: 35px !important;
 }
 
 .contenedor-navegacion {
@@ -712,6 +774,8 @@ select.input-filtro option {
   gap: 15px;
   overflow-x: auto;
   padding: 20px;
+  /*   background-color: var(--bg-card);
+ */
   scroll-behavior: smooth;
 }
 
