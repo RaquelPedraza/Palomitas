@@ -229,13 +229,19 @@ if ($id_usuario) {
     <!-- GALERIA -->
     <div class="galeria">
         <?php foreach ($peliculas as $peli): ?>
-            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+
+            <?php 
+                // portada
+                $enlace_portada = !empty($peli['portada']) 
+                    ? $peli['portada'] 
+                    : 'img/no-poster.png'; 
+
+                // favorito
+                $esFav = isset($favoritos[$peli['id_produccion']]); 
+            ?>
 
             <div class="tarjeta">
-                <?php 
-                $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
-                $esFav = isset($favoritos[$peli['id_produccion']]); 
-                ?> 
+                <!-- BOTÓN FAVORITO -->
                 <?php if ($id_usuario): ?>
                     <button 
                         class="corazon" 
@@ -249,11 +255,13 @@ if ($id_usuario) {
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
                         alt="<?= htmlspecialchars($peli['titulo']) ?>" 
                         onerror="this.onerror=null; this.src='img/no-poster.png';"
-                    >                    
+                    >
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
+
                         <div class="meta-datos">
                             <span class="anio"><?= $peli['anio'] ?></span>
+
                             <?php if (!empty($peli['pais']) && $peli['pais'] !== '??'): ?>
                                 <span class="etiqueta-pais"><?= $peli['pais'] ?></span>
                             <?php endif; ?>
