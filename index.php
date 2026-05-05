@@ -250,7 +250,8 @@ if ($id_usuario) {
                         <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
                     </button>
                 <?php endif; ?>
-
+                <!-- LINK A DETALLES -->
+                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
                     <img 
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
                         alt="<?= htmlspecialchars($peli['titulo']) ?>" 
