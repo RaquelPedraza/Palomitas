@@ -73,6 +73,7 @@ $nombres_paises = [
     <meta charset="UTF-8">
     <title><?= $peli['titulo'] ?> | Palomitas</title>
     <link rel="stylesheet" href= "css/estilos.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
