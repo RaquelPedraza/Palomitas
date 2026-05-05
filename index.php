@@ -250,7 +250,7 @@ if ($id_usuario) {
                         <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
                     </button>
                 <?php endif; ?>
-
+                    
                     <img 
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
                         alt="<?= htmlspecialchars($peli['titulo']) ?>" 
