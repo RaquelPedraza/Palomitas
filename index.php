@@ -71,7 +71,7 @@ $url_filtros = "";
 if ($busqueda !== '') {
     $sql .= " AND titulo LIKE ?";
     $parametros[] = "%$busqueda%";
-    $url_filtros .= "&q=" . urlencode($busqueda);
+    $url_filtros .= "&busqueda=" . urlencode($busqueda);
 }
 
 if ($pais_filtro !== '') {
@@ -230,25 +230,12 @@ if ($id_usuario) {
     <div class="galeria">
         <?php foreach ($peliculas as $peli): ?>
             <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                <div class="tarjeta">
-               
-<?php 
-// PHP comprueba si el campo de la base de datos está vacío
-$enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
-?>
 
-<img 
-    src="<?= htmlspecialchars($enlace_portada) ?>" 
-    alt="<?= htmlspecialchars($peli['titulo']) ?>" 
-    onerror="this.onerror=null; this.src='img/no-poster.png';"
->                    
-            <?php 
+            <div class="tarjeta">
+                <?php 
                 $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
                 $esFav = isset($favoritos[$peli['id_produccion']]); 
-            ?>
-
-        
-            <div class="tarjeta">
+                ?> 
                 <?php if ($id_usuario): ?>
                     <button 
                         class="corazon" 
@@ -257,8 +244,6 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
                         <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
                     </button>
                 <?php endif; ?>
-
-                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
 
                     <img 
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
@@ -278,44 +263,30 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
             </div>
         <?php endforeach; ?>
     </div>
-<div class="contenedor-navegacion">
-    <div class="paginacion">
-    <?php if ($pagina_actual > 1): ?>
-        <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
-            <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
-        </a>        
-    <?php else: ?>
-        <span class="btn desactivado">
-            <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
-        </span>
-    <?php endif; ?>
-
-    <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
-
-    <?php if ($pagina_actual < $total_paginas): ?>
-        <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
-            Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
-        </a>        
-    <?php else: ?>
-        <span class="btn desactivado">
-            Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
-        </span>
-    <?php endif; ?>
-</div>
 
     <!-- PAGINACIÓN -->
-    <div class="contenedor-navegacion">
-        <div class="paginacion">
+        <div class="contenedor-navegacion">
+            <div class="paginacion">
             <?php if ($pagina_actual > 1): ?>
-                <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>" class="btn">⬅ Anterior</a>        <?php else: ?>
-                <span class="btn desactivado">⬅ Anterior</span>
+                <a href="?pag=<?= $pagina_actual - 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
+                    <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
+                </a>        
+            <?php else: ?>
+                <span class="btn desactivado">
+                    <img src="img/arrow_back.svg" class="icono-pag" alt="atrás"> Anterior
+                </span>
             <?php endif; ?>
 
             <span class="info-pag">Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
 
             <?php if ($pagina_actual < $total_paginas): ?>
-                <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>" class="btn">Siguiente ➡</a>        <?php else: ?>
-                <span class="btn desactivado">Siguiente ➡</span>
+                <a href="?pag=<?= $pagina_actual + 1 ?><?= $url_filtros ?>#filtrar" class="btn-pag">
+                    Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
+                </a>        
+            <?php else: ?>
+                <span class="btn desactivado">
+                    Siguiente <img src="img/arrow_forward.svg" class="icono-pag" alt="adelante">
+                </span>
             <?php endif; ?>
         </div>
 
