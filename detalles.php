@@ -153,9 +153,6 @@ $nombres_paises = [
                                 <textarea name="texto" rows="3" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
                             </div>
                             <button type="submit" class="btn-rojo">Publicar</button>
-
-                            <!-- Enviar -->
-                            <button type="submit" class="btn btn-detalles">Calificar</button>
                         </form>
                     </div>
                 <?php endif; ?>
