@@ -229,26 +229,19 @@ if ($id_usuario) {
     <!-- GALERIA -->
     <div class="galeria">
         <?php foreach ($peliculas as $peli): ?>
-            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                <div class="tarjeta">
-               
-<?php 
-// PHP comprueba si el campo de la base de datos está vacío
-$enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
-?>
 
-<img 
-    src="<?= htmlspecialchars($enlace_portada) ?>" 
-    alt="<?= htmlspecialchars($peli['titulo']) ?>" 
-    onerror="this.onerror=null; this.src='img/no-poster.png';"
->                    
             <?php 
-                $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png'; 
+                // portada
+                $enlace_portada = !empty($peli['portada']) 
+                    ? $peli['portada'] 
+                    : 'img/no-poster.png'; 
+
+                // favorito
                 $esFav = isset($favoritos[$peli['id_produccion']]); 
             ?>
 
-        
             <div class="tarjeta">
+                <!-- BOTÓN FAVORITO -->
                 <?php if ($id_usuario): ?>
                     <button 
                         class="corazon" 
@@ -257,18 +250,19 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
                         <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
                     </button>
                 <?php endif; ?>
-
+                <!-- LINK A DETALLES -->
                 <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-
                     <img 
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
                         alt="<?= htmlspecialchars($peli['titulo']) ?>" 
                         onerror="this.onerror=null; this.src='img/no-poster.png';"
-                    >                    
+                    >
                     <div class="info">
                         <div class="titulo"><?= $peli['titulo'] ?></div>
+
                         <div class="meta-datos">
                             <span class="anio"><?= $peli['anio'] ?></span>
+
                             <?php if (!empty($peli['pais']) && $peli['pais'] !== '??'): ?>
                                 <span class="etiqueta-pais"><?= $peli['pais'] ?></span>
                             <?php endif; ?>
@@ -278,6 +272,7 @@ $enlace_portada = !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.p
             </div>
         <?php endforeach; ?>
     </div>
+   
 <div class="contenedor-navegacion">
     <div class="paginacion">
     <?php if ($pagina_actual > 1): ?>
