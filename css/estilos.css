@@ -50,6 +50,10 @@ h1 {
   letter-spacing: 2px;
   margin-bottom: 20px;
 }
+.titulo-principal {
+  margin-bottom: 2px;
+}
+
 /* ESTILOS PARA EL ESLOGAN */
 .eslogan-sitio {
   text-align: center;

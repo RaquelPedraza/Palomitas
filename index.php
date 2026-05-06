@@ -175,7 +175,7 @@ if ($id_usuario) {
 
    <!-- TÍTULO PRINCIPAL --> 
     <img class="logo-principal" src="img/icono.png" alt="Icono Palomitas">
-    <h1>PALOMITAS</h1>
+    <h1 class="titulo-principal">PALOMITAS</h1>
     <div class = "eslogan-sitio">Tu Catálogo Hispano</div>     
 
     <!-- TOP 10 -->

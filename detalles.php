@@ -225,7 +225,7 @@ $nombres_paises = [
                     <?php if (!empty($comentarios)): ?>
                         <?php foreach ($comentarios as $coment): ?>
                             <div class="caja-comentario">
-                                <strong><?= htmlspecialchars($coment['id_usuario']) ?></strong>
+                                <strong><?= htmlspecialchars($coment['nombre_usuario']) ?></strong>
                                 <p><?= nl2br(htmlspecialchars($coment['contenido'])) ?></p>
                                 <p class="fecha-comentario"><?= $coment['fecha'] ?></p>
                             </div>
