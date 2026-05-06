@@ -156,7 +156,14 @@ if ($id_usuario) {
                 <img src="img/logo.png" alt="Logo Palomitas" style="height: 50px; margin-right: 10px;">
             </a>
             <div class="enlaces">
+                <?php $archivo_actual = basename($_SERVER['PHP_SELF']); ?>
+
                 <a href="index.php">Catálogo</a>
+                
+                <?php if ($archivo_actual !== 'reels.php'): ?>
+                    <a href="reels.php">Reels</a>
+                <?php endif; ?>
+
                 <?php if (isset($_SESSION['id_usuario'])): ?> 
                     <a href="mis_listas.php">Mis listas</a>
                 <?php endif; ?>

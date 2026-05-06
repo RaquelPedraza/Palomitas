@@ -476,6 +476,14 @@ select.input-filtro option {
   transition: color 0.3s;
 }
 
+.navbar .enlaces-usuario a {
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.2px;
+  margin-left: 10px;
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
 .navbar .enlaces a:hover {
   color: var(--primary);
 }
@@ -735,4 +743,45 @@ select.input-filtro option {
   100% {
     transform: scale(1);
   }
+}
+
+/* --- ZONA DE REELS --- */
+.contenedor-reels {
+  height: 85vh;
+  width: 100vw;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background-color: #000;
+}
+
+.reel {
+  height: 100%;
+  scroll-snap-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid #333;
+}
+
+.reel iframe {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  pointer-events: auto;
+}
+
+.info-reel {
+  position: absolute;
+  bottom: 90px;
+  left: 220px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+  max-width: 300px;
+}
+
+.reel p {
+  font-size: large;
 }
