@@ -33,24 +33,20 @@ body {
 }
 
 .logo-principal {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  margin: 0 auto;
 }
 
 /* ESTILOS PARA EL TÍTULO */
-h1 {
+.titulo-principal {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-size: 60px;
-  font-weight: bold;
+  font-weight: 500;
   text-transform: uppercase;
   color: var(--text);
   letter-spacing: 2px;
-  margin-bottom: 20px;
-}
-.titulo-principal {
+  margin-top: 2px;
   margin-bottom: 2px;
 }
 
@@ -59,7 +55,7 @@ h1 {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.1px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   color: var(--text);
 }
@@ -73,13 +69,19 @@ h2 {
   margin-top: 50px;
 }
 
-
 /*FORMULARIO DE BÚSQUEDA Y FILTROS*/
+.barra-filtros {
+  background-color: #141414;
+  margin-bottom: 30px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
 .formulario-busqueda {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 700px; 
+  max-width: 700px;
   margin: 20px auto;
 }
 
@@ -89,17 +91,52 @@ h2 {
   gap: 10px;
 }
 
+.input-filtro {
+  padding: 12px 15px;
+  background-color: #000;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  min-width: 220px;
+  transition: border-color 0.3s ease;
+}
+.input-filtro:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+select.input-filtro option {
+  background-color: #222;
+  color: white;
+}
+
+.select-con-icono {
+  background-image: url("../img/south_america.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px;
+  min-width: 220px;
+  padding-left: 35px !important;
+}
+
 .btn-filtrar {
   text-decoration: none;
   font-weight: bold;
   font-size: 1em;
+  padding: 0 15px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .btn-limpiar {
   align-self: flex-end;
   padding: 8px 20px;
   background-color: #333;
-  color: #ccc;
+  color: var(--primary) !important;
   text-decoration: none;
   border-radius: 4px;
   font-size: 0.95em;
@@ -272,6 +309,17 @@ h2 {
   font-size: 1.1em;
 }
 
+.salto-pagina {
+  display: flex;
+  justify-content: center;
+}
+
+#input-pag {
+  border-radius: 4px;
+  font-size: 1em;
+  padding: auto 12px;
+}
+
 /*---- SECCIÓN DE DETALLES ----*/
 .boton-volver {
   display: inline-block;
@@ -428,44 +476,6 @@ h2 {
   color: var(--primary);
 }
 
-
-/* ESTILOS DEL BUSCADOR Y FILTROS */
-.barra-filtros {
-  background-color: #141414;
-  margin-bottom: 30px;
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
-}
-
-.input-filtro {
-  padding: 12px 15px;
-  background-color: #000; 
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: white;
-  font-size: 1em;
-  min-width: 220px;
-  transition: border-color 0.3s ease;
-}
-
-.input-filtro:focus {
-  outline: none;
-  border-color: #e50914;
-}
-
-select.input-filtro option {
-  background-color: #222;
-  color: white;
-}
-
-.contenedor-navegacion {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-  gap: 0px;
-}
-
 /* --- ESPACIO PARA LA PAGINACIÓN --- */
 .paginacion {
   display: flex;
@@ -619,7 +629,7 @@ select.input-filtro option {
   margin-top: 8px;
 }
 
-.nada{
+.nada {
   color: #888;
   text-align: center;
   padding: 20px;
@@ -664,7 +674,6 @@ select.input-filtro option {
   color: white;
 }
 
-
 /*CARRUSEL*/
 .top10 {
   display: flex;
@@ -687,37 +696,39 @@ select.input-filtro option {
 
 /* FAVORITOS */
 .corazon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 22px;
-    color: #e50914;
-    z-index: 2;
-    border: none;
-    cursor: pointer;
-    background: transparent;
-    padding: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+  color: #e50914;
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
 }
 
 .corazon i {
-    transition: transform 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
 }
 
 .corazon i.pop {
-    animation: pop 0.3s ease;
+  animation: pop 0.3s ease;
 }
 
 @keyframes pop {
-    0% {
-        transform: scale(1);
-    }
-    40% {
-        transform: scale(1.4);
-    }
-    70% {
-        transform: scale(0.9);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.4);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

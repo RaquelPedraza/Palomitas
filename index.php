@@ -152,7 +152,7 @@ if ($id_usuario) {
 <body>
     <nav class="navbar">
     <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
-        <img src="img/icono.png" alt="Icono Palomitas" style="height: 50px; margin-right: 10px;">
+        <img src="img/logo.png" alt="Logo Palomitas" style="height: 50px; margin-right: 10px;">
     </a>
     
     <div class="enlaces">
