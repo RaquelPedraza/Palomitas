@@ -170,6 +170,10 @@ if ($id_usuario) {
                 <a href="login.php">Iniciar Sesión</a>
                 <a href="registro.php">Crear Cuenta</a>
             <?php endif; ?>
+
+            <?php if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'admin'): ?>
+                <a href="admin_usuarios.php">Panel Admin</a>
+            <?php endif; ?>
         </div>
     </nav>
 
