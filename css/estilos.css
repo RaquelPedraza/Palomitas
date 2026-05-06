@@ -107,7 +107,6 @@ h2 {
   color: white;
 }
 
-/* Para que en el móvil no se vea apretado */
 @media (max-width: 600px) {
   .controles-principales {
     grid-template-columns: 1fr;
@@ -222,6 +221,20 @@ h2 {
   align-items: center;
   gap: 8px;
 }
+.btn-ir {
+  background: #e50914;
+  color: white;
+  border: none;
+  padding: 6px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.btn-ir:hover {
+  background: #b20710;
+}
 
 /* Iconos de las flechas */
 .icono-pag {
@@ -237,6 +250,8 @@ h2 {
   background: #333;
   color: #666;
   pointer-events: none;
+  padding: 10px 20px;
+  border-radius: 5px;
 }
 .info-pag {
   color: #888;

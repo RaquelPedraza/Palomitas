@@ -199,6 +199,20 @@ $nombres_paises = [
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
 
+                            <div class="rating">
+                                <?php for ($i = 10; $i >= 1; $i--): ?>
+                                    <input 
+                                        type="radio" 
+                                        id="coment-star<?= $i ?>" 
+                                        name="puntuacion" 
+                                        value="<?= $i ?>" 
+                                        required
+                                        <?= ($notaUsuario == $i) ? 'checked' : '' ?>
+                                    >
+                                    <label for="coment-star<?= $i ?>"><i class="fas fa-star"></i></label>
+                                <?php endfor; ?>
+                            </div>
+
                             <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
 
                             <button type="submit" class="btn-rojo">Publicar</button>
