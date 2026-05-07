@@ -145,39 +145,16 @@ if ($id_usuario) {
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=6"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=7"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </head>
 <body>
-    <nav class="navbar">
-    <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
-        <img src="img/logo.png" alt="Logo Palomitas" style="height: 50px; margin-right: 10px;">
-    </a>
-    
-    <div class="enlaces">
-            <a href="index.php">Catálogo</a>
 
-            <?php if (isset($_SESSION['usuario_id'])): ?>
-                <a href="mis_listas.php">Mis listas</a>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                <span style="color: #ccc; margin-left: 20px;">
-                    Hola, <strong style="color: white;"><?= htmlspecialchars($_SESSION['usuario_nombre']) ?></strong>
-                </span>
-                <a href="logout.php" style="color: #e50914; margin-left: 15px;">Cerrar Sesión</a>
-            <?php else: ?>
-                <a href="login.php">Iniciar Sesión</a>
-                <a href="registro.php">Crear Cuenta</a>
-            <?php endif; ?>
-
-            <?php if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'admin'): ?>
-                <a href="admin_usuarios.php">Panel Admin</a>
-            <?php endif; ?>
-        </div>
-    </nav>
-
-   <!-- TÍTULO PRINCIPAL --> 
+    <!-- NAVABAR -->
+    <?php include 'includes/navbar.php'; ?>
+                   
+    <!-- TÍTULO PRINCIPAL --> 
     <img class="logo-principal" src="img/icono.png" alt="Icono Palomitas">
     <h1 class="titulo-principal">PALOMITAS</h1>
     <div class = "eslogan-sitio">Tu Catálogo Hispano</div>     

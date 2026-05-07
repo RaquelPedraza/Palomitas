@@ -94,6 +94,9 @@ $nombres_paises = [
 </head>
 <body>
 
+    <!-- NAVABAR -->
+    <?php include 'includes/navbar.php'; ?>
+
     <a href="javascript:history.back()" class="boton-volver">
     ⬅ Volver al catálogo </a>
 
@@ -198,7 +201,7 @@ $nombres_paises = [
                         <h2>Tu reseña</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
-
+                            <!-- RATING DE TU RESEÑA -->
                             <div class="rating">
                                 <?php for ($i = 10; $i >= 1; $i--): ?>
                                     <input 
@@ -212,6 +215,15 @@ $nombres_paises = [
                                     <label for="coment-star<?= $i ?>"><i class="fas fa-star"></i></label>
                                 <?php endfor; ?>
                             </div>
+                            <!-- TITULO Y TEXTO DE LA RESEÑA -->
+                            <input 
+                                type="text" 
+                                name="titulo_resena" 
+                                placeholder="Título de tu reseña..." 
+                                maxlength="200"
+                                required
+                                class="titulo-resena"
+                            >
 
                             <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
 
@@ -224,10 +236,17 @@ $nombres_paises = [
                 <div class="comentarios-lista" style="margin-top: 20px;">
                     <?php if (!empty($comentarios)): ?>
                         <?php foreach ($comentarios as $coment): ?>
-                            <div class="caja-comentario">
-                                <strong><?= htmlspecialchars($coment['nombre_usuario']) ?></strong>
+                            <div class="caja-comentario" id="resena-<?= $coment['id_resena'] ?>">
+                                <div class="comentario-header">
+                                    <strong class="usuario"><?= htmlspecialchars($coment['nombre_usuario']) ?></strong>
+                                    <span class="estrellas-comentario">
+                                        <?= mostrarEstrellas($coment['puntuacion']) ?>
+                                        <span class="numero"><?= $coment['puntuacion'] ?>/10</span>
+                                    </span>
+                                </div>
+                                <strong class="titulo-comentario"><?= htmlspecialchars($coment['titulo_resena']) ?></strong>
                                 <p><?= nl2br(htmlspecialchars($coment['contenido'])) ?></p>
-                                <p class="fecha-comentario"><?= $coment['fecha'] ?></p>
+                                <p class="fecha-comentario"><?= date('d-m-Y', strtotime($coment['fecha'])) ?></p>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?> 

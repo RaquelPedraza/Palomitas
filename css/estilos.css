@@ -38,7 +38,7 @@ body {
 }
 
 /* ESTILOS PARA EL TÍTULO */
-.titulo-principal {
+h1 {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-size: 60px;
@@ -46,6 +46,9 @@ body {
   text-transform: uppercase;
   color: var(--text);
   letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.titulo-principal {
   margin-top: 2px;
   margin-bottom: 2px;
 }
@@ -447,6 +450,7 @@ select.input-filtro option {
 }
 
 /* --- NAVEGACIÓN (NAVBAR) --- */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -467,11 +471,19 @@ select.input-filtro option {
   color: var(--text);
   text-decoration: none;
   letter-spacing: -0.2px;
-  margin-left: 20px;
-  font-size: 1.1em;
+  margin-left: 10px;
+  font-size: 1.2em;
   transition: color 0.3s;
 }
 
+.navbar .enlaces-usuario a {
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.2px;
+  margin-left: 10px;
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
 .navbar .enlaces a:hover {
   color: var(--primary);
 }
@@ -597,6 +609,16 @@ select.input-filtro option {
   border-radius: 8px;
 }
 
+.titulo-resena {
+  width: 100%;
+  background: #333;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
 .textarea-resena {
   width: 100%;
   background: #333;
@@ -616,17 +638,51 @@ select.input-filtro option {
   border-left: 4px solid var(--primary);
 }
 
-.caja-comentario strong {
+.usuario {
   color: var(--primary);
   display: block;
   margin-bottom: 5px;
+  font-size: 17px;
+}
+
+.titulo-comentario {
+  width: 100%;
+  color: white ;
+  padding: 10px 0;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.comentario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.estrellas-comentario {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.estrellas-comentario .numero {
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.usuario {
+  color: var(--primary);
+  font-weight: bold;
 }
 
 .fecha-comentario {
   display: block;
-  color: #666;
+  color: #999;
   font-size: 0.8em;
   margin-top: 8px;
+  text-align: right;
 }
 
 .nada {
@@ -731,4 +787,45 @@ select.input-filtro option {
   100% {
     transform: scale(1);
   }
+}
+
+/* --- ZONA DE REELS --- */
+.contenedor-reels {
+  height: 85vh;
+  width: 100vw;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background-color: #000;
+}
+
+.reel {
+  height: 100%;
+  scroll-snap-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid #333;
+}
+
+.reel iframe {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  pointer-events: auto;
+}
+
+.info-reel {
+  position: absolute;
+  bottom: 90px;
+  left: 220px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+  max-width: 300px;
+}
+
+.reel p {
+  font-size: large;
 }
