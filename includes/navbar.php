@@ -12,8 +12,9 @@
                     <a href="reels.php">Reels</a>
                 <?php endif; ?>
 
-                <?php if (isset($_SESSION['id_usuario'])): ?> 
+                <?php if (isset($_SESSION['usuario_id'])): ?> 
                     <a href="mis_listas.php">Mis listas</a>
+                    <a href="editar_usuario.php?id=<?= $_SESSION['usuario_id'] ?>">Mi Perfil</a>
                 <?php endif; ?>
             </div>
         </div> 

@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'usuario')");
         if ($stmt->execute([$nombre, $email, $hash_password])) {
             $mensaje_servidor = "<p class='verde'>¡Registro exitoso! Ya puedes iniciar sesión.</p>";
-            mail($email, "Bienvenido a Palomitas", "Hola $nombre, gracias por registrarte en Palomitas");
+            @mail($email, "Bienvenido a Palomitas", "Hola $nombre, gracias por registrarte en Palomitas");
         }
         }
     }

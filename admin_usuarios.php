@@ -25,6 +25,7 @@ if (isset($_GET['eliminar'])) {
     exit;
 }
 
+
 // CAMBIAR ROL
 if (isset($_GET['rol']) && isset($_GET['id'])) {
     $nuevoRol = $_GET['rol'];
@@ -50,7 +51,7 @@ $usuarios = $stmt->fetchAll();
 </head>
 <body>
 
-<h1>👑 Panel de Administración</h1>
+<h1>Panel de Administración</h1>
 
 <table border="1" cellpadding="10">
     <tr>
@@ -76,7 +77,8 @@ $usuarios = $stmt->fetchAll();
                     <a href="?id=<?= $u['id_usuario'] ?>&rol=usuario">Quitar Admin</a>
                 <?php endif; ?>
 
-                |
+                <!-- EDITAR -->
+                <a href="editar_usuario.php?id=<?= $u['id_usuario'] ?>">Editar</a>
                 <!-- ELIMINAR -->
                 <a href="?eliminar=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
             </td>

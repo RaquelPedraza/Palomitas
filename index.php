@@ -70,7 +70,7 @@ $url_filtros = "";
 
 if ($busqueda !== '') {
     $sql .= " AND titulo LIKE ?";
-    $parametros[] = "%$busqueda%";
+    $parametros[] = "%$busqueda%";                
     $url_filtros .= "&busqueda=" . urlencode($busqueda);
 }
 
