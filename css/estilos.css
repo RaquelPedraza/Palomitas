@@ -609,6 +609,16 @@ select.input-filtro option {
   border-radius: 8px;
 }
 
+.titulo-resena {
+  width: 100%;
+  background: #333;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
 .textarea-resena {
   width: 100%;
   background: #333;
@@ -628,17 +638,51 @@ select.input-filtro option {
   border-left: 4px solid var(--primary);
 }
 
-.caja-comentario strong {
+.usuario {
   color: var(--primary);
   display: block;
   margin-bottom: 5px;
+  font-size: 17px;
+}
+
+.titulo-comentario {
+  width: 100%;
+  color: white ;
+  padding: 10px 0;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.comentario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.estrellas-comentario {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.estrellas-comentario .numero {
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.usuario {
+  color: var(--primary);
+  font-weight: bold;
 }
 
 .fecha-comentario {
   display: block;
-  color: #666;
+  color: #999;
   font-size: 0.8em;
   margin-top: 8px;
+  text-align: right;
 }
 
 .nada {

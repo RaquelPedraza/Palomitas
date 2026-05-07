@@ -1,0 +1,260 @@
+.perfil-layout {
+  display: flex;
+  gap: 20px;
+  width: 90%;
+  margin: auto;
+  color: var(--text);
+}
+
+/* SIDEBAR */
+.perfil-sidebar {
+  width: 25%;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 12px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.perfil-avatar img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.perfil-sidebar h2 {
+  margin-top: 10px;
+}
+
+/* STATS */
+.perfil-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.perfil-stats div {
+  background: var(--bg);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+
+.perfil-main {
+  width: 75%;
+}
+
+/* PESTAÑAS */
+.perfil-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: var(--primary);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* RESEÑAS */
+.resena-wrapper {
+  display: flex;
+  gap: 15px;
+  background: #111;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border-left: 4px solid var(--primary);
+}
+
+.resena-wrapper.clickable {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.resena-wrapper.clickable:hover {
+  transform: scale(1.01);
+}
+
+/* TARJETA */
+.tarjeta-mini {
+  width: 140px;
+  transform: scale(0.85);
+  transform-origin: top left;
+}
+
+.tarjeta-mini img {
+  height: 180px;
+  object-fit: cover;
+}
+
+.tarjeta-mini .titulo {
+  font-size: 13px;
+}
+
+.tarjeta-mini .meta-datos {
+  font-size: 11px;
+}
+
+.resena-pelicula {
+  flex-shrink: 0;
+}
+
+/* DETALLE */
+.resena-detalle {
+  flex: 1;
+  position: relative;
+}
+
+.resena-acciones {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.resena-acciones a,
+.resena-acciones button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.resena-acciones a:hover,
+.resena-acciones button:hover {
+  color: var(--primary);
+}
+
+/* LISTAS */
+.card-lista {
+  background: var(--bg-card);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* CLIPS */
+.card-clip {
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.card-clip iframe {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+}
+
+.perfil-main .resena-wrapper .tarjeta.tarjeta-mini {
+  box-shadow: none;
+  transform: none;
+  transition: none;
+}
+
+.perfil-main .resena-wrapper .tarjeta.tarjeta-mini:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .perfil-layout {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .perfil-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+  }
+
+  .perfil-main {
+    width: 100%;
+  }
+
+  .perfil-tabs {
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .resena-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .resena-pelicula {
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .tarjeta.tarjeta-mini {
+    width: 100%;
+    transform: none; 
+  }
+  .tarjeta img {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .resena-detalle {
+    flex: 1;
+  }
+
+  .resena-acciones {
+    position: static;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+
+}
+@media (max-width: 480px) {
+
+  .perfil-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .perfil-tabs {
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  .resena-acciones {
+    position: static;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+
+}

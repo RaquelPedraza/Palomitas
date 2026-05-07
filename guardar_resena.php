@@ -14,9 +14,11 @@
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $id_peli = $_POST['pelicula_id'];
-            $puntuacion = $_POST['puntuacion'];
-            $contenido = $_POST['texto'];
+            $puntuacion = $_POST['puntuacion'] ?? null;
+            $contenido = $_POST['texto'] ?? null;
             $id_usuario = $_SESSION['usuario_id'];
+            $titulo = $_POST['titulo_resena'] ?? null;
+
 
             // Comprobar si ya existe reseña
             $check = $pdo->prepare("SELECT id_resena FROM resenas WHERE id_produccion = ? AND id_usuario = ?");
@@ -26,20 +28,20 @@
             if ($existe) {
                 // ACTUALIZAR
                 $sql = "UPDATE resenas 
-                        SET puntuacion = ?, contenido = ?, fecha = NOW()
+                        SET puntuacion = ?, titulo_resena = ?, contenido = ?, fecha = NOW()
                         WHERE id_resena = ?";
 
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$puntuacion, $contenido, $existe['id_resena']]);
+                $stmt->execute([$puntuacion, $titulo, $contenido, $existe['id_resena']]);
 
             } else {
                 // AÑADIR
                 $sql = "INSERT INTO resenas 
-                        (id_produccion, id_usuario, puntuacion, contenido, fecha)
-                        VALUES (?, ?, ?, ?, NOW())";
+                        (id_produccion, id_usuario, puntuacion, titulo_resena, contenido, fecha)
+                        VALUES (?, ?, ?, ?, ?, NOW())";
 
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$id_peli, $id_usuario, $puntuacion, $contenido]);
+                $stmt->execute([$id_peli, $id_usuario, $puntuacion, $titulo, $contenido]);
             }
 
             header("Location: detalles.php?id=" . $id_peli);
