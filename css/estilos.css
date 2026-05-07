@@ -352,7 +352,9 @@ select.input-filtro option {
   border-radius: 10px;
   box-shadow: 0 0 15px var(--shadow-soft);
 }
-
+.datos {
+  flex: 1;
+}
 .datos h1 {
   color: var(--primary);
   margin-top: 0;
@@ -731,23 +733,57 @@ select.input-filtro option {
 }
 
 /*CARRUSEL*/
-.top10 {
+.carrusel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carrusel {
   display: flex;
   gap: 15px;
   overflow-x: auto;
   padding: 20px;
-  /*   background-color: var(--bg-card);
- */
   scroll-behavior: smooth;
+  width: 100%;
 }
 
-.top10::-webkit-scrollbar {
+.carrusel::-webkit-scrollbar {
   display: none;
 }
 
-.top10 .tarjeta {
+.carrusel .tarjeta {
   min-width: 180px;
   flex-shrink: 0;
+}
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flecha:hover {
+  background: rgba(0,0,0,0.85);
+}
+
+.flecha.izquierda {
+  left: 5px;
+}
+
+.flecha.derecha {
+  right: 5px;
 }
 
 /* FAVORITOS */

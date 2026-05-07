@@ -160,26 +160,35 @@ if ($id_usuario) {
     <div class = "eslogan-sitio">Tu Catálogo Hispano</div>     
 
     <!-- TOP 10 -->
-     <h2>Top 10 mejor valoradas</h2>
+    <h2>Top 10 mejor valoradas</h2>
 
-    <div class="top10">
-        <?php foreach ($top_pelis as $peli): ?>
-            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                <div class="tarjeta">
-                    <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
-                    <div class="info">
-                        <div class="titulo"><?= $peli['titulo'] ?></div>
-                        <div class="estrellas">
-                            <i class="fas fa-star"></i>
-                            <span class="nota-media">
-                                <?= number_format($peli['media'], 1) ?>
-                            </span>
+    <div class="carrusel-wrapper">
+        <button class="flecha izquierda" onclick="scrollCarrusel(-300)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="carrusel" id="carrusel">
+            <?php foreach ($top_pelis as $peli): ?>
+                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                    <div class="tarjeta">
+                        <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
+                        <div class="info">
+                            <div class="titulo"><?= $peli['titulo'] ?></div>
+                            <div class="estrellas">
+                                <i class="fas fa-star"></i>
+                                <span class="nota-media">
+                                    <?= number_format($peli['media'], 1) ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        <?php endforeach; ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
 
+        <button class="flecha derecha" onclick="scrollCarrusel(300)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
     </div>
 
     <!-- CATÁLOGO -->
@@ -305,5 +314,14 @@ if ($id_usuario) {
         </div>
     </div>
     <script src="js/favoritos.js"></script>
+    <script>
+        function scrollCarrusel(valor) {
+            const carrusel = document.getElementById('carrusel');
+            carrusel.scrollBy({
+                left: valor,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>
