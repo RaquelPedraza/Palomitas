@@ -35,6 +35,7 @@ body {
 .logo-principal {
   display: block;
   margin: 0 auto;
+  width: 10rem;
 }
 
 /* ESTILOS PARA EL TÍTULO */
@@ -63,7 +64,21 @@ h1 {
   font-weight: 400;
   color: var(--text);
 }
-
+.titulo-seccion {
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding-left: 15px;
+  border-left: 5px solid #dc3545;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(220, 53, 69, 0.1) 0%,
+    transparent 50%
+  );
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 h2 {
   color: var(--text);
   background-color: var(--bg-card);
@@ -329,17 +344,42 @@ select.input-filtro option {
 }
 
 /*---- SECCIÓN DE DETALLES ----*/
+/* El contenedor del enlace */
 .boton-volver {
+  display: inline-flex; /* Esto pone la flecha y el texto en la misma línea */
+  align-items: center; /* ESTA es la magia: los centra verticalmente de forma perfecta */
+  gap: 8px; /* Separación exacta entre la flecha y el texto */
+  margin-left: 100px;
+  text-decoration: none; /* Por si acaso te sale subrayado */
+  color: #ccc;
+  /* ... mantén aquí el color o fuente que ya le tuvieras puesto ... */
+}
+
+/* Controlar el tamaño exacto del SVG */
+.boton-volver svg {
+  width: 18px; /* Reducimos el tamaño (antes era 24) */
+  height: 18px; /* Reducimos el tamaño */
+  transition: transform 0.3s ease; /* Para la animación suave */
+}
+
+/* El toque de calidad al pasar el ratón */
+.boton-volver:hover svg {
+  transform: translateX(-4px); /* La flecha se mueve un pelín a la izquierda */
+  color: var(--text);
+}
+/* .boton-volver {
   display: inline-block;
   margin-bottom: 20px;
   color: #ccc;
   text-decoration: none;
   font-weight: bold;
+  transition: transform 0.3s ease;
 }
 
 .boton-volver:hover {
   color: var(--text);
-}
+  transform: translateX(-5px);
+} */
 
 .ficha {
   display: flex;
@@ -614,8 +654,8 @@ select.input-filtro option {
 }
 
 .rating label:hover,
-.rating label:hover~label,
-.rating input:checked~label {
+.rating label:hover ~ label,
+.rating input:checked ~ label {
   color: var(--accent);
 }
 
@@ -717,7 +757,7 @@ select.input-filtro option {
 
 .acciones-usuario span {
   display: block;
-  font-size: 18px;  
+  font-size: 18px;
   color: #aaa;
   margin-top: 4px;
 }
@@ -734,7 +774,7 @@ select.input-filtro option {
 }
 
 .corazon-detalles {
-  color: #e50914;;
+  color: #e50914;
 }
 
 .btn-rating {
@@ -856,7 +896,7 @@ select.input-filtro option {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   border: none;
   color: white;
   width: 45px;
@@ -870,7 +910,7 @@ select.input-filtro option {
 }
 
 .flecha:hover {
-  background: rgba(0,0,0,0.85);
+  background: rgba(0, 0, 0, 0.85);
 }
 
 .flecha.izquierda {
@@ -895,13 +935,13 @@ select.input-filtro option {
   padding: 0;
 }
 
-.corazon i{
+.corazon i {
   transition:
     transform 0.15s ease,
     color 0.15s ease;
 }
 
-.corazon i.pop{
+.corazon i.pop {
   animation: pop 0.3s ease;
 }
 
@@ -979,7 +1019,7 @@ select.input-filtro option {
   border-radius: 14px;
   overflow: hidden;
   position: relative;
-  transition: transform .2s;
+  transition: transform 0.2s;
 }
 
 .lista-card:hover {
@@ -1017,7 +1057,7 @@ select.input-filtro option {
 
 .lista-desc {
   font-size: 12px;
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .crear-lista-btn {

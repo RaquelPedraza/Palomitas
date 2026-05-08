@@ -10,6 +10,7 @@ if (!isset($_GET['id'])) {
     header('Location: index.php');
     exit;
 }
+
 $id_pelicula = $_GET['id'];
 
 // CONEXIÓN (secrets.php)
@@ -32,6 +33,7 @@ try {
 
     // NOTA DEL USUARIO
     $notaUsuario = null;
+    $esFav = false;
 
     if (isset($_SESSION['usuario_id'])) {
     $stmtUser = $pdo->prepare("
@@ -46,7 +48,17 @@ try {
     if ($datoUser) {
         $notaUsuario = $datoUser['puntuacion'];
     }
-}
+
+    if (isset($_SESSION['usuario_id']) && isset($peli['id_produccion'])) {
+        $sql_fav = "SELECT 1 FROM favoritos WHERE id_usuario = ? AND id_produccion = ?";
+        $stmt_fav = $pdo->prepare($sql_fav);
+        $stmt_fav->execute([$_SESSION['usuario_id'], $peli['id_produccion']]);
+        
+        if ($stmt_fav->fetchColumn()) {
+            $esFav = true;
+        }
+    }
+    }
 
     //CALIFICACIÓN
     $stmtMedia = $pdo->prepare("SELECT AVG(puntuacion) as media FROM resenas WHERE id_produccion = ?");
@@ -97,8 +109,13 @@ $nombres_paises = [
     <!-- NAVABAR -->
     <?php include 'includes/navbar.php'; ?>
 
-    <a href="javascript:history.back()" class="boton-volver">
-    ⬅ Volver al catálogo </a>
+    <a href="index.php" class="boton-volver">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Volver al catálogo
+    </a>
+    
 
     <div class="ficha">
         <div class="poster">

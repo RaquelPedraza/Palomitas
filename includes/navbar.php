@@ -1,7 +1,7 @@
 <nav class="navbar">
     <div class="nav-izq" style="display: flex; align-items: center; gap: 20px;">
         <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
-            <img src="img/logo.png" alt="Logo Palomitas" style="height: 50px; margin-right: 10px;">
+            <img src="img/icono2.png" alt="Icono Palomitas" style="height: 50px; margin-right: 10px;">
         </a>
         <div class="enlaces">
             <?php $archivo_actual = basename($_SERVER['PHP_SELF']); ?>
