@@ -67,17 +67,23 @@ switch ($action) {
 
         // Eliminar relaciones
         $stmt = $pdo->prepare("
-            DELETE FROM lista_produccion
-            WHERE id_lista = ?
+            DELETE lp
+            FROM lista_produccion lp
+            INNER JOIN listas l 
+                ON l.id_lista = lp.id_lista
+            WHERE lp.id_lista = ? 
+            AND l.id_usuario = ?
         ");
-        $stmt->execute([$id_lista]);
+        $stmt->execute([$id_lista, $id_usuario]);
 
         // Eliminar lista
         $stmt = $pdo->prepare("
             DELETE FROM listas
-            WHERE id_lista = ? AND id_usuario = ?
+            WHERE id_lista = ? 
+            AND id_usuario = ?
         ");
         $stmt->execute([$id_lista, $id_usuario]);
+        
         echo json_encode(['ok' => true, 'action' => 'eliminado']);
         break;
     

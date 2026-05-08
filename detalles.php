@@ -142,14 +142,14 @@ $nombres_paises = [
                 <?= $peli['sinopsis'] ?>
             </p>
             
-                        
+            <!-- ACCIONEES DE USUARIO -->            
             <!-- CALIFICACIONES Y COMENTARIOS -->
             <div class="seccion-interactiva">
                 <?php if (isset($_SESSION['usuario_nombre'])): ?>
                     <div class="contenedor-formulario-resena"> 
                         <div class="acciones-usuario">
                             <!-- RATING -->
-                             <div class="btn-rating" onclick="abrirModal('modalRating')">
+                             <div class="iconos-accion btn-rating" onclick="abrirModal('modalRating')">
                                 <i class="fas fa-star"></i>
 
                                 <span class="texto-rating">
@@ -160,14 +160,35 @@ $nombres_paises = [
                                     <?php endif; ?>
                                 </span>
                             </div>
+                            
                             <!-- COMENTARIO -->
-                             <div class="btn-comentario" onclick="abrirModal('modalComentario')">
+                             <div class="iconos-accion btn-comentario" onclick="abrirModal('modalComentario')">
                                 <i class="fas fa-comment"></i>
                                 <span>Escribir reseña</span>
                             </div>
+
+                            <!-- FAVORITO Y LISTAS -->
+                            <button class="iconos-accion corazon-detalles" onclick="toggleFavorito(this, <?= $peli['id_produccion'] ?>)">
+                                <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
+                                <span>Añadir a favoritos</span>
+                            </button>
+
+                            <button class="iconos-accion btn-listas" onclick="toggleListas(<?= $id_pelicula ?>)">
+                                <i class="fas fa-plus"></i>
+                                <span>Añadir a lista</span>
+                            </button>
+
                         </div>
                     </div>               
                 <?php endif; ?>
+
+                
+                <div class="favorito-listas">
+                    
+                    
+                </div>
+
+                <div id="listasDropdown" class="dropdown-listas" style="display:none;"></div>
 
                 <!-- MODALES -->
                 <div id="modalRating" class="modal">
@@ -225,7 +246,7 @@ $nombres_paises = [
                                 class="titulo-resena"
                             >
 
-                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
+                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general"></textarea>
 
                             <button type="submit" class="btn-rojo">Publicar</button>
                         </form>
@@ -257,6 +278,9 @@ $nombres_paises = [
 
         </div>
     </div>
+    <div id="toast" class="toast"></div>
     <script src="js/modales.js"></script>
+    <script src="js/listas.js"></script>
+    <script src="js/favoritos.js"></script>
 </body>
 </html>

@@ -48,6 +48,7 @@ h1 {
   letter-spacing: 2px;
   margin-bottom: 20px;
 }
+
 .titulo-principal {
   margin-top: 2px;
   margin-bottom: 2px;
@@ -104,6 +105,7 @@ h2 {
   min-width: 220px;
   transition: border-color 0.3s ease;
 }
+
 .input-filtro:focus {
   outline: none;
   border-color: #e50914;
@@ -155,6 +157,7 @@ select.input-filtro option {
   .controles-principales {
     grid-template-columns: 1fr;
   }
+
   .btn-limpiar {
     align-self: stretch;
     text-align: center;
@@ -265,6 +268,7 @@ select.input-filtro option {
   align-items: center;
   gap: 8px;
 }
+
 .btn-ir {
   background: #e50914;
   color: white;
@@ -297,6 +301,7 @@ select.input-filtro option {
   padding: 10px 20px;
   border-radius: 5px;
 }
+
 .info-pag {
   color: #888;
 }
@@ -352,9 +357,11 @@ select.input-filtro option {
   border-radius: 10px;
   box-shadow: 0 0 15px var(--shadow-soft);
 }
+
 .datos {
   flex: 1;
 }
+
 .datos h1 {
   color: var(--primary);
   margin-top: 0;
@@ -366,6 +373,7 @@ select.input-filtro option {
   margin-bottom: 20px;
   font-size: 1.1em;
 }
+
 .sinopsis {
   line-height: 1.6;
   font-size: 1.1em;
@@ -411,8 +419,10 @@ select.input-filtro option {
   visibility: hidden;
   opacity: 0;
   width: auto;
-  white-space: nowrap; /* Para que no se parta el nombre en dos líneas */
-  background-color: #e50914; /* Tu rojo corporativo */
+  white-space: nowrap;
+  /* Para que no se parta el nombre en dos líneas */
+  background-color: #e50914;
+  /* Tu rojo corporativo */
   color: white;
   text-align: center;
   padding: 5px 10px;
@@ -424,10 +434,12 @@ select.input-filtro option {
   /* Posicionamiento */
   position: absolute;
   z-index: 100;
-  bottom: 125%; /* Aparece justo arriba de la etiqueta */
+  bottom: 125%;
+  /* Aparece justo arriba de la etiqueta */
   left: 50%;
   transform: translateX(-50%);
-  transition: opacity 0.3s ease; /* Efecto suave al aparecer */
+  transition: opacity 0.3s ease;
+  /* Efecto suave al aparecer */
 
   /* Sombrita para darle profundidad */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -486,6 +498,7 @@ select.input-filtro option {
   font-size: 1.2em;
   transition: color 0.3s;
 }
+
 .navbar .enlaces a:hover {
   color: var(--primary);
 }
@@ -520,7 +533,7 @@ select.input-filtro option {
 }
 
 .grupo-input input,
-.textarea-resena {
+.textarea-general {
   width: 100%;
   background: var(--bg-card);
   color: var(--text);
@@ -534,7 +547,7 @@ select.input-filtro option {
   border-color: var(--primary);
 }
 
-.textarea-resena {
+.textarea-general {
   margin-bottom: 10px;
   resize: none;
 }
@@ -544,7 +557,9 @@ select.input-filtro option {
   color: #e87c03;
   margin-top: 5px;
   font-size: 0.9em;
-} /* Naranja/rojo de alerta */
+}
+
+/* Naranja/rojo de alerta */
 .verde {
   color: #2ea32e;
   margin-top: 5px;
@@ -599,8 +614,8 @@ select.input-filtro option {
 }
 
 .rating label:hover,
-.rating label:hover ~ label,
-.rating input:checked ~ label {
+.rating label:hover~label,
+.rating input:checked~label {
   color: var(--accent);
 }
 
@@ -621,7 +636,7 @@ select.input-filtro option {
   box-sizing: border-box;
 }
 
-.textarea-resena {
+.textarea-general {
   width: 100%;
   background: #333;
   color: white;
@@ -649,7 +664,7 @@ select.input-filtro option {
 
 .titulo-comentario {
   width: 100%;
-  color: white ;
+  color: white;
   padding: 10px 0;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -691,6 +706,78 @@ select.input-filtro option {
   color: #888;
   text-align: center;
   padding: 20px;
+}
+
+/* ACCIONES DE USUARIO */
+.acciones-usuario {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+.acciones-usuario span {
+  display: block;
+  font-size: 18px;  
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.iconos-accion {
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.corazon-detalles {
+  color: #e50914;;
+}
+
+.btn-rating {
+  color: #f5b50a;
+}
+
+.btn-comentario {
+  color: white;
+}
+
+.btn-listas {
+  color: var(--text-muted);
+}
+
+.lista-item {
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.lista-item:hover {
+  background: #e50914;
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f1f1f;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
 }
 
 /* MODALES */
@@ -737,6 +824,14 @@ select.input-filtro option {
   position: relative;
   display: flex;
   align-items: center;
+}
+
+.carrusel a {
+  flex: 0 0 200px;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  box-sizing: border-box;
 }
 
 .carrusel {
@@ -800,13 +895,13 @@ select.input-filtro option {
   padding: 0;
 }
 
-.corazon i {
+.corazon i{
   transition:
     transform 0.15s ease,
     color 0.15s ease;
 }
 
-.corazon i.pop {
+.corazon i.pop{
   animation: pop 0.3s ease;
 }
 
@@ -814,12 +909,15 @@ select.input-filtro option {
   0% {
     transform: scale(1);
   }
+
   40% {
     transform: scale(1.4);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     transform: scale(1);
   }
@@ -864,4 +962,67 @@ select.input-filtro option {
 
 .reel p {
   font-size: large;
+}
+
+/* LISTAS */
+.listas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.lista-card {
+  width: 390px;
+  height: 220px;
+  background: var(--bg-card);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .2s;
+}
+
+.lista-card:hover {
+  transform: scale(1.05);
+  z-index: 2;
+  box-shadow: 0 0 15px var(--glow-primary);
+}
+
+.lista-card a {
+  color: white;
+  text-decoration: none;
+}
+
+.lista-media {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+}
+
+.lista-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lista-info {
+  padding: 15px;
+}
+
+.lista-titulo {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.lista-desc {
+  font-size: 12px;
+  opacity: .7;
+}
+
+.crear-lista-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

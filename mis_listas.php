@@ -59,7 +59,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include 'includes/navbar.php'; ?>
     
     <!-- FAVORITOS -->
-    <h1>Favoritos</h1>
+    <h2>Favoritos</h2>
 
     <?php if (count($favoritos) === 0): ?>
         <p class="nada">
@@ -111,73 +111,70 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <!-- LISTAS -->
-    <h1>Mis listas</h1>
+    <h2>Mis listas</h2>
 
-    <!-- Crear lista -->
-    <form id="formCrearLista" class="crear-lista">
-        <input type="text" name="nombre_lista" placeholder="Nombre de la lista" required>
-
-        <!-- visibilidad -->
-        <label><input type="radio" name="visibilidad" value="publica" checked> Pública</label>
-        <label><input type="radio" name="visibilidad" value="privada"> Privada</label>
-
-        <button type="submit">Crear lista</button>
-    </form>
-
-    <?php foreach ($listas as $lista): ?>
-
-        <div class="lista">
-
-            <!-- indicador de visibilidad -->
-            <h2>
-                <?= htmlspecialchars($lista['nombre_lista']) ?>
-                <?= $lista['visibilidad'] === 'publica' ? '🌍' : '🔒' ?>
-            </h2>
-
-            <!--  descripción opcional -->
-            <p><?= htmlspecialchars($lista['descripcion']) ?></p>
-
-            <?php
-            // películas dentro de la lista
-            $stmt = $pdo->prepare("
-                SELECT p.*
-                FROM producciones p
-                INNER JOIN lista_produccion lp
-                    ON p.id_produccion = lp.id_produccion
-                WHERE lp.id_lista = ?
-            ");
-
-            $stmt->execute([$lista['id_lista']]);
-            $pelis_lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            ?>
-
-            <div class="galeria">
-
-            <?php foreach ($pelis_lista as $peli): ?>
-                <div class="tarjeta">
-
-                    <img 
-                        src="<?= htmlspecialchars($peli['portada'] ?: 'img/no-poster.png') ?>"
-                        alt="<?= htmlspecialchars($peli['titulo']) ?>"
-                    >
-
-                    <div class="titulo"><?= $peli['titulo'] ?></div>
-
-                </div>
-            <?php endforeach; ?>
-
+    <div class="listas">
+        <!-- Crear listas -->
+        <div class="lista-card crear-lista-btn" onclick="abrirModal('modalCrearListas')">
+            <div class="lista-media plus">
+                <i class="fa-solid fa-plus"></i>
             </div>
-
-            <!-- acciones CRUD futuras -->
-            <?php if ($lista['id_usuario'] == $id_usuario): ?>
-                <button>Editar</button>
-                <button>Eliminar</button>
-            <?php endif; ?>
-
+            <div class="lista-info">
+                <div class="lista-titulo">Crear lista</div>
+            </div>
         </div>
 
-    <?php endforeach; ?>
+        <div id="modalCrearListas" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar" onclick="cerrarModal('modalCrearListas')">&times;</span>
+                <h2>Crear nueva lista</h2>
+                <form id="formCrearLista">
+                        <input type="text" name="nombre_lista" placeholder="Nombre de la lista" required>
+                        <textarea name="descripcion" rows="4" placeholder="Descripción" class="textarea-general"></textarea>
+                        <input type="radio" name="visibilidad" value="publica" checked>
+                        <input type="radio" name="visibilidad" value="privada">
+                        <button type="submit" class="btn-rojo">Crear lista</button>                                  
+                </form>
+            </div> 
+        </div>
 
+        <?php foreach ($listas as $lista): ?>
+            <!-- Consulta para obtener las portadas de las primeras 4 producciones de cada lista -->
+            
+            <?php
+                $stmt = $pdo->prepare("
+                    SELECT p.portada
+                    FROM lista_produccion lp
+                    INNER JOIN producciones p 
+                        ON p.id_produccion = lp.id_produccion
+                    WHERE lp.id_lista = ?
+                    LIMIT 4
+                ");
+                $stmt->execute([$lista['id_lista']]);
+                $pelis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            ?>
+
+            <div class="lista-card">
+                 <a href="ver_lista.php?id=<?= $lista['id_lista'] ?>">
+                    <div class="lista-media">
+                        <?php foreach ($pelis as $peli): ?>
+                            <img src="<?= $peli['portada'] ?? 'img/no-poster.png' ?>" alt="Portada de la película">
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="lista-info">
+                        <div class="lista-titulo"><?= htmlspecialchars($lista['nombre_lista']) ?></div>
+                        <?php if ($lista['visibilidad'] === 'publica'): ?>
+                            <i class="fa-solid fa-earth-americas"></i>
+                        <?php else: ?>
+                            <i class="fa-solid fa-lock"></i>
+                        <?php endif; ?>
+                    </div>
+                </a>
+            </div>
+        <?php endforeach; ?>
+
+    </div>
+    <script src="js/modales.js"></script>          
     <script>
         function scrollCarrusel(id, valor) {
             const carrusel = document.getElementById(id);
