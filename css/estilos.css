@@ -35,6 +35,7 @@ body {
 .logo-principal {
   display: block;
   margin: 0 auto;
+  width: 10rem;
 }
 
 /* ESTILOS PARA EL TÍTULO */
@@ -48,6 +49,7 @@ h1 {
   letter-spacing: 2px;
   margin-bottom: 20px;
 }
+
 .titulo-principal {
   margin-top: 2px;
   margin-bottom: 2px;
@@ -62,7 +64,21 @@ h1 {
   font-weight: 400;
   color: var(--text);
 }
-
+.titulo-seccion {
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding-left: 15px;
+  border-left: 5px solid #dc3545;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(220, 53, 69, 0.1) 0%,
+    transparent 50%
+  );
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 h2 {
   color: var(--text);
   background-color: var(--bg-card);
@@ -104,6 +120,7 @@ h2 {
   min-width: 220px;
   transition: border-color 0.3s ease;
 }
+
 .input-filtro:focus {
   outline: none;
   border-color: #e50914;
@@ -155,6 +172,7 @@ select.input-filtro option {
   .controles-principales {
     grid-template-columns: 1fr;
   }
+
   .btn-limpiar {
     align-self: stretch;
     text-align: center;
@@ -265,6 +283,7 @@ select.input-filtro option {
   align-items: center;
   gap: 8px;
 }
+
 .btn-ir {
   background: #e50914;
   color: white;
@@ -297,6 +316,7 @@ select.input-filtro option {
   padding: 10px 20px;
   border-radius: 5px;
 }
+
 .info-pag {
   color: #888;
 }
@@ -324,17 +344,42 @@ select.input-filtro option {
 }
 
 /*---- SECCIÓN DE DETALLES ----*/
+/* El contenedor del enlace */
 .boton-volver {
+  display: inline-flex; /* Esto pone la flecha y el texto en la misma línea */
+  align-items: center; /* ESTA es la magia: los centra verticalmente de forma perfecta */
+  gap: 8px; /* Separación exacta entre la flecha y el texto */
+  margin-left: 100px;
+  text-decoration: none; /* Por si acaso te sale subrayado */
+  color: #ccc;
+  /* ... mantén aquí el color o fuente que ya le tuvieras puesto ... */
+}
+
+/* Controlar el tamaño exacto del SVG */
+.boton-volver svg {
+  width: 18px; /* Reducimos el tamaño (antes era 24) */
+  height: 18px; /* Reducimos el tamaño */
+  transition: transform 0.3s ease; /* Para la animación suave */
+}
+
+/* El toque de calidad al pasar el ratón */
+.boton-volver:hover svg {
+  transform: translateX(-4px); /* La flecha se mueve un pelín a la izquierda */
+  color: var(--text);
+}
+/* .boton-volver {
   display: inline-block;
   margin-bottom: 20px;
   color: #ccc;
   text-decoration: none;
   font-weight: bold;
+  transition: transform 0.3s ease;
 }
 
 .boton-volver:hover {
   color: var(--text);
-}
+  transform: translateX(-5px);
+} */
 
 .ficha {
   display: flex;
@@ -353,6 +398,10 @@ select.input-filtro option {
   box-shadow: 0 0 15px var(--shadow-soft);
 }
 
+.datos {
+  flex: 1;
+}
+
 .datos h1 {
   color: var(--primary);
   margin-top: 0;
@@ -364,6 +413,7 @@ select.input-filtro option {
   margin-bottom: 20px;
   font-size: 1.1em;
 }
+
 .sinopsis {
   line-height: 1.6;
   font-size: 1.1em;
@@ -409,8 +459,10 @@ select.input-filtro option {
   visibility: hidden;
   opacity: 0;
   width: auto;
-  white-space: nowrap; /* Para que no se parta el nombre en dos líneas */
-  background-color: #e50914; /* Tu rojo corporativo */
+  white-space: nowrap;
+  /* Para que no se parta el nombre en dos líneas */
+  background-color: #e50914;
+  /* Tu rojo corporativo */
   color: white;
   text-align: center;
   padding: 5px 10px;
@@ -422,10 +474,12 @@ select.input-filtro option {
   /* Posicionamiento */
   position: absolute;
   z-index: 100;
-  bottom: 125%; /* Aparece justo arriba de la etiqueta */
+  bottom: 125%;
+  /* Aparece justo arriba de la etiqueta */
   left: 50%;
   transform: translateX(-50%);
-  transition: opacity 0.3s ease; /* Efecto suave al aparecer */
+  transition: opacity 0.3s ease;
+  /* Efecto suave al aparecer */
 
   /* Sombrita para darle profundidad */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -484,6 +538,7 @@ select.input-filtro option {
   font-size: 1.2em;
   transition: color 0.3s;
 }
+
 .navbar .enlaces a:hover {
   color: var(--primary);
 }
@@ -518,7 +573,7 @@ select.input-filtro option {
 }
 
 .grupo-input input,
-.textarea-resena {
+.textarea-general {
   width: 100%;
   background: var(--bg-card);
   color: var(--text);
@@ -532,7 +587,7 @@ select.input-filtro option {
   border-color: var(--primary);
 }
 
-.textarea-resena {
+.textarea-general {
   margin-bottom: 10px;
   resize: none;
 }
@@ -542,7 +597,9 @@ select.input-filtro option {
   color: #e87c03;
   margin-top: 5px;
   font-size: 0.9em;
-} /* Naranja/rojo de alerta */
+}
+
+/* Naranja/rojo de alerta */
 .verde {
   color: #2ea32e;
   margin-top: 5px;
@@ -619,7 +676,7 @@ select.input-filtro option {
   box-sizing: border-box;
 }
 
-.textarea-resena {
+.textarea-general {
   width: 100%;
   background: #333;
   color: white;
@@ -647,7 +704,7 @@ select.input-filtro option {
 
 .titulo-comentario {
   width: 100%;
-  color: white ;
+  color: white;
   padding: 10px 0;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -691,6 +748,78 @@ select.input-filtro option {
   padding: 20px;
 }
 
+/* ACCIONES DE USUARIO */
+.acciones-usuario {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+.acciones-usuario span {
+  display: block;
+  font-size: 18px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.iconos-accion {
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.corazon-detalles {
+  color: #e50914;
+}
+
+.btn-rating {
+  color: #f5b50a;
+}
+
+.btn-comentario {
+  color: white;
+}
+
+.btn-listas {
+  color: var(--text-muted);
+}
+
+.lista-item {
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.lista-item:hover {
+  background: #e50914;
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f1f1f;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
 /* MODALES */
 .modal {
   display: none;
@@ -731,23 +860,65 @@ select.input-filtro option {
 }
 
 /*CARRUSEL*/
-.top10 {
+.carrusel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carrusel a {
+  flex: 0 0 200px;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  box-sizing: border-box;
+}
+
+.carrusel {
   display: flex;
   gap: 15px;
   overflow-x: auto;
   padding: 20px;
-  /*   background-color: var(--bg-card);
- */
   scroll-behavior: smooth;
+  width: 100%;
 }
 
-.top10::-webkit-scrollbar {
+.carrusel::-webkit-scrollbar {
   display: none;
 }
 
-.top10 .tarjeta {
+.carrusel .tarjeta {
   min-width: 180px;
   flex-shrink: 0;
+}
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flecha:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.flecha.izquierda {
+  left: 5px;
+}
+
+.flecha.derecha {
+  right: 5px;
 }
 
 /* FAVORITOS */
@@ -778,12 +949,15 @@ select.input-filtro option {
   0% {
     transform: scale(1);
   }
+
   40% {
     transform: scale(1.4);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     transform: scale(1);
   }
@@ -828,4 +1002,67 @@ select.input-filtro option {
 
 .reel p {
   font-size: large;
+}
+
+/* LISTAS */
+.listas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.lista-card {
+  width: 390px;
+  height: 220px;
+  background: var(--bg-card);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.lista-card:hover {
+  transform: scale(1.05);
+  z-index: 2;
+  box-shadow: 0 0 15px var(--glow-primary);
+}
+
+.lista-card a {
+  color: white;
+  text-decoration: none;
+}
+
+.lista-media {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+}
+
+.lista-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lista-info {
+  padding: 15px;
+}
+
+.lista-titulo {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.lista-desc {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.crear-lista-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

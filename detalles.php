@@ -10,6 +10,7 @@ if (!isset($_GET['id'])) {
     header('Location: index.php');
     exit;
 }
+
 $id_pelicula = $_GET['id'];
 
 // CONEXIÓN (secrets.php)
@@ -32,6 +33,7 @@ try {
 
     // NOTA DEL USUARIO
     $notaUsuario = null;
+    $esFav = false;
 
     if (isset($_SESSION['usuario_id'])) {
     $stmtUser = $pdo->prepare("
@@ -46,7 +48,17 @@ try {
     if ($datoUser) {
         $notaUsuario = $datoUser['puntuacion'];
     }
-}
+
+    if (isset($_SESSION['usuario_id']) && isset($peli['id_produccion'])) {
+        $sql_fav = "SELECT 1 FROM favoritos WHERE id_usuario = ? AND id_produccion = ?";
+        $stmt_fav = $pdo->prepare($sql_fav);
+        $stmt_fav->execute([$_SESSION['usuario_id'], $peli['id_produccion']]);
+        
+        if ($stmt_fav->fetchColumn()) {
+            $esFav = true;
+        }
+    }
+    }
 
     //CALIFICACIÓN
     $stmtMedia = $pdo->prepare("SELECT AVG(puntuacion) as media FROM resenas WHERE id_produccion = ?");
@@ -97,8 +109,13 @@ $nombres_paises = [
     <!-- NAVABAR -->
     <?php include 'includes/navbar.php'; ?>
 
-    <a href="javascript:history.back()" class="boton-volver">
-    ⬅ Volver al catálogo </a>
+    <a href="index.php" class="boton-volver">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Volver al catálogo
+    </a>
+    
 
     <div class="ficha">
         <div class="poster">
@@ -142,14 +159,14 @@ $nombres_paises = [
                 <?= $peli['sinopsis'] ?>
             </p>
             
-                        
+            <!-- ACCIONEES DE USUARIO -->            
             <!-- CALIFICACIONES Y COMENTARIOS -->
             <div class="seccion-interactiva">
                 <?php if (isset($_SESSION['usuario_nombre'])): ?>
                     <div class="contenedor-formulario-resena"> 
                         <div class="acciones-usuario">
                             <!-- RATING -->
-                             <div class="btn-rating" onclick="abrirModal('modalRating')">
+                             <div class="iconos-accion btn-rating" onclick="abrirModal('modalRating')">
                                 <i class="fas fa-star"></i>
 
                                 <span class="texto-rating">
@@ -160,14 +177,35 @@ $nombres_paises = [
                                     <?php endif; ?>
                                 </span>
                             </div>
+                            
                             <!-- COMENTARIO -->
-                             <div class="btn-comentario" onclick="abrirModal('modalComentario')">
+                             <div class="iconos-accion btn-comentario" onclick="abrirModal('modalComentario')">
                                 <i class="fas fa-comment"></i>
                                 <span>Escribir reseña</span>
                             </div>
+
+                            <!-- FAVORITO Y LISTAS -->
+                            <button class="iconos-accion corazon-detalles" onclick="toggleFavorito(this, <?= $peli['id_produccion'] ?>)">
+                                <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
+                                <span>Añadir a favoritos</span>
+                            </button>
+
+                            <button class="iconos-accion btn-listas" onclick="toggleListas(<?= $id_pelicula ?>)">
+                                <i class="fas fa-plus"></i>
+                                <span>Añadir a lista</span>
+                            </button>
+
                         </div>
                     </div>               
                 <?php endif; ?>
+
+                
+                <div class="favorito-listas">
+                    
+                    
+                </div>
+
+                <div id="listasDropdown" class="dropdown-listas" style="display:none;"></div>
 
                 <!-- MODALES -->
                 <div id="modalRating" class="modal">
@@ -225,7 +263,7 @@ $nombres_paises = [
                                 class="titulo-resena"
                             >
 
-                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-resena"></textarea>
+                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general"></textarea>
 
                             <button type="submit" class="btn-rojo">Publicar</button>
                         </form>
@@ -257,6 +295,9 @@ $nombres_paises = [
 
         </div>
     </div>
+    <div id="toast" class="toast"></div>
     <script src="js/modales.js"></script>
+    <script src="js/listas.js"></script>
+    <script src="js/favoritos.js"></script>
 </body>
 </html>

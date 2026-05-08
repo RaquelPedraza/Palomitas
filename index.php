@@ -145,7 +145,7 @@ if ($id_usuario) {
 <head>
     <meta charset="UTF-8">
     <title>Palomitas | Pág <?= $pagina_actual ?></title>
-    <link rel="stylesheet" href= "css/estilos.css?v=7"></link>
+    <link rel="stylesheet" href= "css/estilos.css?v=6"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </head>
@@ -155,38 +155,47 @@ if ($id_usuario) {
     <?php include 'includes/navbar.php'; ?>
                    
     <!-- TÍTULO PRINCIPAL --> 
-    <img class="logo-principal" src="img/icono.png" alt="Icono Palomitas">
+    <img class="logo-principal" src="img/icono2.png" alt="Icono Palomitas">
     <h1 class="titulo-principal">PALOMITAS</h1>
     <div class = "eslogan-sitio">Tu Catálogo Hispano</div>     
 
     <!-- TOP 10 -->
-     <h2>Top 10 mejor valoradas</h2>
+    <h2 class="titulo-seccion">Top 10 mejor valoradas</h2>
 
-    <div class="top10">
-        <?php foreach ($top_pelis as $peli): ?>
-            <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
-                <div class="tarjeta">
-                    <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
-                    <div class="info">
-                        <div class="titulo"><?= $peli['titulo'] ?></div>
-                        <div class="estrellas">
-                            <i class="fas fa-star"></i>
-                            <span class="nota-media">
-                                <?= number_format($peli['media'], 1) ?>
-                            </span>
+    <div class="carrusel-wrapper">
+        <button class="flecha izquierda" onclick="scrollCarrusel(-300)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="carrusel top10" id="carrusel">
+            <?php foreach ($top_pelis as $peli): ?>
+                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                    <div class="tarjeta">
+                        <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
+                        <div class="info">
+                            <div class="titulo"><?= $peli['titulo'] ?></div>
+                            <div class="estrellas">
+                                <i class="fas fa-star"></i>
+                                <span class="nota-media">
+                                    <?= number_format($peli['media'], 1) ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        <?php endforeach; ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
 
+        <button class="flecha derecha" onclick="scrollCarrusel(300)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
     </div>
 
     <!-- CATÁLOGO -->
 
-    <h2> Catálogo</h2>            
+    <h2 class="titulo-seccion"> Catálogo</h2>            
     <section class="barra-filtros" id="filtrar">
-    <form action="index.php" method="GET" class="formulario-busqueda">
+        <form action="index.php#galeria" method="GET" class="formulario-busqueda">
         <div class="controles-principales">
             <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
             
@@ -202,7 +211,7 @@ if ($id_usuario) {
             <button type="submit" class="btn-filtrar">Filtrar</button>
         </div>
 
-        <a href="index.php" class="btn-limpiar">Limpiar filtros</a>
+        <a href="index.php#filtrar" class="btn-limpiar">Limpiar filtros</a>
     </form>
 </section>
 
@@ -211,7 +220,7 @@ if ($id_usuario) {
     <?php endif; ?>
 
     <!-- GALERIA -->
-    <div class="galeria">
+    <div class="galeria" id="galeria">
         <?php foreach ($peliculas as $peli): ?>
 
             <?php 
@@ -305,5 +314,14 @@ if ($id_usuario) {
         </div>
     </div>
     <script src="js/favoritos.js"></script>
+    <script>
+        function scrollCarrusel(valor) {
+            const carrusel = document.getElementById('carrusel');
+            carrusel.scrollBy({
+                left: valor,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>

@@ -22,31 +22,125 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+
+    //AVATAR 
+   $avatar = 'img/default-avatar.png';
+
+    if (!empty($_FILES['avatar']['name'])) {
+        $archivo = $_FILES['avatar'];
+
+        // Tipos MIME permitidos
+        $tiposPermitidos = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+        //Extensiones permitidas
+        $extensionesPermitidas = [
+            'jpg',
+            'jpeg',
+            'png',
+            'webp'
+        ];
+
+        //Peso máximo 2MB   
+        $maxPeso = 2 * 1024 * 1024;
+
+        // Obtener extensión del archivo
+        $extension = strtolower(
+            pathinfo($archivo['name'], PATHINFO_EXTENSION)
+        );
+
+        // Validar que el archivo sea una imagen real
+        $esImagenReal = getimagesize($archivo['tmp_name']);
+        if (!$esImagenReal) {
+            $mensaje_servidor =
+                "<p class='rojo'>El archivo no es una imagen válida.</p>";
+
+        }
+
+        //Validar tipo MIME
+        elseif (!in_array($archivo['type'], $tiposPermitidos)) {
+            $mensaje_servidor =
+                "<p class='rojo'>Formato no permitido. Usa JPG, PNG o WEBP.</p>";
+
+        }
+
+        // Validar extensión
+        elseif (!in_array($extension, $extensionesPermitidas)) {
+            $mensaje_servidor =
+                "<p class='rojo'>Extensión no permitida.</p>";
+        }
+
+        // Validar peso
+        elseif ($archivo['size'] > $maxPeso) {
+            $mensaje_servidor =
+                "<p class='rojo'>La imagen supera el máximo de 2MB.</p>";
+        }
+
+        else {
+            // Validar dimensiones
+            $dimensiones = getimagesize($archivo['tmp_name']);
+
+            $ancho = $dimensiones[0];
+            $alto = $dimensiones[1];
+
+            if ($ancho > 1000 || $alto > 1000) {
+                $mensaje_servidor =
+                    "<p class='rojo'>La imagen es demasiado grande. Máximo 1000x1000.</p>";
+            } else {
+
+                //Nombre único
+                $nombreArchivo = uniqid() . "." . $extension;
+                $rutaDestino = "img/avatares/" . $nombreArchivo;
+                if (move_uploaded_file($archivo['tmp_name'], $rutaDestino)) {
+                    $avatar = $rutaDestino;
+                } else {
+                    $mensaje_servidor =
+                        "<p class='rojo'>Error al subir la imagen.</p>";
+                }
+            }
+        }
+    }
+
     // VALIDACIÓN DE CONTRASEÑA
         if (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $password)) {
             $mensaje_servidor = "<p class='rojo'>La contraseña debe tener mínimo 8 caracteres, una mayúscula y un número.</p>";
         } else {
 
-    // 1. Comprobar si el usuario ya existe (por si no usaron el botón AJAX)
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE nombre = ? OR email = ?");
-    $stmt->execute([$nombre, $email]);
-    
-    if ($stmt->fetch()) {
-        $mensaje_servidor = "<p class='rojo'>Error: El usuario o email ya están registrados.</p>";
-    } else {
-        // 2. Encriptar la contraseña 
-        $hash_password = password_hash($password, PASSWORD_DEFAULT);
-        
-        // 3. Insertar en la Base de Datos
-        $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'usuario')");
-        if ($stmt->execute([$nombre, $email, $hash_password])) {
-            $mensaje_servidor = "<p class='verde'>¡Registro exitoso! Ya puedes iniciar sesión.</p>";
-            @mail($email, "Bienvenido a Palomitas", "Hola $nombre, gracias por registrarte en Palomitas");
+    // 1. Comprobar si el usuario ya existe
+        $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE nombre = ? OR email = ?");
+        $stmt->execute([$nombre, $email]);
+
+        if ($stmt->fetch()) {
+
+            $mensaje_servidor = "<p class='rojo'>Error: El usuario o email ya están registrados.</p>";
+
+        } else {
+
+            // 2. Encriptar la contraseña
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // 3. Insertar usuario
+            $stmt = $pdo->prepare("
+                INSERT INTO usuarios
+                (nombre, email, password, rol, avatar)
+                VALUES (?, ?, ?, 'usuario', ?)
+            ");
+
+            if ($stmt->execute([$nombre, $email, $hash_password, $avatar])) {
+
+                $mensaje_servidor = "<p class='verde'>¡Registro exitoso! Ya puedes iniciar sesión.</p>";
+
+                @mail(
+                    $email,
+                    "Bienvenido a Palomitas",
+                    "Hola $nombre, gracias por registrarte en Palomitas"
+                );
+            }
         }
-        }
-    }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -91,7 +185,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="grupo-input">
                 <input type="password" name="password" placeholder="Contraseña" required>
             </div>
-            
+            <div class="grupo-input">
+                <input type="file" name="avatar" id="avatar" accept="image/*">
+            </div>
+
             <button type="submit" class="btn-rojo">Registrarse</button>
         </form>
     </div>
