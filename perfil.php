@@ -3,7 +3,7 @@ session_start();
 require_once 'includes/functions.php';
 require_once 'config/secrets.php';
 
-$pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
+$pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
 
 $id_usuario = $_GET['id'] ?? $_SESSION['usuario_id'] ?? null;
 
@@ -51,6 +51,16 @@ ORDER BY c.fecha_subida DESC
 ");
 $stmt->execute([$id_usuario]);
 $clips = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+/* LÓGICA DE SEGUIMIENTO */
+$es_mi_perfil = (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $id_usuario);
+$ya_le_sigo = false;
+
+if (isset($_SESSION['usuario_id']) && !$es_mi_perfil) {
+    $check = $pdo->prepare("SELECT 1 FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
+    $check->execute([$_SESSION['usuario_id'], $id_usuario]);
+    $ya_le_sigo = $check->fetchColumn();
+}
 ?>
 
 <!DOCTYPE html>
@@ -75,11 +85,30 @@ $clips = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- SIDEBAR -->
     <aside class="perfil-sidebar">
 
+    <?php if (isset($_SESSION['usuario_id']) && !$es_mi_perfil): ?>
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="seguir.php?id=<?= $id_usuario ?>&accion=<?= $ya_le_sigo ? 'unfollow' : 'follow' ?>" 
+                   style="display: block; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; 
+                          <?= $ya_le_sigo ? 'background-color: transparent; border: 1px solid white; color: white;' : 'background-color: #e50914; color: white;' ?>">
+                    <?= $ya_le_sigo ? 'Dejar de seguir' : 'Seguir' ?>
+                </a>
+            </div>
+        <?php endif; ?>
+
         <div class="perfil-avatar">
             <img src="<?= $usuario['avatar'] ?? 'img/default.png' ?>">
         </div>
 
         <h2><?= htmlspecialchars($usuario['nombre']) ?></h2>
+
+        <?php if ($es_mi_perfil): ?>
+            <div style="margin-top: 10px; margin-bottom: 20px;">
+                <a href="editar_usuario.php?id=<?= $_SESSION['usuario_id'] ?>" 
+                style="color: #aaa; text-decoration: underline; font-size: 0.9em;">
+                <i class="fa-solid fa-pen"></i> Editar mis datos
+                </a>
+            </div>
+        <?php endif; ?>
 
         <div class="perfil-stats">
             <div><strong><?= $seguidores ?></strong> Seguidores</div>

@@ -3,8 +3,6 @@
 session_start();
 require_once 'config/secrets.php';
 
-$pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
-
 $error = "";
 
 // Conexión a la BD
@@ -139,6 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 );
             }
         }
+      
+        }  
+    }
 ?>
 
 <!DOCTYPE html>
@@ -172,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <?= $mensaje_servidor ?>
 
-        <form method="POST" action="registro.php">
+        <form method="POST" action="registro.php" enctype="multipart/form-data">
             <div class="grupo-input ajax-check">
                 <input type="text" id="usuario" name="nombre" placeholder="Nombre de usuario" required>
                 <button type="button" id="btnComprobar">Comprobar</button>

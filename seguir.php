@@ -6,9 +6,7 @@ require_once 'config/secrets.php';
 try {
 
 $pdo = new PDO(
-    "mysql:host=$host;dbname=$db;charset=utf8mb4",
-    $user,
-    $pass
+    "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4"
 );
 
 } catch (PDOException $e) {
@@ -53,9 +51,7 @@ if ($mi_id == $id_perfil) {
 
 try {
 
-    /*
-    
-    | SEGUIR
+    /*SEGUIR
     */
 
     if ($accion === 'follow') {
