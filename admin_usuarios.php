@@ -48,6 +48,45 @@ $usuarios = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <title>Admin Usuarios</title>
+    <link rel="stylesheet" href="css/estilos.css?v=5">
+
+    <style>
+
+    body{
+        background:#141414;
+        color:white;
+        font-family:Arial;
+        padding:40px;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:30px;
+        background:#1f1f1f;
+    }
+
+    th, td{
+        padding:15px;
+        border:1px solid #333;
+        text-align:center;
+    }
+
+    th{
+        background:#e50914;
+    }
+
+    a{
+        color:#ff4b4b;
+        text-decoration:none;
+        margin:0 5px;
+    }
+
+    a:hover{
+        text-decoration:underline;
+    }
+
+    </style>
 </head>
 <body>
 
