@@ -96,7 +96,11 @@
             <?php endif; ?>
 
             <div class="perfil-avatar">
+<<<<<<< HEAD
                 <img src="<?= $usuario['avatar'] ?? 'img/default-avatar.png' ?>">
+=======
+                <img src="<?= $usuario['avatar'] ?? 'img/default.png' ?>">
+>>>>>>> bf0f6329156a7e6cf4a3a7bf72f62c54ae390560
             </div>
 
             <h2><?= htmlspecialchars($usuario['nombre']) ?></h2>
@@ -173,6 +177,7 @@
                     <div class="resena-detalle">
 
                         <div class="resena-acciones" onclick="event.stopPropagation()">
+<<<<<<< HEAD
                             <!-- EDITAR RESEÑA -->
                             <button class="btn-editar" onclick="abrirModalEditar(<?= $r['id_resena'] ?>)" title="Editar reseña">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -181,6 +186,20 @@
                             <button type="button" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
+=======
+
+                            <a href="editar_resena.php?id=<?= $r['id_resena'] ?>">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+
+                            <form method="POST" action="eliminar_resena.php">
+                                <input type="hidden" name="id_resena" value="<?= $r['id_resena'] ?>">
+                                <button type="submit">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+
+>>>>>>> bf0f6329156a7e6cf4a3a7bf72f62c54ae390560
                         </div>
                         
                         <div class="resena-rating">
@@ -279,5 +298,6 @@
     
     <script src="js/modales.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>
