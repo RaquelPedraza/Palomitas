@@ -78,14 +78,22 @@ h1 {
   );
   padding-top: 5px;
   padding-bottom: 5px;
+  margin-top: 50px;
 }
+
+.titulo-modal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 h2 {
   color: var(--text);
   background-color: var(--bg-card);
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
   padding: 10px;
-  margin-top: 50px;
 }
 
 /*FORMULARIO DE BÚSQUEDA Y FILTROS*/
@@ -494,7 +502,7 @@ select.input-filtro option {
   padding: 0 20px;
   min-height: 70px;
   box-shadow: 0 4px 10px var(--shadow-dark);
-  position: relative; /* Clave para el menú flotante en móvil */
+  position: relative; 
 }
 
 /* Logo */
@@ -924,7 +932,7 @@ select.input-filtro option {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
@@ -941,7 +949,7 @@ select.input-filtro option {
   border-radius: 10px;
   width: 400px;
   max-width: 90%;
-
+  z-index: 10000;
   position: relative;
   color: white;
 }
@@ -1141,9 +1149,8 @@ select.input-filtro option {
 
 /* LISTAS */
 .listas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
