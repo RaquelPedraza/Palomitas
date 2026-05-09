@@ -355,31 +355,16 @@ select.input-filtro option {
   /* ... mantén aquí el color o fuente que ya le tuvieras puesto ... */
 }
 
-/* Controlar el tamaño exacto del SVG */
 .boton-volver svg {
-  width: 18px; /* Reducimos el tamaño (antes era 24) */
-  height: 18px; /* Reducimos el tamaño */
-  transition: transform 0.3s ease; /* Para la animación suave */
-}
-
-/* El toque de calidad al pasar el ratón */
-.boton-volver:hover svg {
-  transform: translateX(-4px); /* La flecha se mueve un pelín a la izquierda */
-  color: var(--text);
-}
-/* .boton-volver {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: #ccc;
-  text-decoration: none;
-  font-weight: bold;
+  width: 18px;
+  height: 18px;
   transition: transform 0.3s ease;
 }
 
-.boton-volver:hover {
+.boton-volver:hover svg {
+  transform: translateX(-4px); /* La flecha se mueve un poco a la izquierda */
   color: var(--text);
-  transform: translateX(-5px);
-} */
+}
 
 .ficha {
   display: flex;
@@ -454,16 +439,15 @@ select.input-filtro option {
   display: inline-block;
 }
 
-/* Estilo del flotante (el que queremos que sea igual a la etiqueta) */
+/* Estilo del flotante  */
 .tooltip-personalizado {
   visibility: hidden;
   opacity: 0;
   width: auto;
   white-space: nowrap;
   /* Para que no se parta el nombre en dos líneas */
-  background-color: #e50914;
-  /* Tu rojo corporativo */
-  color: white;
+  background-color: var(--primary);
+  color: var(--text);
   text-align: center;
   padding: 5px 10px;
   border-radius: 4px;
@@ -471,7 +455,6 @@ select.input-filtro option {
   font-size: 0.85em;
   text-transform: uppercase;
 
-  /* Posicionamiento */
   position: absolute;
   z-index: 100;
   bottom: 125%;
@@ -479,13 +462,11 @@ select.input-filtro option {
   left: 50%;
   transform: translateX(-50%);
   transition: opacity 0.3s ease;
-  /* Efecto suave al aparecer */
 
-  /* Sombrita para darle profundidad */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* La flechita de abajo del tooltip */
+/* La flechita debajo del tooltip */
 .tooltip-personalizado::after {
   content: "";
   position: absolute;
@@ -494,53 +475,172 @@ select.input-filtro option {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #e50914 transparent transparent transparent;
+  border-color: var(--primary) transparent transparent transparent;
 }
 
-/* Mostrar al pasar el ratón */
 .contenedor-tooltip:hover .tooltip-personalizado {
   visibility: visible;
   opacity: 1;
 }
 
-/* --- NAVEGACIÓN (NAVBAR) --- */
-
+/* --- NAVBAR BASE --- */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   background: var(--bg-dark);
   margin-bottom: 50px;
+  padding: 0 20px;
+  min-height: 70px;
   box-shadow: 0 4px 10px var(--shadow-dark);
+  position: relative; /* Clave para el menú flotante en móvil */
 }
 
+/* Logo */
 .navbar .logo {
   color: var(--primary);
   font-size: 1.8em;
   font-weight: bold;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
-.navbar .enlaces a {
-  color: var(--text);
+/* Enlaces base */
+.navbar a {
   text-decoration: none;
-  letter-spacing: -0.2px;
-  margin-left: 10px;
-  font-size: 1.2em;
   transition: color 0.3s;
 }
-
-.navbar .enlaces-usuario a {
+.menu-colapsable a {
   color: var(--text);
-  text-decoration: none;
   letter-spacing: -0.2px;
-  margin-left: 10px;
-  font-size: 1.2em;
-  transition: color 0.3s;
+  font-size: 1.1em;
 }
-
-.navbar .enlaces a:hover {
+.menu-colapsable a:hover {
   color: var(--primary);
+}
+
+/* Hamburguesa (Oculta por defecto) */
+.hamburguesa-custom {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ESCRITORIO Y TABLET (> 768px) */
+@media (min-width: 769px) {
+  .menu-colapsable {
+    display: flex;
+    flex: 1; /* Estira la caja */
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 30px;
+  }
+
+  /* Dividimos en 3 partes */
+  .nav-izq,
+  .nav-centro,
+  .enlaces-usuario {
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+
+  .nav-izq {
+    justify-content: flex-start;
+  }
+  .nav-centro {
+    justify-content: center;
+  }
+  .enlaces-usuario {
+    justify-content: flex-end;
+    gap: 15px;
+  }
+
+  .enlaces {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+}
+
+/* TABLET ESPECÍFICO (Grid de 2 columnas) */
+@media (min-width: 769px) and (max-width: 950px) {
+  .enlaces {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px 15px;
+  }
+  .enlaces-usuario {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+}
+
+/* MÓVIL (< 768px) - (Hamburguesa Activa) */
+@media (max-width: 768px) {
+  .hamburguesa-custom {
+    display: block;
+  }
+  .nav-izq {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menu-colapsable {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: #141414;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+    width: 130px;
+    z-index: 1050;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .menu-colapsable.active {
+    display: flex;
+  }
+
+  .nav-centro {
+    order: 1;
+    text-align: right;
+  }
+
+  .enlaces {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .enlaces-usuario {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    font-size: 0.9em;
+    border-bottom: 1px solid #333;
+    padding-top: 15px;
+  }
+
+  .menu-colapsable a,
+  .menu-colapsable span {
+    font-size: 0.95em !important;
+  }
 }
 
 /* --- ESPACIO PARA LA PAGINACIÓN --- */
@@ -996,12 +1096,47 @@ select.input-filtro option {
   background: rgba(0, 0, 0, 0.6);
   padding: 15px;
   border-radius: 8px;
-  color: white;
+  color: var(--text);
   max-width: 300px;
 }
 
 .reel p {
   font-size: large;
+}
+
+.btn-subir-reels-centro {
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1em;
+  display: inline-flex; /* Alineamos icono y texto */
+  align-items: center;
+  gap: 8px;
+  margin-left: 65px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(229, 9, 20, 0.2);
+}
+
+.btn-subir-reels-centro i {
+  color: var(--primary);
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+}
+
+.btn-subir-reels-centro:hover {
+  background-color: var(--primary);
+  color: white !important;
+  text-decoration: none;
+  transform: translateY(-2px); /* Pequeña elevación */
+  box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4);
+}
+
+.btn-subir-reels-centro:hover i {
+  color: var(--text);
 }
 
 /* LISTAS */

@@ -28,6 +28,7 @@ $lista_clips = $stmt->fetchAll();
     <meta charset="UTF-8">
     <title>Reels y Clips | Palomitas</title>
     <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <?php include 'includes/navbar.php'; ?>
@@ -53,9 +54,9 @@ $lista_clips = $stmt->fetchAll();
                             <div class="autor-reel">@<?= htmlspecialchars($clip['autor']) ?></div>
                             <h3><?= htmlspecialchars($clip['titulo_clip']) ?></h3>
                             <p>
-                                🍿 <strong>Película:</strong> <?= htmlspecialchars($clip['peli_titulo']) ?><br>
+                                <small>🍿 <strong>Película: </small></strong> <?= htmlspecialchars($clip['peli_titulo']) ?><br>
                                 <?php if (!empty($clip['categoria'])): ?>
-                                    🏷️ <strong>Categoría:</strong> <?= htmlspecialchars($clip['categoria']) ?>
+                                    <small>🏷️ <strong>Categoría: </small></strong> <?= htmlspecialchars($clip['categoria']) ?>
                                 <?php endif; ?>
                             </p>
                         </div>
@@ -85,5 +86,6 @@ $lista_clips = $stmt->fetchAll();
             iframes.forEach(iframe => observer.observe(iframe));
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
