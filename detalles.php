@@ -198,23 +198,18 @@ $nombres_paises = [
                                 <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
                                 <span>Añadir a favoritos</span>
                             </button>
-
-                            <button class="iconos-accion btn-listas" onclick="toggleListas(<?= $id_pelicula ?>)">
-                                <i class="fas fa-plus"></i>
-                                <span>Añadir a lista</span>
-                            </button>
+                            
+                            <div class="contenedor-listas">
+                                <button class="iconos-accion btn-listas" onclick="toggleListas(<?= $id_pelicula ?>)">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Añadir a lista</span>
+                                </button>
+                                <div id="listasDropdown" class="dropdown-listas" style="display:none;"></div>
+                            </div>
 
                         </div>
                     </div>               
                 <?php endif; ?>
-
-                
-                <div class="favorito-listas">
-                    
-                    
-                </div>
-
-                <div id="listasDropdown" class="dropdown-listas" style="display:none;"></div>
 
                 <!-- MODALES -->
                 <div id="modalRating" class="modal">
@@ -308,6 +303,7 @@ $nombres_paises = [
     <script src="js/modales.js"></script>
     <script src="js/listas.js"></script>
     <script src="js/favoritos.js"></script>
+    <script src="js/dropdown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <?php include 'includes/footer.php'; ?>
