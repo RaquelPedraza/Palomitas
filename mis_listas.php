@@ -164,7 +164,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $pelis = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
 
-            <div class="lista-card">
+            <div class="lista-card" data-lista-id="<?= $lista['id_lista'] ?>">
                  <a href="ver_lista.php?id=<?= $lista['id_lista'] ?>">
                     <div class="lista-media">
                         <?php foreach ($pelis as $peli): ?>

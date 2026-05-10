@@ -22,7 +22,7 @@ switch ($action) {
     // CREAR LISTA
     case 'crear':
 
-        $nombre = $_POST['nombre_lista'] ?? null;
+        $nombre = trim($_POST['nombre_lista'] ?? null);
         $visibilidad = $_POST['visibilidad'] ?? 'publica';
         $descripcion = $_POST['descripcion'] ?? null;
 
@@ -31,11 +31,43 @@ switch ($action) {
             exit;
         }
 
+        // comprobar si ya existe una lista con ese nombre para el usuario
+        $stmt = $pdo->prepare("
+            SELECT id_lista 
+            FROM listas 
+            WHERE id_usuario = ? AND LOWER(nombre_lista) = LOWER(?)
+        ");
+        $stmt->execute([$id_usuario, $nombre]);
+
+        if ($stmt->fetch()) {
+            echo json_encode([
+                'ok' => false,
+                'error' => 'nombre_duplicado'
+            ]);
+            exit;
+        }
+
         $stmt = $pdo->prepare("
             INSERT INTO listas (id_usuario, nombre_lista, descripcion, visibilidad)
             VALUES (?, ?, ?, ?)
         ");
         $stmt->execute([$id_usuario, $nombre, $descripcion, $visibilidad]);
+
+        // CREAR LISTA DROPDOWN
+        $id_nueva_lista = $pdo->lastInsertId();
+        $id_produccion = $_POST['id_produccion'] ?? null;
+
+        if ($id_produccion) {
+            $stmt = $pdo->prepare("
+                INSERT INTO lista_produccion ( id_lista, id_produccion )
+                VALUES (?, ?)
+            ");
+
+            $stmt->execute([
+                $id_nueva_lista,
+                $id_produccion
+            ]);
+        }
         echo json_encode(['ok' => true, 'action' => 'creado']);
         break;
 
@@ -131,6 +163,52 @@ switch ($action) {
         echo json_encode([
             'ok' => true,
             'action' => 'añadido'
+        ]);
+
+        break;
+
+    // ELIMINAR PELÍCULA DE LISTA
+    case 'remove':
+
+        $id_lista = $_POST['id_lista'] ?? null;
+        $id_produccion = $_POST['id_produccion'] ?? null;
+
+        if (!$id_lista || !$id_produccion) {
+            echo json_encode([
+                'ok' => false,
+                'error' => 'datos_invalidos'
+            ]);
+            exit;
+        }
+
+        // comprobar que la lista pertenece al usuario
+        $stmt = $pdo->prepare("
+            SELECT id_lista
+            FROM listas
+            WHERE id_lista = ? AND id_usuario = ?
+        ");
+        $stmt->execute([$id_lista, $id_usuario]);
+
+        if (!$stmt->fetch()) {
+            echo json_encode([
+                'ok' => false,
+                'error' => 'sin_permiso'
+            ]);
+            exit;
+        }
+
+        // eliminar relación película-lista
+        $stmt = $pdo->prepare("
+            DELETE FROM lista_produccion
+            WHERE id_lista = ?
+            AND id_produccion = ?
+        ");
+
+        $stmt->execute([$id_lista, $id_produccion]);
+
+        echo json_encode([
+            'ok' => true,
+            'action' => 'eliminado_pelicula'
         ]);
 
         break;

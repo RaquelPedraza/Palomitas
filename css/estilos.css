@@ -930,7 +930,6 @@ select.input-filtro option {
 
 .lista-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
   color: var(--text);
@@ -939,6 +938,12 @@ select.input-filtro option {
     background 0.2s ease,
     color 0.2s ease,
     transform 0.15s ease;
+}
+
+.crear-lista-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .lista-item:hover {
@@ -1313,6 +1318,10 @@ select.input-filtro option {
   color: var(--primary);
 }
 
+.visibilidad input:checked + label {
+  color: var(--primary-hover);
+}
+
 
 .crear-lista-btn {
   display: flex;
@@ -1336,3 +1345,4 @@ select.input-filtro option {
   font-size: 0.8em;
   letter-spacing: 0.5px;
 }
+

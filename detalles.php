@@ -273,6 +273,41 @@ $nombres_paises = [
                         </form>
                     </div>
                 </div>
+
+                <div id="modalCrearListas" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar" onclick="cerrarModal('modalCrearListas')">
+                            &times;
+                        </span>
+                        <h2 class="titulo-modal">Crear nueva lista</h2>
+                        <form id="formCrearLista">
+                            <input 
+                                type="text"
+                                name="nombre_lista"
+                                placeholder="Nombre de la lista"
+                                required
+                                class="input-general"
+                            >
+                            <textarea name="descripcion" rows="4" placeholder="Descripción" class="textarea-general"></textarea>
+
+                            <div class="visibilidad">
+                                <input type="radio"name="visibilidad" value="publica" checked id="publica-dropdown">
+                                <label for="publica-dropdown" class="opcion-visibilidad">
+                                    <i class="fa-solid fa-earth-americas"></i>
+                                    Pública
+                                </label>
+                                <input type="radio"name="visibilidad" value="privada" id="privada-dropdown">
+                                <label for="privada-dropdown" class="opcion-visibilidad">
+                                    <i class="fa-solid fa-lock"></i>
+                                    Privada
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-rojo">
+                                Crear lista
+                            </button>
+                        </form>
+                    </div>
+                </div>
                 
                 <!-- LISTA DE COMENTARIOS -->
                 <div class="comentarios-lista" style="margin-top: 20px;">

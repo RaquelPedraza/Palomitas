@@ -41,7 +41,15 @@ require_once 'config/secrets.php';
     $resenas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     /* LISTAS */
-    $stmt = $pdo->prepare("SELECT * FROM listas WHERE id_usuario = ?");
+    $stmt = $pdo->prepare("
+        SELECT l.*,
+            COUNT(lp.id_produccion) AS total_peliculas
+        FROM listas l
+        LEFT JOIN lista_produccion lp 
+            ON l.id_lista = lp.id_lista
+        WHERE l.id_usuario = ?
+        GROUP BY l.id_lista
+    ");
     $stmt->execute([$id_usuario]);
     $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -103,12 +111,12 @@ require_once 'config/secrets.php';
                 <img src="<?= $usuario['avatar'] ?? 'img/default-avatar.png' ?>">
             </div>
 
-            <h2><?= htmlspecialchars($usuario['nombre']) ?></h2>
+            <h2 style="text-align: center; margin-bottom: 10px;"><?= htmlspecialchars($usuario['nombre']) ?></h2>
 
             <?php if ($es_mi_perfil): ?>
-                <div style="margin-top: 10px; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <a href="editar_usuario.php?id=<?= $_SESSION['usuario_id'] ?>" 
-                    style="color: #aaa; text-decoration: underline; font-size: 0.9em;">
+                    style="color: #aaa; text-decoration: none; font-size: 0.9em; text-align: center; display: block;">
                     <i class="fa-solid fa-pen"></i> Editar mis datos
                     </a>
                 </div>
@@ -137,45 +145,33 @@ require_once 'config/secrets.php';
                     <i class="fa-solid fa-list"></i> Listas
                 </button>
 
-                <button class="tab" onclick="showTab('clips')">
-                    <i class="fa-solid fa-clapperboard"></i> Clips
-                </button>
-
             </div>
 
             <!-- RESEÑAS -->
             <div id="resenas" class="tab-content active">
 
                 <?php foreach ($resenas as $r): ?>
-
-                <div class="resena-wrapper clickable"
+                <div class="wrapper clickable"
                     onclick="window.location.href='detalles.php?id=<?= $r['id_produccion'] ?>&from=perfil.php'">
-
                     <div class="resena-pelicula">
-
                         <div class="tarjeta tarjeta-mini">
-
                             <img src="<?= $r['portada'] ?>"
                                 onerror="this.src='img/no-poster.png'">
-
                             <div class="info">
                                 <div class="titulo"><?= htmlspecialchars($r['titulo']) ?></div>
-
                                 <div class="meta-datos">
                                     <span><?= $r['anio'] ?></span>
-
                                     <?php if (!empty($r['pais'])): ?>
                                         <span class="etiqueta-pais"><?= $r['pais'] ?></span>
                                     <?php endif; ?>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
 
                     <div class="resena-detalle">
-                        <div class="resena-detalle-header">
+                        <div class="detalle-header">
                             <div class="resena-rating">
                                 <div class="estrellas">
                                     <?= mostrarEstrellas($r['puntuacion'] ?? 0) ?>
@@ -185,7 +181,7 @@ require_once 'config/secrets.php';
                                 </div>
                             </div>
 
-                            <div class="resena-acciones" onclick="event.stopPropagation()">
+                            <div class="perfil-acciones" onclick="event.stopPropagation()">
                                 <!-- EDITAR RESEÑA -->
                                 <button class="btn-editar" onclick="abrirModalEditar(<?= $r['id_resena'] ?>)" title="Editar reseña">
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -213,19 +209,29 @@ require_once 'config/secrets.php';
             <!-- LISTAS -->
             <div id="listas" class="tab-content">
                 <?php foreach ($listas as $l): ?>
-                    <div class="card-lista">
-                        <h3><?= htmlspecialchars($l['nombre_lista']) ?></h3>
-                        <p><?= htmlspecialchars($l['descripcion']) ?></p>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <div class="wrapper clickable"
+                        onclick="window.location.href='ver_lista.php?id=<?= $l['id_lista'] ?>&from=perfil.php'">
+                    <div class="card-lista" data-lista-id="<?= $l['id_lista'] ?>">
+                        <div class="detalle-header">
+                            <h3 style="margin: 0;"><?= htmlspecialchars($l['nombre_lista']) ?></h3>
+                            <div class="perfil-acciones" onclick="event.stopPropagation()">
+                                <button onclick="abrirModalEditarListaPerfil(
+                                    <?= $l['id_lista'] ?>,
+                                    '<?= htmlspecialchars(addslashes($l['nombre_lista'])) ?>',
+                                    '<?= htmlspecialchars(addslashes($l['descripcion'])) ?>',
+                                    '<?= $l['visibilidad'] ?>'
+                                )">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
 
-            <!-- CLIPS -->
-            <div id="clips" class="tab-content">
-                <?php foreach ($clips as $c): ?>
-                    <div class="card-clip">
-                        <iframe src="<?= $c['enlace_video'] ?>" allowfullscreen></iframe>
-                        <h3><?= htmlspecialchars($c['titulo']) ?></h3>
+                                <button onclick="abrirModalEliminarListaPerfil(<?= $l['id_lista'] ?>)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p style="line-height: 1.6; color: var(--text-soft); margin-bottom: 12px;"><?= htmlspecialchars($l['descripcion']) ?></p>
+                        <div class="lista-meta" style="color: var(--text-muted); font-size: 14px;"> <?= $l['total_peliculas'] ?> películas </div>
+
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -234,7 +240,7 @@ require_once 'config/secrets.php';
 
     </div>
 
-    <!-- MODAL ELIMINAR -->
+    <!-- MODAL ELIMINAR RESEÑA-->
     <div id="modalEliminarResena" class="modal">
         <div class="modal-contenido">
             <h2 class="titulo-modal">¿Desea eliminar esta reseña?</h2>
@@ -250,42 +256,74 @@ require_once 'config/secrets.php';
         </div>
     </div>
                             
-    <!-- MODAL EDITAR -->
+    <!-- MODAL EDITAR RESEÑA-->
     <div id="modalEditarResena" class="modal">
         <div id="contenidoEditarResena"></div>
     </div>
+    
+    <!-- MODAL ELIMINAR LISTA -->
+    <div id="modalEliminarListaPerfil" class="modal">
+        <div class="modal-contenido">
+            <h2 class="titulo-modal">Eliminar lista</h2>
+            <p style="color:#888; text-align:center;">
+                ¿Seguro que quieres eliminar esta lista? Esta acción no se puede deshacer.
+            </p>
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+                <button type="button" class="btn-secundario" onclick="cerrarModal('modalEliminarListaPerfil')">
+                    Cancelar
+                </button>
 
-    <script>
-    function showTab(tab){
-        document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+                <button type="button" id="confirmarEliminarListaPerfil" class="btn-rojo" style="width: auto;">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
 
-        document.getElementById(tab).classList.add('active');
-        event.target.classList.add('active');
-    }
+    <!-- MODAL EDITAR LISTA -->
+    <div id="modalEditarLista" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modalEditarLista')">&times;</span>
+            <h2 class="titulo-modal">Editar lista</h2>
+            <form id="formEditarListaPerfil" method="POST" action="listas.php">
+                <input type="hidden" name="action" value="editar">
+                <input type="hidden" name="id_lista" id="editar_id_lista">
+                <input type="text"
+                    name="nombre_lista"
+                    id="editar_nombre"
+                    placeholder="Nombre de la lista"
+                    required
+                    class="input-general">
 
-    async function abrirModalEditar(id_resena) {
-        const contenido = document.getElementById('contenidoEditarResena');
-        abrirModal('modalEditarResena');
+                <textarea name="descripcion"
+                    id="editar_descripcion"
+                    rows="4"
+                    placeholder="Descripción"
+                    class="textarea-general"></textarea>
 
-        try {
-            const res = await fetch(`modificar_resena.php?id=${id_resena}`);
-            const html = await res.text();
+                <div class="visibilidad">
 
-            contenido.innerHTML = html;
-        } catch (e) {
-            contenido.innerHTML = "<p>Error cargando reseña</p>";
-            console.error(e);
-        }
-    }
+                    <input type="radio" name="visibilidad" value="publica" id="edit_publica">
+                    <label for="edit_publica" class="opcion-visibilidad">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        Pública
+                    </label>
 
-    function abrirModalEliminar(id_resena) {
-        document.getElementById('inputEliminarResena').value = id_resena;
-        abrirModal('modalEliminarResena');
-    }
-    </script>
+                    <input type="radio" name="visibilidad" value="privada" id="edit_privada">
+                    <label for="edit_privada" class="opcion-visibilidad">
+                        <i class="fa-solid fa-lock"></i>
+                        Privada
+                    </label>
+                </div>
+                <button type="submit" class="btn-rojo">
+                    Guardar cambios
+                </button>
+            </form>
+        </div>
+    </div>
     
     <script src="js/modales.js"></script>
+    <Script src="js/perfil.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <?php include 'includes/footer.php'; ?>
 </body>

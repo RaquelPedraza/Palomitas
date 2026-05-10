@@ -80,7 +80,7 @@
 }
 
 /* RESEÑAS */
-.resena-wrapper {
+.wrapper {
   display: flex;
   gap: 15px;
   background: #111;
@@ -90,12 +90,12 @@
   border-left: 4px solid var(--primary);
 }
 
-.resena-wrapper.clickable {
+.wrapper.clickable {
   cursor: pointer;
   transition: 0.2s;
 }
 
-.resena-wrapper.clickable:hover {
+.wrapper.clickable:hover {
   transform: scale(1.01);
 }
 
@@ -132,37 +132,41 @@
   position: relative;
 }
 
-.resena-detalle-header {
+.detalle-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
 }
 
-.resena-acciones {
+.perfil-acciones {
   display: flex;
   gap: 10px;
 }
 
-.resena-acciones a,
-.resena-acciones button {
+.perfil-acciones a,
+.perfil-acciones button {
   background: none;
   border: none;
   color: var(--text-muted);
   cursor: pointer;
 }
 
-.resena-acciones a:hover,
-.resena-acciones button:hover {
+.perfil-acciones a:hover,
+.perfil-acciones button:hover {
   color: var(--primary);
+}
+
+.perfil-acciones i {
+  font-size: 16px;
 }
 
 /* LISTAS */
 .card-lista {
-  background: var(--bg-card);
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 /* CLIPS */
@@ -179,13 +183,13 @@
   border-radius: 10px;
 }
 
-.perfil-main .resena-wrapper .tarjeta.tarjeta-mini {
+.perfil-main .wrapper .tarjeta.tarjeta-mini {
   box-shadow: none;
   transform: none;
   transition: none;
 }
 
-.perfil-main .resena-wrapper .tarjeta.tarjeta-mini:hover {
+.perfil-main .wrapper .tarjeta.tarjeta-mini:hover {
   box-shadow: none;
   transform: none;
 }
@@ -218,7 +222,7 @@
     font-size: 14px;
   }
 
-  .resena-wrapper {
+  .wrapper {
     flex-direction: row;
     align-items: flex-start;
   }
@@ -242,13 +246,13 @@
     flex: 1;
   }
 
-  .resena-detalle-header {
+  .detalle-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .resena-acciones {
+  .perfil-acciones {
     display: flex;
     gap: 8px;
   }
@@ -267,7 +271,7 @@
     justify-content: center;
   }
 
-  .resena-detalle-header {
+  .detalle-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -281,7 +285,7 @@
     gap: 5px;
   }
 
-  .resena-acciones {
+  .perfil-acciones {
     display: flex;
     align-items: center;
     gap: 1px;

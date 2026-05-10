@@ -107,20 +107,18 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php if ($lista['id_usuario'] == $id_usuario): ?>
                         <div class="lista-owner-actions">
                             <!-- Editar -->
-                            <button
-                                onclick="editarLista(
-                                    <?= $lista['id_lista'] ?>,
-                                    '<?= htmlspecialchars(addslashes($lista['nombre_lista'])) ?>',
-                                    '<?= htmlspecialchars(addslashes($lista['descripcion'])) ?>',
-                                    '<?= $lista['visibilidad'] ?>'
-                                )"
-                            >
+                            <button onclick="abrirModalEditarLista(
+                                <?= $lista['id_lista'] ?>,
+                                '<?= htmlspecialchars(addslashes($lista['nombre_lista'])) ?>',
+                                '<?= htmlspecialchars(addslashes($lista['descripcion'])) ?>',
+                                '<?= $lista['visibilidad'] ?>'
+                            )">
                                 <i class="fa-solid fa-pen"></i>
                                 Editar
                             </button>
 
                             <!-- Eliminar -->
-                            <button onclick="eliminarLista(<?= $lista['id_lista'] ?>)">
+                            <button onclick="abrirModalEliminarLista(<?= $lista['id_lista'] ?>)">
                                 <i class="fa-solid fa-trash"></i>
                                 Eliminar
                             </button>
@@ -133,7 +131,14 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- GALERIA DE PELÍCULAS -->
         <div class="galeria">
             <?php foreach ($peliculas as $peli): ?>
-                <div class="tarjeta">
+                <div class="tarjeta pelicula" data-id="<?= $peli['id_produccion'] ?>">
+                    <?php if ($lista['id_usuario'] == $id_usuario): ?>
+                        <button class="btn-eliminar-pelicula"
+                            onclick="eliminarPeliculaLista(<?= $peli['id_produccion'] ?>)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    <?php endif; ?>
+
                     <a href="detalles.php?id=<?= $peli['id_produccion'] ?>&from=ver_lista.php?id=<?= $id_lista ?>" style="text-decoration:none; color:inherit;">
                         <img
                             src="<?= htmlspecialchars($peli['portada'] ?: 'img/no-poster.png') ?>"
@@ -171,5 +176,50 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 Esta lista aún no tiene películas.
             </p>
         <?php endif; ?>
+
+        <!-- MODALES -->
+         <div id="modalEditarLista" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar" onclick="cerrarModal('modalEditarLista')">&times;</span>
+
+                <h2 class="titulo-modal">Editar lista</h2>
+
+                <form id="formEditarLista">
+                    <input type="hidden" name="id_lista" id="editar_id_lista">
+                    <input type="text" name="nombre_lista" id="editar_nombre" class="input-general" required>
+
+                    <textarea name="descripcion" id="editar_descripcion" class="textarea-general"></textarea>
+
+                    <div class="visibilidad">
+                        <input type="radio" name="visibilidad" value="publica" id="edit_publica">
+                        <label for="edit_publica" class="opcion-visibilidad">
+                            <i class="fa-solid fa-earth-americas"></i>
+                            Pública
+                        </label>
+
+                        <input type="radio" name="visibilidad" value="privada" id="edit_privada">
+                        <label for="edit_privada" class="opcion-visibilidad">
+                            <i class="fa-solid fa-lock"></i>
+                            Privada
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-rojo">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+        <div id="modalEliminarLista" class="modal">
+            <div class="modal-contenido">
+                <h2 class="titulo-modal">¿Desea eliminar la lista?</h2>
+                <p style="color: #888; text-align: center;">Se borrará la lista y todo su contenido.</p>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+                    <button id="confirmarEliminarLista" class="btn-rojo btnlistas">Eliminar</button>
+                    <button onclick="cerrarModal('modalEliminarLista')" class="btn-secundario">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/modales.js"></script>
+        <?php include 'includes/footer.php'; ?>
     </body>
 </html>
