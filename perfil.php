@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    die("Acceso denegado");
+}
 require_once 'includes/functions.php';
 require_once 'config/secrets.php';
 

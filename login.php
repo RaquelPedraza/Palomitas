@@ -5,6 +5,7 @@ require_once 'config/secrets.php';
 $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
 
 $error = "";
+$nombre = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'] ?? '';
@@ -29,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Guardar sesión
         $_SESSION['usuario_id'] = $usuario_db['id_usuario'];
+        session_regenerate_id(true);
+
         $_SESSION['usuario_nombre'] = $usuario_db['nombre'];
         $_SESSION['usuario_rol'] = $usuario_db['rol'];
 
@@ -89,7 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?= $error ?>
         <form method="POST" action="login.php">
             <div class="grupo-input">
-                <input type="text" name="nombre" placeholder="Nombre de usuario" required>
+                <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre de usuario"
+                    value="<?= htmlspecialchars($nombre) ?>"
+                    required
+                >
             </div>
             <div class="grupo-input">
                 <input type="password" name="password" placeholder="Contraseña" required>

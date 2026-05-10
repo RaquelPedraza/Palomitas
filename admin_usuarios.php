@@ -1,11 +1,14 @@
 <?php
 session_start();
-$host = '127.0.0.1';
-$port = '3306'; // o 3307 si usas ese
-$db = 'palomitas_db';
 
-$user = 'root';
-$pass = '';
+if (
+    !isset($_SESSION['usuario_rol']) ||
+    $_SESSION['usuario_rol'] !== 'admin'
+) {
+    die("Acceso denegado");
+}
+
+require_once 'config/secrets.php';
 
 $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
 // SOLO ADMIN
@@ -103,10 +106,10 @@ $usuarios = $stmt->fetchAll();
 
     <?php foreach ($usuarios as $u): ?>
         <tr>
-            <td><?= $u['id_usuario'] ?></td>
-            <td><?= $u['nombre'] ?></td>
-            <td><?= $u['email'] ?></td>
-            <td><?= $u['rol'] ?></td>
+            <td><?= htmlspecialchars($u['id_usuario']) ?></td>
+            <td><?= htmlspecialchars($u['nombre']) ?></td>
+            <td><?= htmlspecialchars($u['email']) ?></td>
+            <td><?= htmlspecialchars($u['rol']) ?></td>
 
             <td>
                 <!-- CAMBIAR ROL -->
