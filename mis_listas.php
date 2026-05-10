@@ -59,7 +59,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include 'includes/navbar.php'; ?>
     
     <!-- FAVORITOS -->
-    <h2>Favoritos</h2>
+    <h2 class="titulo-seccion">Favoritos</h2>
 
     <?php if (count($favoritos) === 0): ?>
         <p class="nada">
@@ -111,7 +111,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <!-- LISTAS -->
-    <h2>Mis listas</h2>
+    <h2 class="titulo-seccion">Mis listas</h2>
 
     <div class="listas">
         <!-- Crear listas -->
@@ -127,7 +127,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div id="modalCrearListas" class="modal">
             <div class="modal-contenido">
                 <span class="cerrar" onclick="cerrarModal('modalCrearListas')">&times;</span>
-                <h2>Crear nueva lista</h2>
+                <h3>Crear nueva lista</h3>
                 <form id="formCrearLista">
                         <input type="text" name="nombre_lista" placeholder="Nombre de la lista" required>
                         <textarea name="descripcion" rows="4" placeholder="Descripción" class="textarea-general"></textarea>
@@ -185,6 +185,8 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         }
     </script>
+
+    <?php include 'includes/footer.php'; ?>
 
 </body>
 </html>

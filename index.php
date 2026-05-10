@@ -53,7 +53,7 @@ $stmt_paises = $pdo->query($query_paises);
 $paises_en_db = $stmt_paises->fetchAll(PDO::FETCH_COLUMN);
 
 // PAGINACIÓN
-$pelis_por_pagina = 14; 
+$pelis_por_pagina = 18; 
 
 $pagina_actual = isset($_GET['pag']) ? (int)$_GET['pag'] : 1;
 if ($pagina_actual < 1) $pagina_actual = 1;
@@ -197,7 +197,7 @@ if ($id_usuario) {
     <section class="barra-filtros" id="filtrar">
         <form action="index.php#galeria" method="GET" class="formulario-busqueda">
         <div class="controles-principales">
-            <input type="text" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
+            <input type="text" id="buscadorPeliculas" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
             
             <select name="pais" class="input-filtro select-con-icono">
                 <option value="">Todos los países</option>
@@ -216,7 +216,7 @@ if ($id_usuario) {
 </section>
 
     <?php if (count($peliculas) == 0): ?>
-        <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬🤷‍♀️</h2>
+        <h2 style="text-align: center; color: #888; margin-top: 50px;">No se encontraron películas con esos filtros. 🎬</h2>
     <?php endif; ?>
 
     <!-- GALERIA -->
@@ -293,7 +293,7 @@ if ($id_usuario) {
         </div>
 
         <div class="salto-pagina">
-            <form action="index.php" method="GET" style="display: inline-flex; align-items: center; gap: 8px;">
+            <form action="index.php#filtrar" method="GET" style="display: inline-flex; align-items: center; gap: 8px;">
                 <?php if (!empty($_GET['busqueda'])): ?>
                     <input type="hidden" name="busqueda" value="<?= htmlspecialchars($_GET['busqueda']) ?>">
                 <?php endif; ?>
@@ -315,6 +315,7 @@ if ($id_usuario) {
     </div>
     <script src="js/favoritos.js"></script>
     <script>
+
         function scrollCarrusel(valor) {
             const carrusel = document.getElementById('carrusel');
             carrusel.scrollBy({
@@ -322,8 +323,34 @@ if ($id_usuario) {
                 behavior: 'smooth'
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const buscador = document.getElementById("buscadorPeliculas");
+            const tarjetas = document.querySelectorAll(".tarjeta");
+
+            buscador.addEventListener("input", function() {
+                const textoBusqueda = this.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+                tarjetas.forEach(function(tarjeta) {
+                    const tituloElement = tarjeta.querySelector(".titulo");
+
+                    if (tituloElement) {
+                        const titulo = (tituloElement.textContent || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+                        
+                        if (titulo.includes(textoBusqueda)) {
+                            tarjeta.style.display = ""; 
+                        } else {
+                            tarjeta.style.display = "none"; 
+                        }
+                    }
+                });
+            });
+        });
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

@@ -35,7 +35,7 @@ body {
 .logo-principal {
   display: block;
   margin: 0 auto;
-  width: 10rem;
+  width: 9rem;
 }
 
 /* ESTILOS PARA EL TÍTULO */
@@ -68,8 +68,8 @@ h1 {
   font-size: 1.8rem;
   font-weight: 700;
   padding-left: 15px;
-  border-left: 5px solid #dc3545;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  border-left: 5px solid var(--primary);
+  text-shadow: 2px 2px 8px var(--shadow-soft);
   letter-spacing: 1px;
   background: linear-gradient(
     90deg,
@@ -78,14 +78,22 @@ h1 {
   );
   padding-top: 5px;
   padding-bottom: 5px;
+  margin-top: 50px;
 }
+
+.titulo-modal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 h2 {
   color: var(--text);
   background-color: var(--bg-card);
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
   padding: 10px;
-  margin-top: 50px;
 }
 
 /*FORMULARIO DE BÚSQUEDA Y FILTROS*/
@@ -142,13 +150,13 @@ select.input-filtro option {
 
 .btn-filtrar {
   text-decoration: none;
-  font-weight: bold;
+  letter-spacing: 1pt;
   font-size: 1em;
   padding: 0 15px;
   background-color: var(--primary);
-  color: white;
+  color: whitesmoke;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
@@ -254,7 +262,7 @@ select.input-filtro option {
 .btn-rojo {
   background: var(--primary);
   color: var(--text);
-  font-weight: bold;
+  letter-spacing: 1pt;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
@@ -269,7 +277,7 @@ select.input-filtro option {
 }
 
 .btn-pag:hover {
-  background: #b20710;
+  background: var(--primary-hover);
 }
 
 .btn:hover,
@@ -281,18 +289,19 @@ select.input-filtro option {
 .paginacion .btn-pag {
   display: inline-flex;
   align-items: center;
+  color: whitesmoke;
   gap: 8px;
 }
 
 .btn-ir {
-  background: #e50914;
-  color: white;
+  background: var(--primary);
+  color: var(--text);
   border: none;
   padding: 6px 18px;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.9em;
-  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 1pt;
 }
 
 .btn-ir:hover {
@@ -312,6 +321,7 @@ select.input-filtro option {
 .btn.desactivado {
   background: #333;
   color: #666;
+  letter-spacing: 1pt;
   pointer-events: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -494,7 +504,7 @@ select.input-filtro option {
   padding: 0 20px;
   min-height: 70px;
   box-shadow: 0 4px 10px var(--shadow-dark);
-  position: relative; /* Clave para el menú flotante en móvil */
+  position: relative; 
 }
 
 /* Logo */
@@ -924,7 +934,7 @@ select.input-filtro option {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
@@ -941,7 +951,7 @@ select.input-filtro option {
   border-radius: 10px;
   width: 400px;
   max-width: 90%;
-
+  z-index: 10000;
   position: relative;
   color: white;
 }
@@ -1141,9 +1151,8 @@ select.input-filtro option {
 
 /* LISTAS */
 .listas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -1200,4 +1209,20 @@ select.input-filtro option {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+/* --- FOOTER --- */
+.footer-palomitas {
+  background-color: var(--bg);
+  color: #888;
+  text-align: center;
+  padding: 20px 20px;
+  margin-top: 60px;
+  border-top: 1px solid #333;
+}
+
+.footer-palomitas p {
+  margin: 0;
+  font-size: 0.8em;
+  letter-spacing: 0.5px;
 }

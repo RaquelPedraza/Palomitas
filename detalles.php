@@ -211,7 +211,7 @@ $nombres_paises = [
                 <div id="modalRating" class="modal">
                     <div class="modal-contenido">
                         <span class="cerrar" onclick="cerrarModal('modalRating')">&times;</span>
-                        <h2>Tu valoración</h2>
+                        <h2 class="titulo-modal">Tu valoración</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <div class="rating">
@@ -236,7 +236,7 @@ $nombres_paises = [
                 <div id="modalComentario" class="modal">
                     <div class="modal-contenido">
                         <span class="cerrar" onclick="cerrarModal('modalComentario')">&times;</span>
-                        <h2>Tu reseña</h2>
+                        <h2 class="titulo-modal">Tu reseña</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <!-- RATING DE TU RESEÑA -->
@@ -300,5 +300,7 @@ $nombres_paises = [
     <script src="js/listas.js"></script>
     <script src="js/favoritos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>
