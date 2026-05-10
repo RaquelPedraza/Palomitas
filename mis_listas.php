@@ -134,7 +134,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="visibilidad">
                             <input type="radio" name="visibilidad" value="publica" checked id="publica">
                             <label for="publica" class="opcion-visibilidad">
-                                <i class="fa-solid fa-earth-americas"></i>
+                                <i class="fa-solid fa-users"></i>
                                 Pública
                             </label>
                             <input type="radio" name="visibilidad" value="privada" id="privada">
@@ -216,6 +216,17 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <img src="<?= htmlspecialchars($peli['portada'] ?? 'img/no-poster.png') ?>" alt="Portada de la película">
                             <?php endforeach; ?>
                         <?php endif; ?>
+
+                        <div class="lista-overlay">
+                            <h3>
+                                <?php if ($lista['visibilidad'] === 'publica'): ?>
+                                    <i class="fa-solid fa-users" title="Lista Pública" style="font-size: 0.8em; margin-right: 6px; opacity: 0.8;"></i>
+                                <?php else: ?>
+                                    <i class="fa-solid fa-lock" title="Lista Privada" style="font-size: 0.8em; margin-right: 6px; opacity: 0.8;"></i>
+                                <?php endif; ?>
+                                <?= htmlspecialchars($lista['nombre_lista']) ?>
+                            </h3>
+                        </div>
                     </div>
                 </a>
             </div>

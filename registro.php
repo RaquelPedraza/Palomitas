@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Registro | Palomitas</title>
-    <link rel="stylesheet" href="css/estilos.css?v=2">
+    <link rel="stylesheet" href="css/estilos.css">
     <style>
         body { background-color: #141414; color: white; margin: 0; }
         .ajax-check { display: flex; gap: 10px; align-items: center; }
@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
             <img src="img/logo.png" alt="Logo Palomitas" style="height: 60px; margin-right: 10px;">
         </a>
-        <div class="enlaces">
+        <div class="enlaces-usuario">
             <a href="index.php">Catálogo</a>
             <a href="login.php">Iniciar Sesión</a>
         </div>

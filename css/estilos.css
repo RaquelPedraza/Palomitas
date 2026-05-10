@@ -259,7 +259,8 @@ select.input-filtro option {
 
 .btn-pag,
 .btn-detalles,
-.btn-rojo, .btn-secundario {
+.btn-rojo,
+.btn-secundario {
   letter-spacing: 1pt;
   border-radius: 5px;
   cursor: pointer;
@@ -509,7 +510,7 @@ select.input-filtro option {
   padding: 0 20px;
   min-height: 70px;
   box-shadow: 0 4px 10px var(--shadow-dark);
-  position: relative; 
+  position: relative;
 }
 
 /* Logo */
@@ -526,7 +527,13 @@ select.input-filtro option {
 .navbar a {
   text-decoration: none;
   transition: color 0.3s;
+  color: var(--text);
 }
+
+.navbar a:hover {
+  color: var(--primary);
+}
+
 .menu-colapsable a {
   color: var(--text);
   letter-spacing: -0.2px;
@@ -756,7 +763,8 @@ select.input-filtro option {
   margin-bottom: 10px;
 }
 
-.rating input, .visibilidad input {
+.rating input,
+.visibilidad input {
   display: none;
 }
 
@@ -781,7 +789,7 @@ select.input-filtro option {
   border-radius: 8px;
 }
 
-.input-general{
+.input-general {
   width: 100%;
   background: #333;
   color: white;
@@ -859,7 +867,11 @@ select.input-filtro option {
 
 .nada {
   color: #888;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
   padding: 20px;
 }
 
@@ -921,12 +933,10 @@ select.input-filtro option {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
-  box-shadow:
-    0 10px 25px var(--shadow-soft);
+  box-shadow: 0 10px 25px var(--shadow-soft);
   z-index: 999;
   animation: dropdownFade 0.18s ease;
 }
-
 
 .lista-item {
   display: flex;
@@ -1271,40 +1281,53 @@ select.input-filtro option {
   text-decoration: none;
 }
 
+.lista-card i {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-right: 0px;
+}
+
 .lista-media {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 1fr;
+  height: 100%;
+  position: relative;
 }
 
 .lista-media img {
   width: 100%;
   height: 100%;
-  padding: 18px 0px;
-  display: block;
   object-fit: cover;
 }
 
-/* Comportamiento para el póster de lista vacía */
-
-.lista-media:has(img:only-child) {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-/* Formato estricto */
-.lista-media img:only-child {
-  flex: none !important;
-  width: auto !important;
-  height: 100% !important;
-  max-height: 270px;
+.lista-media .poster-vacio {
   object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.lista-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  padding: 20px 10px 10px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.lista-overlay h3 {
+  color: white;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .lista-info {
@@ -1330,7 +1353,7 @@ select.input-filtro option {
   margin: 10px;
 }
 
-.opcion-visibilidad{
+.opcion-visibilidad {
   color: var(--text-muted);
   font-size: 0.9em;
   margin-bottom: 10px;
@@ -1345,7 +1368,6 @@ select.input-filtro option {
 .visibilidad input:checked + label {
   color: var(--primary-hover);
 }
-
 
 .crear-lista-btn {
   display: flex;
@@ -1369,4 +1391,3 @@ select.input-filtro option {
   font-size: 0.8em;
   letter-spacing: 0.5px;
 }
-

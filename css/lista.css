@@ -1,7 +1,7 @@
 .lista-header {
   width: 100%;
   margin-bottom: 30px;
-  border-radius: 18px;
+  border-radius: 10px;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -23,10 +23,10 @@
 
 .lista-header-info h1 i {
   font-size: 20px;
-  opacity: .8;
+  opacity: 0.8;
 }
 
-.lista-descripcion {    
+.lista-descripcion {
   line-height: 1.6;
   color: var(--text-soft);
   margin-bottom: 12px;
@@ -34,7 +34,7 @@
 
 .lista-total {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .lista-owner-actions {
@@ -44,8 +44,8 @@
 }
 
 .lista-owner-actions button {
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text);
   padding: 10px 16px;
   border-radius: 10px;
@@ -53,40 +53,40 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .lista-owner-actions button:hover {
-  background: rgba(255,255,255,.16);
+  background: rgba(255, 255, 255, 0.16);
   transform: translateY(-2px);
 }
 
 .pelicula {
-    position: relative;
+  position: relative;
 }
 
 .btnlistas {
-    width: auto !important;
+  width: auto !important;
 }
 
 .btn-eliminar-pelicula {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(0,0,0,0.6);
-    border: none;
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-eliminar-pelicula:hover {
-    background: red;
+  background: red;
 }
 
 @media (max-width: 900px) {
@@ -106,11 +106,9 @@
   .lista-owner-actions {
     flex-wrap: wrap;
   }
-
 }
 
 @media (max-width: 480px) {
-
   .lista-header-info h1 {
     font-size: 24px;
   }
@@ -118,5 +116,4 @@
   .lista-descripcion {
     font-size: 14px;
   }
-
 }

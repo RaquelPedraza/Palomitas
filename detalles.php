@@ -118,7 +118,7 @@ $nombres_paises = [
     <!-- NAVABAR -->
     <?php include 'includes/navbar.php'; ?>
 
-    <a href="<?= htmlspecialchars($volver) ?>" class="boton-volver">
+    <a href="javascript:history.back()" class="boton-volver">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
@@ -128,7 +128,7 @@ $nombres_paises = [
 
     <div class="ficha">
         <div class="poster">
-            <img src="<?= $peli['portada'] ?>" alt="Póster">
+            <img src="<?= !empty($peli['portada']) ? $peli['portada'] : 'img/no-poster.png' ?>" alt="Póster">
         </div>
 
         <div class="datos">

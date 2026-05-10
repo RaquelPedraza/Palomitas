@@ -81,15 +81,17 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="lista-header-overlay">
                 <div class="lista-header-info">
 
+
                     <!-- NOMBRE DE LA LISTA Y LA VISIBILIDAD -->
-                    <h2 class="titulo-seccion">
+                     <h2 class="titulo-seccion">
                         <?php if ($lista['visibilidad'] === 'publica'): ?>
-                            <i class="fa-solid fa-earth-americas"></i>
+                            <i class="fa-solid fa-users" title="Lista Pública" style="font-size: 0.8em; opacity: 0.7; margin-right: 8px;"></i>
                         <?php else: ?>
-                            <i class="fa-solid fa-lock"></i>
+                            <i class="fa-solid fa-lock" title="Lista Privada" style="font-size: 0.8em; opacity: 0.7; margin-right: 8px;"></i>
                         <?php endif; ?>
                         <?= htmlspecialchars($lista['nombre_lista']) ?>
                     </h2>
+                    
 
                     <!-- DESCRIPCIÓN -->
                     <?php if (!empty($lista['descripcion'])): ?>

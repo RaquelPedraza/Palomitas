@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="index.php" class="logo" style="display: flex; align-items: center; text-decoration: none;">
             <img src="img/logo.png" alt="Logo Palomitas" style="height: 60px; margin-right: 10px;">
         </a>
-        <div class="enlaces">
+        <div class="enlaces-usuario">
             <a href="index.php">Catálogo</a>
             <a href="registro.php">Crear Cuenta</a>
         </div>
