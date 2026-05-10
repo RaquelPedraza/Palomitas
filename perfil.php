@@ -96,7 +96,7 @@ if (isset($_SESSION['usuario_id']) && !$es_mi_perfil) {
             <?php endif; ?>
 
             <div class="perfil-avatar">
-                <img src="<?= $usuario['avatar'] ?? 'img/default.png' ?>">
+                <img src="<?= $usuario['avatar'] ?? 'img/default-avatar.png' ?>">
             </div>
 
             <h2><?= htmlspecialchars($usuario['nombre']) ?></h2>

@@ -156,17 +156,55 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="lista-card">
                  <a href="ver_lista.php?id=<?= $lista['id_lista'] ?>">
-                    <div class="lista-media">
-                        <?php foreach ($pelis as $peli): ?>
-                            <img src="<?= $peli['portada'] ?? 'img/no-poster.png' ?>" alt="Portada de la película">
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="lista-info">
-                        <div class="lista-titulo"><?= htmlspecialchars($lista['nombre_lista']) ?></div>
-                        <?php if ($lista['visibilidad'] === 'publica'): ?>
-                            <i class="fa-solid fa-earth-americas"></i>
+                   <div class="lista-media">
+                        <?php if (empty($pelis)): ?>
+                            <?php 
+                                $titulo = mb_strtolower($lista['nombre_lista'] ?? '', 'UTF-8');
+                                $desc = mb_strtolower($lista['descripcion'] ?? '', 'UTF-8');
+                                $texto_busqueda = $titulo . ' ' . $desc;
+
+                                $poster_vacio = match(true) {
+                                    (strpos($texto_busqueda, 'argentin') !== false) => 'img/paises/default-argentina.png',
+                                    (strpos($texto_busqueda, 'chile') !== false) => 'img/paises/default-chile.png',
+                                    (strpos($texto_busqueda, 'colombia') !== false) => 'img/paises/default-colombia.png',
+                                    (strpos($texto_busqueda, 'cuba') !== false) => 'img/paises/default-cuba.png', 
+                                    (strpos($texto_busqueda, 'dominic') !== false) => 'img/paises/default-dominicana.png', 
+                                    (strpos($texto_busqueda, 'ecua') !== false) => 'img/paises/default-ecuador.png', 
+                                    (strpos($texto_busqueda, 'españ') !== false)    => 'img/paises/default-espana.png',
+                                    (strpos($texto_busqueda, 'franc') !== false)    => 'img/paises/default-francia.png',
+                                    (strpos($texto_busqueda, 'itali') !== false)   => 'img/paises/default-italia.png',
+                                    (strpos($texto_busqueda, 'mexic') !== false)    => 'img/paises/default-mexico.png',
+                                    (strpos($texto_busqueda, 'peru') !== false)    => 'img/paises/default-peru.png',
+                                    (strpos($texto_busqueda, 'puert') !== false)    => 'img/paises/default-ptoRico.png',
+                                    (strpos($texto_busqueda, 'estad') !== false)    => 'img/paises/default-usa.png',
+                                    (strpos($texto_busqueda, 'venez') !== false)    => 'img/paises/default-venezuela.png',
+                                    
+                                    (strpos($texto_busqueda, 'ac') !== false)   => 'img/generos/default-accion.png',
+                                    (strpos($texto_busqueda, 'crime') !== false)   => 'img/generos/default-crimen.png',
+                                    (strpos($texto_busqueda, 'docum') !== false)   => 'img/generos/default-documental.png',
+                                    (strpos($texto_busqueda, 'dram') !== false)   => 'img/generos/default-drama.png',
+                                    (strpos($texto_busqueda, 'isto') !== false)   => 'img/generos/default-historico.png',
+                                    (strpos($texto_busqueda, 'musi') !== false)   => 'img/generos/default-musical.png',
+                                    (strpos($texto_busqueda, 'roman') !== false)   => 'img/generos/default-romance.png',
+                                    (strpos($texto_busqueda, 'cie') !== false)   => 'img/generos/default-scifi.png',
+                                    (strpos($texto_busqueda, 'terror') !== false)   => 'img/generos/default-terror.png',
+                                    (strpos($texto_busqueda, 'ril') !== false)   => 'img/generos/default-thriller.png',
+                                    (strpos($texto_busqueda, 'este') !== false)   => 'img/generos/default-western.png',
+
+                                    (strpos($texto_busqueda, 'feli') !== false)   => 'img/moods/default-felicidad.png',
+                                    (strpos($texto_busqueda, 'inspir') !== false)   => 'img/moods/default-inspiracion.png',
+                                    (strpos($texto_busqueda, 'trist') !== false)   => 'img/moods/default-melancolia.png',
+                                    (strpos($texto_busqueda, 'llorar') !== false)   => 'img/moods/default-nostalgia.png',
+                                    (strpos($texto_busqueda, 'pens') !== false)   => 'img/moods/default-reflexion.png',
+                                    default => 'img/no-poster.png'
+                                };
+                            ?>
+                            <img src="<?= $poster_vacio ?>" alt="Colección vacía">
+
                         <?php else: ?>
-                            <i class="fa-solid fa-lock"></i>
+                            <?php foreach ($pelis as $peli): ?>
+                                <img src="<?= htmlspecialchars($peli['portada'] ?? 'img/no-poster.png') ?>" alt="Portada de la película">
+                            <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
                 </a>
