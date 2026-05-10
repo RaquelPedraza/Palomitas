@@ -59,9 +59,4 @@ Para ejecutar este proyecto en tu entorno local:
 
 ## Equipo de Desarrollo
 
-Proyecto realizado por alumnos del **I.E.S La Hontanilla (Curso 2025/2026)** para el ciclo **CFGS Desarrollo de Aplicaciones Web**:
-
-* **María José Díaz Sánchez** - *Documentación & Frontend Secundario*
-* **Juanita Ramírez Zapata** - *Frontend Principal (Diseño UI/UX)*
-* **Andrés Pavel Sterp Iser** - *Backend Lead (Lógica y Seguridad)*
-* **Raquel Pedraza Sánchez** - *Base de Datos & APIs*
+Proyecto realizado por alumnos del **I.E.S La Hontanilla (Curso 2025/2026)** para el ciclo **CFGS Desarrollo de Aplicaciones Web**

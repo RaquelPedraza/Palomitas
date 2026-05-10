@@ -1,73 +1,95 @@
 //TOGGLE DETALLES DE LISTA
-        let dropdownOpen = false;
+let dropdownOpen = false;
 
-        async function toggleListas(id_produccion) {
+async function toggleListas(id_produccion) {
 
-            const dropdown = document.getElementById('listasDropdown');
+    const dropdown = document.getElementById('listasDropdown');
 
-            if (dropdownOpen) {
-                dropdown.style.display = 'none';
-                dropdownOpen = false;
-                document.removeEventListener('click', closeDropdownOnOutsideClick);
-                return;
-            }
+    if (dropdownOpen) {
+        dropdown.style.display = 'none';
+        dropdownOpen = false;
+        document.removeEventListener('click', closeDropdownOnOutsideClick);
+        return;
+    }
 
-            const res = await fetch(`get_listas.php?id_produccion=${id_produccion}`);
-            const listas = await res.json();
+    const res = await fetch(`get_listas.php?id_produccion=${id_produccion}`);
+    const listas = await res.json();
 
-            dropdown.innerHTML = '';
+    dropdown.innerHTML = '';
 
-            listas.forEach(lista => {
+    /* CREAR NUEVA LISTA */
+    const crearItem = document.createElement('div');
+    
+    crearItem.classList.add(
+        'lista-item',
+        'crear-lista-dropdown'
+    );
 
-                const item = document.createElement('div');
-                item.classList.add('lista-item');
+    crearItem.innerHTML = `
+        <i class="fa-solid fa-plus"></i>
+        Crear nueva lista
+    `;
 
-                item.innerHTML = `
-                    ${lista.nombre_lista}
-                    ${lista.contiene ? '<i class="fa-solid fa-check"></i>' : ''}
-                `;
+    crearItem.onclick = (e) => {
+        e.stopPropagation();
+        abrirModal('modalCrearListas');
+        cerrarDropdown();
+    };
 
-                if (lista.contiene) {
-                    item.classList.add('added')
-                }
+    dropdown.appendChild(crearItem);
 
-                item.onclick = (e) => {
-                    e.stopPropagation();
-                    addToList(id_produccion, lista.id_lista);
-                };
+    /* RENDERIZAR LISTAS */ 
+    listas.forEach(lista => {
 
-                dropdown.appendChild(item);
-            });
+        const item = document.createElement('div');
+        item.classList.add('lista-item');
 
-            dropdown.style.display = 'block';
-            dropdownOpen = true;
+        item.innerHTML = `
+            ${lista.nombre_lista}
+            ${lista.contiene ? '<i class="fa-solid fa-check"></i>' : ''}
+        `;
 
-            setTimeout(() => {
-                document.addEventListener('click', closeDropdownOnOutsideClick);
-            }, 0);
-
-            dropdown.dataset.produccion = id_produccion;
+        if (lista.contiene) {
+            item.classList.add('added')
         }
 
-        /* FUNCIÓN PARA MOSTRAR TOASTS DE CONFIRMACION */
-        function mostrarToast(mensaje) {
-            const toast = document.getElementById('toast');
-            toast.textContent = mensaje;
-            toast.classList.add('show');
+        item.onclick = (e) => {
+            e.stopPropagation();
+            addToList(id_produccion, lista.id_lista);
+        };
 
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
+        dropdown.appendChild(item);
+    });
 
-        /* FUNCION PARA SALIR DEL DROPDOWN */
-            function closeDropdownOnOutsideClick(e) {
-            const dropdown = document.getElementById('listasDropdown');
-            const contenedor = document.querySelector('.contenedor-listas');
+    dropdown.style.display = 'block';
+    dropdownOpen = true;
 
-            if (!contenedor.contains(e.target)) {
-                dropdown.style.display = 'none';
-                dropdownOpen = false;
-                document.removeEventListener('click', closeDropdownOnOutsideClick);
-            }
-        }
+    setTimeout(() => {
+        document.addEventListener('click', closeDropdownOnOutsideClick);
+    }, 0);
+
+    dropdown.dataset.produccion = id_produccion;
+}
+
+/* FUNCIÓN PARA MOSTRAR TOASTS DE CONFIRMACION */
+function mostrarToast(mensaje) {
+    const toast = document.getElementById('toast');
+    toast.textContent = mensaje;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
+}
+
+/* FUNCION PARA SALIR DEL DROPDOWN */
+function closeDropdownOnOutsideClick(e) {
+    const dropdown = document.getElementById('listasDropdown');
+    const contenedor = document.querySelector('.contenedor-listas');
+
+    if (!contenedor.contains(e.target)) {
+        dropdown.style.display = 'none';
+        dropdownOpen = false;
+        document.removeEventListener('click', closeDropdownOnOutsideClick);
+    }
+}
