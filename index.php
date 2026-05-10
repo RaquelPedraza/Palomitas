@@ -169,7 +169,7 @@ if ($id_usuario) {
 
         <div class="carrusel top10" id="carrusel">
             <?php foreach ($top_pelis as $peli): ?>
-                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>&from=index.php" style="text-decoration: none; color: inherit;">
                     <div class="tarjeta">
                         <img src="<?= $peli['portada'] ?>" alt="<?= $peli['titulo'] ?>">
                         <div class="info">
@@ -244,7 +244,7 @@ if ($id_usuario) {
                     </button>
                 <?php endif; ?>
                 <!-- LINK A DETALLES -->
-                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration: none; color: inherit;">
+                <a href="detalles.php?id=<?= $peli['id_produccion'] ?>&from=index.php" style="text-decoration: none; color: inherit;">
                     <img 
                         src="<?= htmlspecialchars($enlace_portada) ?>" 
                         alt="<?= htmlspecialchars($peli['titulo']) ?>" 

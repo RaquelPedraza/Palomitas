@@ -62,87 +62,55 @@
 
 
 ?>
+<div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModal('modalEditarResena')">
+        &times;
+    </span>
 
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Editar reseña</title>
-        <link rel="stylesheet" href="css/estilos.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    </head>
-    <body>
+    <h2 class="titulo-modal">
+        Editar reseña de <strong><?= htmlspecialchars($resena['titulo']) ?></strong>
+    </h2>
 
-    <div class="modal-contenido">
-        <span class="cerrar" onclick="cerrarModal('modalEditarResena')">
-                &times;
-            </span>
+    <!-- FORM EDITAR -->
+    <form action="guardar_resena.php" method="POST">
+        <input type="hidden" name="pelicula_id" value="<?= $resena['id_produccion'] ?>">
 
-        <h2 class="titulo-modal">
-            Editar reseña de <strong><?= htmlspecialchars($resena['titulo']) ?></strong>
-        </h2>
+        <!-- RATING -->
+        <div class="rating">
+            <?php for ($i = 10; $i >= 1; $i--): ?>
+                <input 
+                    type="radio"
+                    id="star<?= $i ?>"
+                    name="puntuacion"
+                    value="<?= $i ?>"
+                    required
+                    <?= ($resena['puntuacion'] == $i) ? 'checked' : '' ?>                    >
+                <label for="star<?= $i ?>">
+                    <i class="fas fa-star"></i>
+                </label>
+            <?php endfor; ?>
+        </div>
 
-        <!-- FORM EDITAR -->
-        <form action="guardar_resena.php" method="POST">
-            <input 
-                type="hidden"
-                name="pelicula_id"
-                value="<?= $resena['id_produccion'] ?>"
-            >
-
-            <!-- RATING -->
-            <div class="rating">
-                <?php for ($i = 10; $i >= 1; $i--): ?>
-                    <input 
-                        type="radio"
-                        id="star<?= $i ?>"
-                        name="puntuacion"
-                        value="<?= $i ?>"
-                        required
-                        <?= ($resena['puntuacion'] == $i) ? 'checked' : '' ?>
-                    >
-                    <label for="star<?= $i ?>">
-                        <i class="fas fa-star"></i>
-                    </label>
-                <?php endfor; ?>
-            </div>
-
-            <!-- TITULO -->
-            <input
-                type="text"
-                name="titulo_resena"
-                maxlength="200"
-                required
-                class="titulo-resena"
-                value="<?= htmlspecialchars($resena['titulo_resena']) ?>"
-            >
-
-            <!-- CONTENIDO -->
-            <textarea
-                name="texto"
-                rows="6"
-                required
-                class="textarea-general"
-            ><?= htmlspecialchars($resena['contenido']) ?></textarea>
-
-            <button type="submit" class="btn-rojo">
-                Guardar cambios
-            </button>
-
-        </form>
-
-        <!-- ELIMINAR -->
-        <form method="POST" 
-        onsubmit="return 
-        confirm('¿Eliminar esta reseña?')" 
-        style="margin-top:20px;"
+        <!-- TITULO -->
+        <input
+            type="text"
+            name="titulo_resena"
+            maxlength="200"
+            required
+            class="input-general"
+            value="<?= htmlspecialchars($resena['titulo_resena']) ?>"
         >
-            <button type="submit" class="btn-rojo">
-                Eliminar reseña
-            </button>
-        </form>
 
-    </div>
+        <!-- CONTENIDO -->
+        <textarea
+            name="texto"
+            rows="6"
+            required
+            class="textarea-general"
+        ><?= htmlspecialchars($resena['contenido']) ?></textarea>
 
-    </body>
-</html>
+        <button type="submit" class="btn-rojo">
+            Guardar cambios
+        </button>
+    </form>
+</div>

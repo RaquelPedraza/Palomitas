@@ -82,13 +82,13 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="lista-header-info">
 
                     <!-- NOMBRE DE LA LISTA Y LA VISIBILIDAD -->
-                    <h2>
-                        <?= htmlspecialchars($lista['nombre_lista']) ?>
+                    <h2 class="titulo-seccion">
                         <?php if ($lista['visibilidad'] === 'publica'): ?>
                             <i class="fa-solid fa-earth-americas"></i>
                         <?php else: ?>
                             <i class="fa-solid fa-lock"></i>
                         <?php endif; ?>
+                        <?= htmlspecialchars($lista['nombre_lista']) ?>
                     </h2>
 
                     <!-- DESCRIPCIÓN -->
@@ -98,12 +98,10 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </p>
                     <?php endif; ?>
 
-
                     <!-- TOTAL DE PELÍCULAS -->
                     <span class="lista-total">
                         <?= count($peliculas) ?> películas
                     </span>
-
 
                     <!-- EDICIÓN DE LA LISTA -->
                     <?php if ($lista['id_usuario'] == $id_usuario): ?>
@@ -136,7 +134,7 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="galeria">
             <?php foreach ($peliculas as $peli): ?>
                 <div class="tarjeta">
-                    <a href="detalles.php?id=<?= $peli['id_produccion'] ?>" style="text-decoration:none; color:inherit;">
+                    <a href="detalles.php?id=<?= $peli['id_produccion'] ?>&from=ver_lista.php?id=<?= $id_lista ?>" style="text-decoration:none; color:inherit;">
                         <img
                             src="<?= htmlspecialchars($peli['portada'] ?: 'img/no-poster.png') ?>"
                             alt="<?= htmlspecialchars($peli['titulo']) ?>"

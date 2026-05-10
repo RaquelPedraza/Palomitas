@@ -12,7 +12,7 @@
   --text-soft: #ddd;
 
   --primary: #e50914;
-  --primary-hover: #f40612;
+  --primary-hover: #fa000c;
 
   --accent: #f5b50a;
 
@@ -259,14 +259,19 @@ select.input-filtro option {
 
 .btn-pag,
 .btn-detalles,
-.btn-rojo {
-  background: var(--primary);
-  color: var(--text);
+.btn-rojo, .btn-secundario {
   letter-spacing: 1pt;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
   border: none;
+}
+
+.btn-pag,
+.btn-detalles,
+.btn-rojo {
+  background: var(--primary);
+  color: var(--text);
 }
 
 .btn-pag {
@@ -751,7 +756,7 @@ select.input-filtro option {
   margin-bottom: 10px;
 }
 
-.rating input {
+.rating input, .visibilidad input {
   display: none;
 }
 
@@ -776,7 +781,7 @@ select.input-filtro option {
   border-radius: 8px;
 }
 
-.titulo-resena {
+.input-general{
   width: 100%;
   background: #333;
   color: white;
@@ -967,6 +972,21 @@ select.input-filtro option {
 
 .cerrar:hover {
   color: white;
+}
+
+.btn-secundario {
+  background: #333;
+  color: var(--primary);
+  font-weight: bold;
+  letter-spacing: 0pt;
+  padding: 14px;
+  border: none;
+  font-size: 1.1em;
+  transition: all 0.3s ease;
+}
+
+.btn-secundario:hover {
+  background: #444;
 }
 
 /*CARRUSEL*/
@@ -1203,6 +1223,27 @@ select.input-filtro option {
   font-size: 12px;
   opacity: 0.7;
 }
+
+.visibilidad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 10px;
+}
+
+.opcion-visibilidad{
+  color: var(--text-muted);
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.opcion-visibilidad:hover {
+  color: var(--primary);
+}
+
 
 .crear-lista-btn {
   display: flex;

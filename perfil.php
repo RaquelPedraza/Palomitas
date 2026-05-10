@@ -145,7 +145,7 @@
                 <?php foreach ($resenas as $r): ?>
 
                 <div class="resena-wrapper clickable"
-                    onclick="window.location.href='detalles.php?id=<?= $r['id_produccion'] ?>'">
+                    onclick="window.location.href='detalles.php?id=<?= $r['id_produccion'] ?>&from=perfil.php'">
 
                     <div class="resena-pelicula">
 
@@ -171,23 +171,29 @@
                     </div>
 
                     <div class="resena-detalle">
+                        <div class="resena-detalle-header">
+                            <div class="resena-rating">
+                                <div class="estrellas">
+                                    <?= mostrarEstrellas($r['puntuacion'] ?? 0) ?>
+                                </div>
+                                <div class="texto-rating">
+                                    <?= $r['puntuacion'] ?>/10
+                                </div>
+                            </div>
 
-                        <div class="resena-acciones" onclick="event.stopPropagation()">
-                            <!-- EDITAR RESEÑA -->
-                            <button class="btn-editar" onclick="abrirModalEditar(<?= $r['id_resena'] ?>)" title="Editar reseña">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <!-- ELIMINAR RESEÑA -->
-                            <button type="button" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+                            <div class="resena-acciones" onclick="event.stopPropagation()">
+                                <!-- EDITAR RESEÑA -->
+                                <button class="btn-editar" onclick="abrirModalEditar(<?= $r['id_resena'] ?>)" title="Editar reseña">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <!-- ELIMINAR RESEÑA -->
+                                <button type="button" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                         
-                        <div class="resena-rating">
-                            <?= mostrarEstrellas($r['puntuacion'] ?? 0) ?>
-                            <span><?= $r['puntuacion'] ?>/10</span>
-
-                        </div>
+                        <!-- DATOS RESEÑA -->
                         <h4><?= htmlspecialchars($r['titulo_resena']) ?></h4>
                         <p><?= nl2br(htmlspecialchars($r['contenido'])) ?></p>
                         <p class="fecha-comentario"><?= date('d-m-Y', strtotime($r['fecha'])) ?></p>
@@ -228,7 +234,7 @@
     <div id="modalEliminarResena" class="modal">
         <div class="modal-contenido">
             <h2 class="titulo-modal">¿Desea eliminar esta reseña?</h2>
-            <p>Esta acción no se puede deshacer.</p>
+            <p style="color: #888; text-align: center;">Esta acción no se puede deshacer.</p>
             <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
                 <button type="button" onclick="cerrarModal('modalEliminarResena')" class="btn-secundario">Cancelar</button>
                     <form method="POST" action="modificar_resena.php">
@@ -257,8 +263,6 @@
     async function abrirModalEditar(id_resena) {
         const contenido = document.getElementById('contenidoEditarResena');
         abrirModal('modalEditarResena');
-        
-        contenido.innerHTML = "<p>Cargando...</p>";
 
         try {
             const res = await fetch(`modificar_resena.php?id=${id_resena}`);

@@ -1,6 +1,6 @@
 .lista-header {
   width: 100%;
-  margin: 20px auto 30px;
+  margin-bottom: 30px;
   border-radius: 18px;
   overflow: hidden;
   position: relative;
@@ -10,8 +10,6 @@
 
 .lista-header-overlay {
   width: 100%;
-  padding: 0px;
-  backdrop-filter: blur(2px);
 }
 
 .lista-header-info h1 {

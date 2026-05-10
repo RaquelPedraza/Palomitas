@@ -13,6 +13,15 @@ if (!isset($_GET['id'])) {
 
 $id_pelicula = $_GET['id'];
 
+//BOTÓN VOLVER
+$volver = $_GET['from'] ?? 'index.php';
+$permitidas = ['index.php', 'perfil.php', 'mis_listas.php', 'ver_lista.php'];
+$base = strtok($volver, '?');
+
+if (!in_array($base, $permitidas)) {
+    $volver = 'index.php';
+}
+
 // CONEXIÓN (secrets.php)
 $charset = 'utf8mb4';
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
@@ -109,11 +118,11 @@ $nombres_paises = [
     <!-- NAVABAR -->
     <?php include 'includes/navbar.php'; ?>
 
-    <a href="index.php" class="boton-volver">
+    <a href="<?= htmlspecialchars($volver) ?>" class="boton-volver">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        Volver al catálogo
+        Volver
     </a>
     
 
@@ -260,7 +269,7 @@ $nombres_paises = [
                                 placeholder="Título de tu reseña..." 
                                 maxlength="200"
                                 required
-                                class="titulo-resena"
+                                class="input-general"
                             >
 
                             <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general"></textarea>
