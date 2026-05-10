@@ -88,6 +88,26 @@ try {
     $stmtCom->execute([$id_pelicula]);
     $comentarios = $stmtCom->fetchAll(PDO::FETCH_ASSOC);
 
+    $resenaUsuario = null;
+    
+    if (isset($_SESSION['usuario_id'])) {
+
+        $stmt = $pdo->prepare("
+            SELECT *
+            FROM resenas
+            WHERE id_usuario = ?
+            AND id_produccion = ?
+            LIMIT 1
+        ");
+
+        $stmt->execute([
+            $_SESSION['usuario_id'],
+            $id_pelicula
+        ]);
+
+        $resenaUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 } catch (\PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -242,6 +262,7 @@ $nombres_paises = [
                         <span class="cerrar" onclick="cerrarModal('modalComentario')">&times;</span>
                         <h2 class="titulo-modal">Tu reseña</h2>
                         <form action="guardar_resena.php" method="POST">
+                            <input type="hidden" name="action" value="crear">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <!-- RATING DE TU RESEÑA -->
                             <div class="rating">
@@ -252,7 +273,7 @@ $nombres_paises = [
                                         name="puntuacion" 
                                         value="<?= $i ?>" 
                                         required
-                                        <?= ($notaUsuario == $i) ? 'checked' : '' ?>
+                                        <?= (($resenaUsuario['puntuacion'] ?? $notaUsuario) == $i) ? 'checked' : '' ?>
                                     >
                                     <label for="coment-star<?= $i ?>"><i class="fas fa-star"></i></label>
                                 <?php endfor; ?>
@@ -265,11 +286,16 @@ $nombres_paises = [
                                 maxlength="200"
                                 required
                                 class="input-general"
+                                value="<?= htmlspecialchars($resenaUsuario['titulo_resena'] ?? '') ?>"
                             >
 
-                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general"></textarea>
+                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general">
+                                <?= htmlspecialchars($resenaUsuario['contenido'] ?? '') ?>
+                            </textarea>
 
-                            <button type="submit" class="btn-rojo">Publicar</button>
+                            <button type="submit" class="btn-rojo">
+                                <?= $resenaUsuario ? 'Guardar cambios' : 'Publicar' ?>
+                            </button>
                         </form>
                     </div>
                 </div>

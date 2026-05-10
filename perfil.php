@@ -183,7 +183,15 @@ require_once 'config/secrets.php';
 
                             <div class="perfil-acciones" onclick="event.stopPropagation()">
                                 <!-- EDITAR RESEÑA -->
-                                <button class="btn-editar" onclick="abrirModalEditar(<?= $r['id_resena'] ?>)" title="Editar reseña">
+                                <button
+                                    class="btn-editar"
+                                    onclick="abrirModalEditarResena(
+                                        <?= $r['id_resena'] ?>,
+                                        <?= $r['puntuacion'] ?>,
+                                        `<?= htmlspecialchars(addslashes($r['titulo_resena'])) ?>`,
+                                        `<?= htmlspecialchars(addslashes($r['contenido'])) ?>`
+                                    )"
+                                >
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <!-- ELIMINAR RESEÑA -->
@@ -211,27 +219,27 @@ require_once 'config/secrets.php';
                 <?php foreach ($listas as $l): ?>
                     <div class="wrapper clickable"
                         onclick="window.location.href='ver_lista.php?id=<?= $l['id_lista'] ?>&from=perfil.php'">
-                    <div class="card-lista" data-lista-id="<?= $l['id_lista'] ?>">
-                        <div class="detalle-header">
-                            <h3 style="margin: 0;"><?= htmlspecialchars($l['nombre_lista']) ?></h3>
-                            <div class="perfil-acciones" onclick="event.stopPropagation()">
-                                <button onclick="abrirModalEditarListaPerfil(
-                                    <?= $l['id_lista'] ?>,
-                                    '<?= htmlspecialchars(addslashes($l['nombre_lista'])) ?>',
-                                    '<?= htmlspecialchars(addslashes($l['descripcion'])) ?>',
-                                    '<?= $l['visibilidad'] ?>'
-                                )">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
+                        <div class="card-lista" data-lista-id="<?= $l['id_lista'] ?>">
+                            <div class="detalle-header">
+                                <h3 style="margin: 0;"><?= htmlspecialchars($l['nombre_lista']) ?></h3>
+                                <div class="perfil-acciones" onclick="event.stopPropagation()">
+                                    <button onclick="abrirModalEditarListaPerfil(
+                                        <?= $l['id_lista'] ?>,
+                                        '<?= htmlspecialchars(addslashes($l['nombre_lista'])) ?>',
+                                        '<?= htmlspecialchars(addslashes($l['descripcion'])) ?>',
+                                        '<?= $l['visibilidad'] ?>'
+                                    )">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
 
-                                <button onclick="abrirModalEliminarListaPerfil(<?= $l['id_lista'] ?>)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                    <button onclick="abrirModalEliminarListaPerfil(<?= $l['id_lista'] ?>)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
+                            <p style="line-height: 1.6; color: var(--text-soft); margin-bottom: 12px;"><?= htmlspecialchars($l['descripcion']) ?></p>
+                            <div class="lista-meta" style="color: var(--text-muted); font-size: 14px;"> <?= $l['total_peliculas'] ?> películas </div>
                         </div>
-                        <p style="line-height: 1.6; color: var(--text-soft); margin-bottom: 12px;"><?= htmlspecialchars($l['descripcion']) ?></p>
-                        <div class="lista-meta" style="color: var(--text-muted); font-size: 14px;"> <?= $l['total_peliculas'] ?> películas </div>
-
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -246,19 +254,65 @@ require_once 'config/secrets.php';
             <h2 class="titulo-modal">¿Desea eliminar esta reseña?</h2>
             <p style="color: #888; text-align: center;">Esta acción no se puede deshacer.</p>
             <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
-                <button type="button" onclick="cerrarModal('modalEliminarResena')" class="btn-secundario">Cancelar</button>
-                    <form method="POST" action="modificar_resena.php">
-                        <input type="hidden" name="accion" value="eliminar">
-                        <input type="hidden" name="id_resena" id="inputEliminarResena">
-                        <button type="submit" class="btn-rojo">Eliminar</button>
-                    </form>
+                <button type="button" class="btn-secundario" onclick="cerrarModal('modalEliminarResena')">
+                    Cancelar
+                </button>
+                <button type="button" id="confirmarEliminarResena" class="btn-rojo" style="width: auto;">
+                    Eliminar
+                </button>
             </div>
         </div>
     </div>
                             
     <!-- MODAL EDITAR RESEÑA-->
     <div id="modalEditarResena" class="modal">
-        <div id="contenidoEditarResena"></div>
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modalEditarResena')">
+                &times;
+            </span>
+            <h2 class="titulo-modal">
+                Editar reseña
+            </h2>
+            <form id="formEditarResena">
+                <input type="hidden" name="action" value="editar">
+                <input type="hidden" name="id_resena" id="editar_id_resena">
+
+                <div class="rating">
+                    <?php for ($i = 10; $i >= 1; $i--): ?>
+                        <input
+                            type="radio"
+                            id="edit-star<?= $i ?>"
+                            name="puntuacion"
+                            value="<?= $i ?>"
+                            required
+                        >
+
+                        <label for="edit-star<?= $i ?>">
+                            <i class="fas fa-star"></i>
+                        </label>
+                    <?php endfor; ?>
+                </div>
+
+                <input
+                    type="text"
+                    name="titulo_resena"
+                    id="editar_titulo_resena"
+                    maxlength="200"
+                    class="input-general"
+                >
+
+                <textarea
+                    name="texto"
+                    id="editar_contenido_resena"
+                    rows="6"
+                    class="textarea-general"
+                ></textarea>
+
+                <button type="submit" class="btn-rojo">
+                    Guardar cambios
+                </button>
+            </form>
+        </div>
     </div>
     
     <!-- MODAL ELIMINAR LISTA -->
@@ -285,7 +339,7 @@ require_once 'config/secrets.php';
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal('modalEditarLista')">&times;</span>
             <h2 class="titulo-modal">Editar lista</h2>
-            <form id="formEditarListaPerfil" method="POST" action="listas.php">
+            <form id="formEditarListaPerfil">
                 <input type="hidden" name="action" value="editar">
                 <input type="hidden" name="id_lista" id="editar_id_lista">
                 <input type="text"
