@@ -1,205 +1,386 @@
 .perfil-layout {
   display: flex;
-  gap: 20px;
-  width: 90%;
-  margin: auto;
+  gap: 30px;
+  width: 92%;
+  max-width: 1400px;
+  margin: 40px auto;
   color: var(--text);
+  align-items: flex-start;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
+
 .perfil-sidebar {
-  width: 25%;
-  background: var(--bg-card);
-  padding: 20px;
-  border-radius: 12px;
+  width: 280px;
+  background: linear-gradient(180deg, #1a1a1a, #121212);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px 25px;
   position: sticky;
   top: 20px;
-  height: fit-content;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-.perfil-avatar img {
-  width: 80%;
-  border-radius:50%;
-  display: block;
-  margin: 0 auto;
-}
-
-.perfil-sidebar h2 {
-  margin-top: 10px;
-}
-
-/* STATS */
-.perfil-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.perfil-stats div {
-  background: var(--bg);
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-
-.perfil-main {
-  width: 75%;
-}
-
-/* PESTAÑAS */
-.perfil-tabs {
+.perfil-avatar {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  background: var(--bg-card);
-  padding: 10px;
-  border-radius: 12px;
   margin-bottom: 20px;
 }
 
+.perfil-avatar img {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  box-shadow: 0 0 30px rgba(229, 9, 20, 0.3);
+}
+
+.perfil-sidebar h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.perfil-sidebar a {
+  transition: 0.2s ease;
+}
+
+.perfil-sidebar a:hover {
+  opacity: 0.8;
+}
+
+.perfil-stats {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.perfil-stats div {
+  background: #1f1f1f;
+  padding: 16px 10px;
+  border-radius: 14px;
+  text-align: center;
+  transition: 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.perfil-stats div:hover {
+  transform: translateY(-3px);
+  background: #262626;
+}
+
+.perfil-stats strong {
+  display: block;
+  font-size: 22px;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.perfil-main {
+  flex: 1;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.perfil-tabs {
+  display: flex;
+  gap: 15px;
+  background: #181818;
+  padding: 10px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
 .tab {
+  flex: 1;
   background: transparent;
   border: none;
-  color: var(--text);
-  padding: 10px 15px;
+  color: #aaa;
+  padding: 14px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: 0.25s ease;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tab:hover {
+  background: #242424;
+  color: white;
 }
 
 .tab.active {
-  color: var(--primary);
+  background: var(--primary);
+  color: white;
 }
 
-.tab-content {
-  display: none;
+/* =========================
+   CONTENIDO
+========================= */
+
+.tab-content{
+  display:none;
 }
 
-.tab-content.active {
-  display: block;
+#resenas.active{
+  display:block;
 }
 
-/* RESEÑAS */
+#listas.active{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:20px;
+}
+
+#clips.active{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
+}
+
+/* =========================
+   RESEÑAS
+========================= */
+
 .resena-wrapper {
   display: flex;
-  gap: 15px;
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  border-left: 4px solid var(--primary);
+  gap: 20px;
+  background: linear-gradient(180deg, #181818, #111);
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: 0.25s ease;
+}
+
+.resena-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
 }
 
 .resena-wrapper.clickable {
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.resena-wrapper.clickable:hover {
-  transform: scale(1.01);
-}
-
-/* TARJETA */
-.tarjeta-mini {
-  width: 140px;
-  transform-origin: top left;
-}
-
-.tarjeta-mini img {
-  height: auto;
-  object-fit: cover;
-}
-
-.tarjeta-mini .info {
-  padding: 5px 8px;
-}
-
-.tarjeta-mini .titulo {
-  font-size: 13px;
-}
-
-.tarjeta-mini .meta-datos {
-  font-size: 11px;
 }
 
 .resena-pelicula {
   flex-shrink: 0;
 }
 
-/* DETALLE */
+.tarjeta-mini {
+  width: 160px;
+}
+
+.tarjeta-mini img {
+  width: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.tarjeta-mini .info {
+  padding-top: 10px;
+}
+
+.tarjeta-mini .titulo {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.tarjeta-mini .meta-datos {
+  font-size: 12px;
+  color: #aaa;
+}
+
 .resena-detalle {
   flex: 1;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .resena-detalle-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
+
+.resena-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.estrellas {
+  color: #ffd700;
+}
+
+.texto-rating {
+  font-weight: bold;
+  color: white;
+}
+
+.resena-detalle h4 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.resena-detalle p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.fecha-comentario {
+  margin-top: auto;
+  color: #777 !important;
+  font-size: 13px;
+}
+
+/* =========================
+   BOTONES ACCIONES
+========================= */
 
 .resena-acciones {
   display: flex;
   gap: 10px;
 }
 
-.resena-acciones a,
 .resena-acciones button {
-  background: none;
+  width: 40px;
+  height: 40px;
   border: none;
-  color: var(--text-muted);
+  border-radius: 10px;
+  background: #1f1f1f;
+  color: #aaa;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.resena-acciones a:hover,
 .resena-acciones button:hover {
-  color: var(--primary);
+  background: var(--primary);
+  color: white;
 }
 
-/* LISTAS */
+/* =========================
+   LISTAS
+========================= */
+
+#listas.active {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+
+}
+
 .card-lista {
-  background: var(--bg-card);
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  background: #181818;
+  border-radius: 18px;
+  padding: 22px;
+  transition: 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* CLIPS */
-.card-clip {
-  background: var(--bg-card);
-  padding: 10px;
-  border-radius: 10px;
+.card-lista:hover {
+  transform: translateY(-5px);
+  background: #202020;
+}
+
+.card-lista h3 {
   margin-bottom: 10px;
+  color: white;
+}
+
+.card-lista p {
+  color: #aaa;
+  line-height: 1.5;
+}
+
+/* =========================
+   CLIPS
+========================= */
+
+#clips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+#clips.active {
+  display: grid;
+}
+
+.card-clip {
+  background: #181818;
+  padding: 15px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: 0.25s ease;
+}
+
+.card-clip:hover {
+  transform: translateY(-5px);
 }
 
 .card-clip iframe {
   width: 100%;
-  height: 250px;
-  border-radius: 10px;
+  height: 220px;
+  border: none;
+  border-radius: 14px;
+  margin-bottom: 12px;
 }
 
-.perfil-main .resena-wrapper .tarjeta.tarjeta-mini {
-  box-shadow: none;
-  transform: none;
-  transition: none;
+.card-clip h3 {
+  font-size: 16px;
 }
 
-.perfil-main .resena-wrapper .tarjeta.tarjeta-mini:hover {
-  box-shadow: none;
-  transform: none;
-}
 
-@media (max-width: 900px) {
+/* =========================
+   RESPONSIVE TABLET
+========================= */
+
+@media (max-width: 1100px) {
+
   .perfil-layout {
     flex-direction: column;
     width: 95%;
+    gap: 25px;
   }
 
   .perfil-sidebar {
     width: 100%;
     position: relative;
     top: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 30px 25px;
+  }
+
+  .perfil-avatar img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .perfil-stats {
+    width: 100%;
+    max-width: 500px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
   }
 
   .perfil-main {
@@ -207,92 +388,245 @@
   }
 
   .perfil-tabs {
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .tab {
-    flex: 1;
-    text-align: center;
-    font-size: 14px;
-  }
-
-  .resena-wrapper {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .resena-pelicula {
-    width: 110px;
-    flex-shrink: 0;
-  }
-
-  .tarjeta.tarjeta-mini {
     width: 100%;
-    transform: none;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
-  .tarjeta img {
-    height: 150px;
-    object-fit: cover;
-  }
-
-  .resena-detalle {
-    flex: 1;
-  }
-
-  .resena-detalle-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .resena-acciones {
-    display: flex;
-    gap: 8px;
-  }
-
-}
-
-@media (max-width: 480px) {
-
-  .perfil-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .perfil-tabs {
-    font-size: 12px;
-    justify-content: center;
-  }
-
-  .resena-detalle-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .resena-rating {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .resena-acciones {
-    display: flex;
-    align-items: center;
-    gap: 1px;
-  }
-
-  .resena-rating .estrellas {
-    display: inline-block;
-  }
-
-  .resena-rating .estrellas i:not(:first-child) {
+  .perfil-tabs::-webkit-scrollbar {
     display: none;
   }
 
+  .tab {
+    white-space: nowrap;
+    min-width: 160px;
+  }
+
+  .resena-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .resena-pelicula {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .tarjeta-mini {
+    width: 220px;
+  }
+
+  #listas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #clips {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   RESPONSIVE MÓVIL
+========================= */
+
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .perfil-layout {
+    width: 100%;
+    margin: 20px auto;
+    gap: 20px;
+  }
+
+  .perfil-sidebar {
+    padding: 25px 18px;
+    border-radius: 18px;
+  }
+
+  .perfil-avatar img {
+    width: 115px;
+    height: 115px;
+    border-width: 3px;
+  }
+
+  .perfil-sidebar h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .perfil-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .perfil-stats div {
+    padding: 14px 10px;
+  }
+
+  .perfil-stats strong {
+    font-size: 18px;
+  }
+
+  .perfil-tabs {
+    padding: 8px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+
+  .tab {
+    padding: 12px;
+    font-size: 13px;
+    border-radius: 10px;
+    min-width: 120px;
+  }
+
+  .resena-wrapper {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .tarjeta-mini {
+    width: 180px;
+  }
+
+  .tarjeta-mini img {
+    border-radius: 12px;
+  }
+
+  .resena-detalle {
+    width: 100%;
+  }
+
+  .resena-detalle-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .resena-rating {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .resena-acciones {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .resena-detalle h4 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .resena-detalle p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .fecha-comentario {
+    text-align: left;
+    margin-top: 14px;
+  }
+
+  #listas {
+    grid-template-columns: 1fr;
+  }
+
+  .card-lista {
+    padding: 18px;
+  }
+
+  #clips {
+    grid-template-columns: 1fr;
+  }
+
+  .card-clip {
+    padding: 12px;
+  }
+
+  .card-clip iframe {
+    height: 220px;
+  }
+}
+
+/* =========================
+   RESPONSIVE MÓVIL PEQUEÑO
+========================= */
+
+@media (max-width: 480px) {
+
+  .perfil-sidebar {
+    padding: 20px 14px;
+  }
+
+  .perfil-avatar img {
+    width: 95px;
+    height: 95px;
+  }
+
+  .perfil-sidebar h2 {
+    font-size: 20px;
+  }
+
+  .perfil-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .perfil-stats div {
+    font-size: 12px;
+    padding: 12px 8px;
+  }
+
+  .perfil-stats strong {
+    font-size: 16px;
+  }
+
+  .tab {
+    min-width: auto;
+    flex: 1;
+    font-size: 12px;
+    padding: 10px 8px;
+  }
+
+  .tab i {
+    display: none;
+  }
+
+  .resena-wrapper {
+    padding: 14px;
+  }
+
+  .tarjeta-mini {
+    width: 150px;
+  }
+
+  .resena-detalle h4 {
+    font-size: 18px;
+  }
+
+  .resena-detalle p {
+    font-size: 13px;
+  }
+
+  .estrellas i:not(:first-child) {
+    display: none;
+  }
+
+  .texto-rating {
+    font-size: 14px;
+  }
+
+  .resena-acciones button {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+  }
+
+  .card-clip iframe {
+    height: 190px;
+  }
 }
