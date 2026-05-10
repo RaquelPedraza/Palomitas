@@ -77,7 +77,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($favoritos as $peli): ?>
                     <div class="tarjeta">
                         <a
-                            href="detalles.php?id=<?= $peli['id_produccion'] ?>"
+                            href="detalles.php?id=<?= $peli['id_produccion'] ?>&from=mis_listas.php"
                             style="text-decoration:none; color:inherit;"
                         >
                             <img
@@ -127,12 +127,22 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div id="modalCrearListas" class="modal">
             <div class="modal-contenido">
                 <span class="cerrar" onclick="cerrarModal('modalCrearListas')">&times;</span>
-                <h2>Crear nueva lista</h2>
+                <h2 class="titulo-modal">Crear nueva lista</h2>
                 <form id="formCrearLista">
-                        <input type="text" name="nombre_lista" placeholder="Nombre de la lista" required>
+                        <input type="text" name="nombre_lista" placeholder="Nombre de la lista" required class="input-general">
                         <textarea name="descripcion" rows="4" placeholder="Descripción" class="textarea-general"></textarea>
-                        <input type="radio" name="visibilidad" value="publica" checked>
-                        <input type="radio" name="visibilidad" value="privada">
+                        <div class="visibilidad">
+                            <input type="radio" name="visibilidad" value="publica" checked id="publica">
+                            <label for="publica" class="opcion-visibilidad">
+                                <i class="fa-solid fa-earth-americas"></i>
+                                Pública
+                            </label>
+                            <input type="radio" name="visibilidad" value="privada" id="privada">
+                            <label for="privada" class="opcion-visibilidad">
+                                <i class="fa-solid fa-lock"></i>
+                                Privada
+                            </label>
+                        </div>
                         <button type="submit" class="btn-rojo">Crear lista</button>                                  
                 </form>
             </div> 
@@ -154,7 +164,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $pelis = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
 
-            <div class="lista-card">
+            <div class="lista-card" data-lista-id="<?= $lista['id_lista'] ?>">
                  <a href="ver_lista.php?id=<?= $lista['id_lista'] ?>">
                    <div class="lista-media">
                         <?php if (empty($pelis)): ?>

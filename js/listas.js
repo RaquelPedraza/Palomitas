@@ -1,16 +1,20 @@
-//CREAR LISTA
 document.addEventListener('DOMContentLoaded', () => {
-
+    //CREAR LISTA
     const formCrearLista = document.getElementById('formCrearLista');
     if (formCrearLista) {
 
         formCrearLista.addEventListener('submit', async (e) => {
-
             e.preventDefault();
-
             const formData = new FormData(formCrearLista);
-
             formData.append('action', 'crear');
+
+            /* Crear listas DROPDOWN */
+            const dropdown = document.getElementById('listasDropdown');
+            const idProduccion = dropdown?.dataset?.produccion || null;
+
+            if (idProduccion) {
+                formData.append('id_produccion', idProduccion);
+            }
 
             try {
                 const res = await fetch('listas.php', {
@@ -20,120 +24,101 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const data = await res.json();
 
-                if (!data.ok) {
-                    console.log(data.error);
-                    return;
-                }
+                if (data.ok) {
+                    const card = document.querySelector(
+                        `[data-lista-id="${listaAEliminar}"]`
+                    );
 
-                // refresca para mostrar nueva lista
-                location.reload();
+                    if (card) {
+                        card.style.transition = "opacity 0.2s ease";
+                        card.style.opacity = "0";
+
+                        setTimeout(() => card.remove(), 200);
+                    }
+
+                    cerrarModal('modalEliminarLista');
+                }
 
             } catch (err) {
                 console.error('Error creando lista:', err);
             }
         });
     }
+
+    //EDITAR LISTA
+    const formEditar = document.getElementById('formEditarLista');
+
+    if (formEditar) {
+        formEditar.addEventListener('submit', async (e) => {
+
+            e.preventDefault();
+
+            const formData = new FormData(formEditar);
+            formData.append('action', 'editar');
+
+            const res = await fetch('listas.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (!data.ok) return;
+
+            location.reload();
+        });
+    }
+
+    //ELIMINAR LISTA
+    const btnEliminar = document.getElementById('confirmarEliminarLista');
+
+    if (btnEliminar) {
+        btnEliminar.addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append('action', 'eliminar');
+            formData.append('id_lista', listaAEliminar);
+
+            try {
+                const res = await fetch('listas.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (!data.ok) return;
+
+                location.href = 'mis_listas.php';
+
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
 });
 
-//EDITAR LISTA
-async function editarLista(
-    id_lista,
-    nombreActual,
-    descripcionActual,
-    visibilidadActual
-) {
+let listaAEliminar = null;
 
-    const nuevoNombre = prompt(
-        'Nuevo nombre de la lista:',
-        nombreActual
-    );
+/* MODAL EDITAR */
+function abrirModalEditarLista(id, nombre, descripcion, visibilidad) {
 
-    if (nuevoNombre === null) return;
+    document.getElementById('editar_id_lista').value = id;
+    document.getElementById('editar_nombre').value = nombre;
+    document.getElementById('editar_descripcion').value = descripcion;
 
-
-    const nuevaDescripcion = prompt(
-        'Nueva descripción:',
-        descripcionActual
-    );
-
-    if (nuevaDescripcion === null) return;
-
-
-    const nuevaVisibilidad = prompt(
-        'Visibilidad: publica o privada',
-        visibilidadActual
-    );
-
-    if (nuevaVisibilidad === null) return;
-
-
-    const formData = new FormData();
-
-    formData.append('action', 'editar');
-    formData.append('id_lista', id_lista);
-
-    formData.append('nombre_lista', nuevoNombre);
-    formData.append('descripcion', nuevaDescripcion);
-    formData.append('visibilidad', nuevaVisibilidad);
-
-
-    try {
-
-        const res = await fetch('listas.php', {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await res.json();
-
-        if (!data.ok) {
-            console.log(data.error);
-            return;
-        }
-
-        // actualizar contenido
-        location.reload();
-
-    } catch (err) {
-        console.error('Error editando lista:', err);
+    if (visibilidad === 'publica') {
+        document.getElementById('edit_publica').checked = true;
+    } else {
+        document.getElementById('edit_privada').checked = true;
     }
+
+    abrirModal('modalEditarLista');
 }
 
-//ELIMINAR LISTA
-async function eliminarLista(id_lista) {
-
-    const confirmar = confirm(
-        '¿Seguro que quieres eliminar esta lista?'
-    );
-
-    if (!confirmar) return;
-
-
-    const formData = new FormData();
-
-    formData.append('action', 'eliminar');
-    formData.append('id_lista', id_lista);
-
-
-    try {
-        const res = await fetch('listas.php', {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await res.json();
-
-        if (!data.ok) {
-            console.log(data.error);
-            return;
-        }
-
-        // refresca vista
-        location.reload();
-
-    } catch (err) {
-        console.error('Error eliminando lista:', err);
-    }
+/* MODAL ELIMINAR */
+function abrirModalEliminarLista(id) {
+    listaAEliminar = id;
+    abrirModal('modalEliminarLista');
 }
 
 //AÑADIR PELÍCULA A LISTA
@@ -162,7 +147,7 @@ async function addToList(id_produccion, id_lista) {
             return;
         }
 
-          mostrarToast('Añadido a la lista correctamente');
+        mostrarToast('Añadido a la lista correctamente');
 
     } catch (err) {
         console.error('Error añadiendo película:', err);
@@ -170,63 +155,33 @@ async function addToList(id_produccion, id_lista) {
     }
 }
 
-//TOGGLE DETALLES DE LISTA
-let dropdownOpen = false;
+/* ELIMINAR PELÍCULA DE LISTA */
+async function eliminarPeliculaLista(id_produccion) {
 
-async function toggleListas(id_produccion) {
+    const id_lista = new URLSearchParams(window.location.search).get("id");
 
-    const dropdown = document.getElementById('listasDropdown');
+    const confirmar = confirm("¿Eliminar película?");
+    if (!confirmar) return;
 
-    if (dropdownOpen) {
-        dropdown.style.display = 'none';
-        dropdownOpen = false;
-        document.removeEventListener('click', closeDropdownOnOutsideClick);
-        return;
+    const formData = new FormData();
+    formData.append('action', 'remove');
+    formData.append('id_lista', id_lista);
+    formData.append('id_produccion', id_produccion);
+
+    try {
+
+        const res = await fetch('listas.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (!data.ok) return;
+
+         document.querySelector(`[data-id="${id_produccion}"]`)?.remove();
+
+    } catch (err) {
+        console.error(err);
     }
-
-    const res = await fetch(`get_listas.php?id_produccion=${id_produccion}`);
-    const listas = await res.json();
-
-    dropdown.innerHTML = '';
-
-    listas.forEach(lista => {
-
-        const item = document.createElement('div');
-        item.classList.add('lista-item');
-
-        item.innerHTML = `
-            ${lista.nombre_lista}
-            ${lista.contiene ? '✔' : ''}
-        `;
-
-        if (lista.contiene) {
-            item.style.opacity = '0.6';
-        }
-
-        item.onclick = (e) => {
-            e.stopPropagation();
-            addToList(id_produccion, lista.id_lista);
-        };
-
-        dropdown.appendChild(item);
-    });
-
-    dropdown.style.display = 'block';
-    dropdownOpen = true;
-
-    setTimeout(() => {
-        document.addEventListener('click', closeDropdownOnOutsideClick);
-    }, 0);
-
-    dropdown.dataset.produccion = id_produccion;
-}
-
-function mostrarToast(mensaje) {
-    const toast = document.getElementById('toast');
-    toast.textContent = mensaje;
-    toast.classList.add('show');
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2000);
 }

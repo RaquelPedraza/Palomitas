@@ -12,7 +12,7 @@
   --text-soft: #ddd;
 
   --primary: #e50914;
-  --primary-hover: #f40612;
+  --primary-hover: #fa000c;
 
   --accent: #f5b50a;
 
@@ -78,14 +78,22 @@ h1 {
   );
   padding-top: 5px;
   padding-bottom: 5px;
+  margin-top: 50px;
 }
+
+.titulo-modal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 h2 {
   color: var(--text);
   background-color: var(--bg-card);
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
   padding: 10px;
-  margin-top: 50px;
 }
 
 /*FORMULARIO DE BÚSQUEDA Y FILTROS*/
@@ -251,14 +259,19 @@ select.input-filtro option {
 
 .btn-pag,
 .btn-detalles,
-.btn-rojo {
-  background: var(--primary);
-  color: var(--text);
+.btn-rojo, .btn-secundario {
   letter-spacing: 1pt;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
   border: none;
+}
+
+.btn-pag,
+.btn-detalles,
+.btn-rojo {
+  background: var(--primary);
+  color: var(--text);
 }
 
 .btn-pag {
@@ -496,7 +509,7 @@ select.input-filtro option {
   padding: 0 20px;
   min-height: 70px;
   box-shadow: 0 4px 10px var(--shadow-dark);
-  position: relative; /* Clave para el menú flotante en móvil */
+  position: relative; 
 }
 
 /* Logo */
@@ -743,7 +756,7 @@ select.input-filtro option {
   margin-bottom: 10px;
 }
 
-.rating input {
+.rating input, .visibilidad input {
   display: none;
 }
 
@@ -768,7 +781,7 @@ select.input-filtro option {
   border-radius: 8px;
 }
 
-.titulo-resena {
+.input-general{
   width: 100%;
   background: #333;
   color: white;
@@ -889,16 +902,90 @@ select.input-filtro option {
 
 .btn-listas {
   color: var(--text-muted);
+  position: relative;
 }
 
+/* DROPDOWN LISTAS */
+.contendero-listas {
+  position: relative;
+}
+.dropdown-listas {
+  position: absolute;
+  top: calc(100% + 10);
+  right: 250px;
+  margin-top: 10px;
+  min-width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow:
+    0 10px 25px var(--shadow-soft);
+  z-index: 999;
+  animation: dropdownFade 0.18s ease;
+}
+
+
 .lista-item {
-  padding: 8px;
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  color: var(--text);
   cursor: pointer;
-  color: white;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.crear-lista-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .lista-item:hover {
-  background: #e50914;
+  background: rgba(229, 9, 20, 0.12);
+  color: var(--primary);
+  transform: translateX(4px);
+}
+
+.lista-item.added {
+  opacity: 0.55;
+}
+
+.lista-item i {
+  font-size: 13px;
+}
+
+.dropdown-listas::-webkit-scrollbar {
+  width: 4px;
+}
+.dropdown-listas::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+
+.dropdown-listas::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.dropdown-listas::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .toast {
@@ -926,7 +1013,7 @@ select.input-filtro option {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
@@ -943,7 +1030,7 @@ select.input-filtro option {
   border-radius: 10px;
   width: 400px;
   max-width: 90%;
-
+  z-index: 10000;
   position: relative;
   color: white;
 }
@@ -959,6 +1046,21 @@ select.input-filtro option {
 
 .cerrar:hover {
   color: white;
+}
+
+.btn-secundario {
+  background: #333;
+  color: var(--primary);
+  font-weight: bold;
+  letter-spacing: 0pt;
+  padding: 14px;
+  border: none;
+  font-size: 1.1em;
+  transition: all 0.3s ease;
+}
+
+.btn-secundario:hover {
+  background: #444;
 }
 
 /*CARRUSEL*/
@@ -1143,9 +1245,8 @@ select.input-filtro option {
 
 /* LISTAS */
 .listas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -1221,6 +1322,31 @@ select.input-filtro option {
   opacity: 0.7;
 }
 
+.visibilidad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 10px;
+}
+
+.opcion-visibilidad{
+  color: var(--text-muted);
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.opcion-visibilidad:hover {
+  color: var(--primary);
+}
+
+.visibilidad input:checked + label {
+  color: var(--primary-hover);
+}
+
+
 .crear-lista-btn {
   display: flex;
   align-items: center;
@@ -1243,3 +1369,4 @@ select.input-filtro option {
   font-size: 0.8em;
   letter-spacing: 0.5px;
 }
+

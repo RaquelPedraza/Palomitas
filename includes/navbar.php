@@ -17,14 +17,14 @@
             $esta_logueado = isset($_SESSION['usuario_id']);
             ?>
 
+            <?php if (isset($_SESSION['usuario_id'])): ?> 
+                <a href="perfil.php">Mi Perfil</a>
+                <a href="mis_listas.php">Mis listas</a>
+            <?php endif; ?>
+
             <a href="index.php">Catálogo</a>
             <a href="reels.php">Reels</a>
-
-                <?php if (isset($_SESSION['usuario_id'])): ?> 
-                    <a href="mis_listas.php">Mis listas</a>
-                    <a href="perfil.php">Mi Perfil</a>
-                <?php endif; ?>
-            </div>
+            
         </div> 
 
         <div class="nav-centro" style="flex: 1; text-align: center;">

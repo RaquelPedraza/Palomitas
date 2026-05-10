@@ -1,5 +1,9 @@
 <?php
     session_start();
+
+    if (!isset($_SESSION['usuario_id'])) {
+        die("Acceso denegado");
+    }
     header('Content-Type: application/json');
 
     if (!isset($_SESSION['usuario_id'])) {

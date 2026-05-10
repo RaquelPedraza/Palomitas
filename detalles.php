@@ -13,6 +13,15 @@ if (!isset($_GET['id'])) {
 
 $id_pelicula = $_GET['id'];
 
+//BOTÓN VOLVER
+$volver = $_GET['from'] ?? 'index.php';
+$permitidas = ['index.php', 'perfil.php', 'mis_listas.php', 'ver_lista.php'];
+$base = strtok($volver, '?');
+
+if (!in_array($base, $permitidas)) {
+    $volver = 'index.php';
+}
+
 // CONEXIÓN (secrets.php)
 $charset = 'utf8mb4';
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
@@ -109,11 +118,11 @@ $nombres_paises = [
     <!-- NAVABAR -->
     <?php include 'includes/navbar.php'; ?>
 
-    <a href="index.php" class="boton-volver">
+    <a href="<?= htmlspecialchars($volver) ?>" class="boton-volver">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        Volver al catálogo
+        Volver
     </a>
     
 
@@ -189,29 +198,24 @@ $nombres_paises = [
                                 <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
                                 <span>Añadir a favoritos</span>
                             </button>
-
-                            <button class="iconos-accion btn-listas" onclick="toggleListas(<?= $id_pelicula ?>)">
-                                <i class="fas fa-plus"></i>
-                                <span>Añadir a lista</span>
-                            </button>
+                            
+                            <div class="contenedor-listas">
+                                <button class="iconos-accion btn-listas" onclick="toggleListas(<?= $id_pelicula ?>)">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Añadir a lista</span>
+                                </button>
+                                <div id="listasDropdown" class="dropdown-listas" style="display:none;"></div>
+                            </div>
 
                         </div>
                     </div>               
                 <?php endif; ?>
 
-                
-                <div class="favorito-listas">
-                    
-                    
-                </div>
-
-                <div id="listasDropdown" class="dropdown-listas" style="display:none;"></div>
-
                 <!-- MODALES -->
                 <div id="modalRating" class="modal">
                     <div class="modal-contenido">
                         <span class="cerrar" onclick="cerrarModal('modalRating')">&times;</span>
-                        <h2>Tu valoración</h2>
+                        <h2 class="titulo-modal">Tu valoración</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <div class="rating">
@@ -236,7 +240,7 @@ $nombres_paises = [
                 <div id="modalComentario" class="modal">
                     <div class="modal-contenido">
                         <span class="cerrar" onclick="cerrarModal('modalComentario')">&times;</span>
-                        <h2>Tu reseña</h2>
+                        <h2 class="titulo-modal">Tu reseña</h2>
                         <form action="guardar_resena.php" method="POST">
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <!-- RATING DE TU RESEÑA -->
@@ -260,12 +264,47 @@ $nombres_paises = [
                                 placeholder="Título de tu reseña..." 
                                 maxlength="200"
                                 required
-                                class="titulo-resena"
+                                class="input-general"
                             >
 
                             <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general"></textarea>
 
                             <button type="submit" class="btn-rojo">Publicar</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="modalCrearListas" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar" onclick="cerrarModal('modalCrearListas')">
+                            &times;
+                        </span>
+                        <h2 class="titulo-modal">Crear nueva lista</h2>
+                        <form id="formCrearLista">
+                            <input 
+                                type="text"
+                                name="nombre_lista"
+                                placeholder="Nombre de la lista"
+                                required
+                                class="input-general"
+                            >
+                            <textarea name="descripcion" rows="4" placeholder="Descripción" class="textarea-general"></textarea>
+
+                            <div class="visibilidad">
+                                <input type="radio"name="visibilidad" value="publica" checked id="publica-dropdown">
+                                <label for="publica-dropdown" class="opcion-visibilidad">
+                                    <i class="fa-solid fa-earth-americas"></i>
+                                    Pública
+                                </label>
+                                <input type="radio"name="visibilidad" value="privada" id="privada-dropdown">
+                                <label for="privada-dropdown" class="opcion-visibilidad">
+                                    <i class="fa-solid fa-lock"></i>
+                                    Privada
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-rojo">
+                                Crear lista
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -299,6 +338,7 @@ $nombres_paises = [
     <script src="js/modales.js"></script>
     <script src="js/listas.js"></script>
     <script src="js/favoritos.js"></script>
+    <script src="js/dropdown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <?php include 'includes/footer.php'; ?>

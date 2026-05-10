@@ -18,8 +18,10 @@
 }
 
 .perfil-avatar img {
-  width: 100%;
-  border-radius: 12px;
+  width: 80%;
+  border-radius:50%;
+  display: block;
+  margin: 0 auto;
 }
 
 .perfil-sidebar h2 {
@@ -78,7 +80,7 @@
 }
 
 /* RESEÑAS */
-.resena-wrapper {
+.wrapper {
   display: flex;
   gap: 15px;
   background: #111;
@@ -88,25 +90,28 @@
   border-left: 4px solid var(--primary);
 }
 
-.resena-wrapper.clickable {
+.wrapper.clickable {
   cursor: pointer;
   transition: 0.2s;
 }
 
-.resena-wrapper.clickable:hover {
+.wrapper.clickable:hover {
   transform: scale(1.01);
 }
 
 /* TARJETA */
 .tarjeta-mini {
   width: 140px;
-  transform: scale(0.85);
   transform-origin: top left;
 }
 
 .tarjeta-mini img {
-  height: 180px;
+  height: auto;
   object-fit: cover;
+}
+
+.tarjeta-mini .info {
+  padding: 5px 8px;
 }
 
 .tarjeta-mini .titulo {
@@ -127,33 +132,41 @@
   position: relative;
 }
 
-.resena-acciones {
-  position: absolute;
-  top: 0;
-  right: 0;
+.detalle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.perfil-acciones {
   display: flex;
   gap: 10px;
 }
 
-.resena-acciones a,
-.resena-acciones button {
+.perfil-acciones a,
+.perfil-acciones button {
   background: none;
   border: none;
   color: var(--text-muted);
   cursor: pointer;
 }
 
-.resena-acciones a:hover,
-.resena-acciones button:hover {
+.perfil-acciones a:hover,
+.perfil-acciones button:hover {
   color: var(--primary);
+}
+
+.perfil-acciones i {
+  font-size: 16px;
 }
 
 /* LISTAS */
 .card-lista {
-  background: var(--bg-card);
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 /* CLIPS */
@@ -170,13 +183,13 @@
   border-radius: 10px;
 }
 
-.perfil-main .resena-wrapper .tarjeta.tarjeta-mini {
+.perfil-main .wrapper .tarjeta.tarjeta-mini {
   box-shadow: none;
   transform: none;
   transition: none;
 }
 
-.perfil-main .resena-wrapper .tarjeta.tarjeta-mini:hover {
+.perfil-main .wrapper .tarjeta.tarjeta-mini:hover {
   box-shadow: none;
   transform: none;
 }
@@ -209,8 +222,8 @@
     font-size: 14px;
   }
 
-  .resena-wrapper {
-    flex-direction: column;
+  .wrapper {
+    flex-direction: row;
     align-items: flex-start;
   }
 
@@ -221,8 +234,9 @@
 
   .tarjeta.tarjeta-mini {
     width: 100%;
-    transform: none; 
+    transform: none;
   }
+
   .tarjeta img {
     height: 150px;
     object-fit: cover;
@@ -232,13 +246,19 @@
     flex: 1;
   }
 
-  .resena-acciones {
-    position: static;
-    justify-content: flex-end;
-    margin-bottom: 8px;
+  .detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .perfil-acciones {
+    display: flex;
+    gap: 8px;
   }
 
 }
+
 @media (max-width: 480px) {
 
   .perfil-stats {
@@ -251,10 +271,32 @@
     justify-content: center;
   }
 
-  .resena-acciones {
-    position: static;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+  .detalle-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .resena-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .perfil-acciones {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .resena-rating .estrellas {
+    display: inline-block;
+  }
+
+  .resena-rating .estrellas i:not(:first-child) {
+    display: none;
   }
 
 }

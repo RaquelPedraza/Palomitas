@@ -1,6 +1,6 @@
 .lista-header {
   width: 100%;
-  margin: 20px auto 30px;
+  margin-bottom: 30px;
   border-radius: 18px;
   overflow: hidden;
   position: relative;
@@ -10,8 +10,6 @@
 
 .lista-header-overlay {
   width: 100%;
-  padding: 0px;
-  backdrop-filter: blur(2px);
 }
 
 .lista-header-info h1 {
@@ -63,6 +61,33 @@
   transform: translateY(-2px);
 }
 
+.pelicula {
+    position: relative;
+}
+
+.btnlistas {
+    width: auto !important;
+}
+
+.btn-eliminar-pelicula {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-eliminar-pelicula:hover {
+    background: red;
+}
 
 @media (max-width: 900px) {
   .lista-header {

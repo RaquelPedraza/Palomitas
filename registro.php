@@ -4,6 +4,8 @@ session_start();
 require_once 'config/secrets.php';
 
 $error = "";
+$nombre = '';
+$email = '';
 
 // Conexión a la BD
 try {
@@ -18,7 +20,15 @@ $mensaje_servidor = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'] ?? '';
+    if (strlen($nombre) < 3) {
+    $mensaje_servidor = "<p class='rojo'>Nombre demasiado corto.</p>";
+    }
+
     $email = $_POST['email'] ?? '';
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $mensaje_servidor = "<p class='rojo'>Email inválido.</p>";
+    }
+    
     $password = $_POST['password'] ?? '';
 
     //AVATAR 
@@ -128,13 +138,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($stmt->execute([$nombre, $email, $hash_password, $avatar])) {
 
-                $mensaje_servidor = "<p class='verde'>¡Registro exitoso! Ya puedes iniciar sesión.</p>";
+                $id_usuario = $pdo->lastInsertId();
+
+                $_SESSION['usuario_id'] = $id_usuario;
+                $_SESSION['usuario_nombre'] = $nombre;
+                $_SESSION['usuario_rol'] = 'usuario';
+
+                session_regenerate_id(true);
 
                 @mail(
                     $email,
                     "Bienvenido a Palomitas",
                     "Hola $nombre, gracias por registrarte en Palomitas"
                 );
+                
+                header("Location: index.php");
+                exit;
+
+                
             }
         }
       
@@ -154,6 +175,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .ajax-check input { flex: 1; }
         .ajax-check button { width: auto; padding: 12px; background: #333; color: white; border: 1px solid #555; cursor: pointer;}
         .ajax-check button:hover { background: #555; }
+
+        .avatar-upload{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:12px;
+            margin-bottom:20px;
+        }
+
+        .avatar-label{
+            color:white;
+            font-weight:bold;
+            font-size:18px;
+        }
+
+        .avatar-preview{
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            overflow:hidden;
+            border:3px solid #e50914;
+            background:#222;
+        }
+
+        .avatar-preview img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .avatar-upload input[type="file"]{
+            color:white;
+            background:#222;
+            padding:10px;
+            border-radius:8px;
+            width:100%;
+        }
+
+        .avatar-upload small{
+            color:#aaa;
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -175,19 +238,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <form method="POST" action="registro.php" enctype="multipart/form-data">
             <div class="grupo-input ajax-check">
-                <input type="text" id="usuario" name="nombre" placeholder="Nombre de usuario" required>
+                <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre de usuario"
+                    value="<?= htmlspecialchars($nombre) ?>"
+                    required
+                >
                 <button type="button" id="btnComprobar">Comprobar</button>
             </div>
             <div id="mensaje" style="margin-bottom: 15px;"></div> 
 
             <div class="grupo-input">
-                <input type="email" name="email" placeholder="Correo electrónico" required>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Correo electrónico"
+                    value="<?= htmlspecialchars($email) ?>"
+                    required
+                >
             </div>
             <div class="grupo-input">
                 <input type="password" name="password" placeholder="Contraseña" required>
             </div>
             <div class="grupo-input">
-                <input type="file" name="avatar" id="avatar" accept="image/*">
+                <div class="avatar-upload">
+
+                    <label for="avatar" class="avatar-label">
+                        Foto de perfil
+                    </label>
+
+                    <div class="avatar-preview">
+                        <img
+                            id="preview-avatar"
+                            src="img/default-avatar.png"
+                            alt="Preview Avatar"
+                        >
+                    </div>
+
+                    <input
+                        type="file"
+                        name="avatar"
+                        id="avatar"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Sube una imagen para personalizar tu perfil.
+                    </small>
+
+                </div>
             </div>
 
             <button type="submit" class="btn-rojo">Registrarse</button>
@@ -215,6 +315,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 });
         };
+
+        document.getElementById('avatar').addEventListener('change', function(e){
+
+            const file = e.target.files[0];
+
+            if(file){
+
+                const reader = new FileReader();
+
+                reader.onload = function(event){
+                    document.getElementById('preview-avatar').src = event.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            }
+
+        });
     </script>
 </body>
 </html>
