@@ -1,104 +1,43 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 
 if (!isset($_SESSION['usuario_id'])) {
-    die("Acceso denegado");
-}
-
-require_once 'config/secrets.php';
-
-try {
-
-$pdo = new PDO(
-    "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4"
-);
-
-} catch (PDOException $e) {
-
-    die("Error de conexión: " . $e->getMessage());
-
-}
-
-/*
-| SEGURIDAD
-*/
-
-if (
-    !isset($_SESSION['usuario_id']) ||
-    !isset($_GET['id']) ||
-    !isset($_GET['accion'])
-) {
-
-    header("Location: index.php");
+    echo json_encode(['ok' => false, 'error' => 'no_login']);
     exit;
 }
 
-/*
-| DATOS
-*/
+require_once 'config/secrets.php'; 
 
-$mi_id = $_SESSION['usuario_id'];
-
-$id_perfil = $_GET['id'];
-
-$accion = $_GET['accion'];
-
-/*
-| EVITAR SEGUIRSE A SÍ MISMO
-*/
-
-if ($mi_id == $id_perfil) {
-
-    header("Location: perfil.php");
+try {
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
+} catch (PDOException $e) {
+    echo json_encode(['ok' => false, 'error' => 'db_error']);
     exit;
 }
 
-try {
+$id_seguidor = $_SESSION['usuario_id'];
+$id_seguido = $_POST['id'] ?? null;
 
-    /*SEGUIR
-    */
-
-    if ($accion === 'follow') {
-
-        $sql = "
-            INSERT IGNORE INTO seguidores
-            (id_seguidor, id_seguido)
-            VALUES (?, ?)
-        ";
-
-        $stmt = $pdo->prepare($sql);
-
-        $stmt->execute([$mi_id, $id_perfil]);
-    }
-
-    /*
-    | DEJAR DE SEGUIR
-    */
-
-    elseif ($accion === 'unfollow') {
-
-        $sql = "
-            DELETE FROM seguidores
-            WHERE id_seguidor = ?
-            AND id_seguido = ?
-        ";
-
-        $stmt = $pdo->prepare($sql);
-
-        $stmt->execute([$mi_id, $id_perfil]);
-    }
-
-} catch (PDOException $e) {
-
-    die("Error en seguimiento: " . $e->getMessage());
-
+// Evitar que te sigas a ti mismo o que falte la ID
+if (!$id_seguido || $id_seguidor == $id_seguido) {
+    echo json_encode(['ok' => false, 'error' => 'invalid_id']);
+    exit;
 }
 
-/*
-| VOLVER AL PERFIL
-*/
+// Comprobar si ya lo sigo
+$stmt = $pdo->prepare("SELECT id_seguidor FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
+$stmt->execute([$id_seguidor, $id_seguido]);
+$existe = $stmt->fetch();
 
-header("Location: perfil.php?id=" . $id_perfil);
-
-exit;
-?>
+if ($existe) {
+    // DEJAR DE SEGUIR
+    $delete = $pdo->prepare("DELETE FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
+    $delete->execute([$id_seguidor, $id_seguido]);
+    echo json_encode(['ok' => true, 'estado' => 'quitado']);
+} else {
+    // SEGUIR
+    $insert = $pdo->prepare("INSERT INTO seguidores (id_seguidor, id_seguido) VALUES (?, ?)");
+    $insert->execute([$id_seguidor, $id_seguido]);
+    echo json_encode(['ok' => true, 'estado' => 'añadido']);
+}

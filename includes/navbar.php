@@ -39,7 +39,7 @@
 
     <div class="enlaces-usuario">    
         <?php if (isset($_SESSION['usuario_nombre'])): ?>
-            <span style="color: #ccc; font-size: 1.1em; margin-left: 20px;">
+            <span >
                 Hola, 
                 <a href="perfil.php" style="color: white; text-decoration: none; font-size: 1.1em; margin-left: 1px; font-weight: bold;">
                     <?= htmlspecialchars($_SESSION['usuario_nombre']) ?>

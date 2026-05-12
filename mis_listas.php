@@ -111,7 +111,7 @@ $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <!-- LISTAS -->
-    <h2 class="titulo-seccion">Mis listas</h2>
+    <h2 class="titulo-seccion" id="titulo-listas">Mis listas</h2>
 
     <div class="listas">
         <!-- Crear listas -->

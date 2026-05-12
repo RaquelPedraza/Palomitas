@@ -29,6 +29,20 @@ require_once 'config/secrets.php';
     $stmt->execute([$id_usuario]);
     $siguiendo = $stmt->fetchColumn();
 
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguidor = ?");
+    $stmt->execute([$id_usuario]);
+    $siguiendo = $stmt->fetchColumn();
+
+    /* COMPROBAR BOTÓN DE SEGUIR */
+    $es_mi_perfil = ($id_usuario == $_SESSION['usuario_id']);
+    $lo_sigo = false;
+
+    if (!$es_mi_perfil) {
+        $check = $pdo->prepare("SELECT id_seguidor FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
+        $check->execute([$_SESSION['usuario_id'], $id_usuario]);
+        $lo_sigo = $check->fetch() ? true : false;
+    }
+   
     /* RESEÑAS */
     $stmt = $pdo->prepare("
     SELECT r.*, p.titulo, p.portada, p.anio, p.pais
@@ -97,16 +111,6 @@ require_once 'config/secrets.php';
         <!-- SIDEBAR -->
         <aside class="perfil-sidebar">
 
-        <?php if (isset($_SESSION['usuario_id']) && !$es_mi_perfil): ?>
-                <div style="margin-top: 20px; text-align: center;">
-                    <a href="seguir.php?id=<?= $id_usuario ?>&accion=<?= $ya_le_sigo ? 'unfollow' : 'follow' ?>" 
-                    style="display: block; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; 
-                            <?= $ya_le_sigo ? 'background-color: transparent; border: 1px solid white; color: white;' : 'background-color: #e50914; color: white;' ?>">
-                        <?= $ya_le_sigo ? 'Dejar de seguir' : 'Seguir' ?>
-                    </a>
-                </div>
-            <?php endif; ?>
-
             <div class="perfil-avatar">
                 <img src="<?= $usuario['avatar'] ?? 'img/default-avatar.png' ?>">
             </div>
@@ -119,6 +123,13 @@ require_once 'config/secrets.php';
                     style="color: #aaa; text-decoration: none; font-size: 0.9em; text-align: center; display: block;">
                     <i class="fa-solid fa-pen"></i> Editar mis datos
                     </a>
+                </div>
+                <?php else: ?>
+                <div style="margin-bottom: 20px; text-align: center;">
+                    <button onclick="toggleSeguimiento(<?= $id_usuario ?>)" 
+                            style="background-color: #e50914; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9em; font-weight: bold;">
+                        <?= $lo_sigo ? '<i class="fa-solid fa-user-minus"></i> Dejar de seguir' : '<i class="fa-solid fa-user-plus"></i> Seguir' ?>
+                    </button>
                 </div>
             <?php endif; ?>
 
@@ -185,17 +196,19 @@ require_once 'config/secrets.php';
                                 <!-- EDITAR RESEÑA -->
                                 <button
                                     class="btn-editar"
+                                    style="cursor: pointer;"
                                     onclick="abrirModalEditarResena(
                                         <?= $r['id_resena'] ?>,
                                         <?= $r['puntuacion'] ?>,
                                         `<?= htmlspecialchars(addslashes($r['titulo_resena'])) ?>`,
                                         `<?= htmlspecialchars(addslashes($r['contenido'])) ?>`
                                     )"
+                                    title="Editar reseña"
                                 >
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <!-- ELIMINAR RESEÑA -->
-                                <button type="button" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
+                                <button type="button" style="cursor: pointer;" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
@@ -378,7 +391,9 @@ require_once 'config/secrets.php';
     
     <script src="js/modales.js"></script>
     <Script src="js/perfil.js"></script>
+    <script src="js/seguidores.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <?php include 'includes/footer.php'; ?>
 </body>
 </html>

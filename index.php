@@ -195,7 +195,7 @@ if ($id_usuario) {
 
     <h2 class="titulo-seccion"> Catálogo</h2>            
     <section class="barra-filtros" id="filtrar">
-        <form action="index.php#galeria" method="GET" class="formulario-busqueda">
+        <form action="index.php#filtrar" method="GET" class="formulario-busqueda">
         <div class="controles-principales">
             <input type="text" id="buscadorPeliculas" name="busqueda" placeholder="Buscar película..." value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>" class="input-filtro">
             

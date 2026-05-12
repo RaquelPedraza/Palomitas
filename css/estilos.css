@@ -878,13 +878,14 @@ select.input-filtro option {
 /* ACCIONES DE USUARIO */
 .acciones-usuario {
   display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
   justify-content: space-between;
-  column-gap: 20px;
 }
 
 .acciones-usuario span {
   display: block;
-  font-size: 18px;
+  font-size: 17px;
   color: #aaa;
   margin-top: 4px;
 }
@@ -896,8 +897,11 @@ select.input-filtro option {
   background: transparent;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 70px;
+  color: #ccc;
 }
 
 .corazon-detalles {
@@ -1000,7 +1004,7 @@ select.input-filtro option {
 
 .toast {
   position: fixed;
-  bottom: 30px;
+  bottom: 150px;
   left: 50%;
   transform: translateX(-50%);
   background: #1f1f1f;

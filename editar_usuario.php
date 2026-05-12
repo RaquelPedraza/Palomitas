@@ -103,6 +103,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Editar Usuario</title>
     <link rel="stylesheet" href="css/estilos.css?v=5">
     <style>
+        h2 {
+            display: flex;
+            justify-content: center;
+        }
+
         body{
             background:#141414;
             color:white;
@@ -128,6 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border:none;
             background:#2a2a2a;
             color:white;
+            font-size: 1em;
         }
 
         button{
@@ -136,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border:none;
             padding:12px;
             cursor:pointer;
-            font-weight:bold;
+            font-size: large;
         }
 
         button:hover{
@@ -145,12 +151,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
+<!-- NAVBAR -->
+    <?php include 'includes/navbar.php'; ?>
 
+    <a href="javascript:history.back()" class="boton-volver">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Volver
+    </a>
 <div class="contenedor">
 
-<h1>Editar Perfil</h1>
+<h2>EDITAR PERFIL</h2>
 
-<form method="POST">
+<form method="POST" action="editar_usuario.php" enctype="multipart/form-data">
 
     <input
         type="text"
@@ -177,11 +191,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         name="confirmar_password"
         placeholder="Confirmar nueva contraseña"
     >
+    <label>Cambiar foto de perfil:</label>
+    <input type="file" name="avatar" accept="image/*">
+
+    
 
     <button type="submit">
         Guardar Cambios
     </button>
 
+    
 </form>
 
 </div>

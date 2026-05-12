@@ -55,14 +55,7 @@
                 // Respuesta JSON para AJAX
                 if ($esAjax) {
 
-                    echo json_encode([
-                        'ok' => true,
-                        'action' => 'updated',
-                        'id_resena' => $existe['id_resena'],
-                        'titulo_resena' => $titulo,
-                        'contenido' => $contenido,
-                        'puntuacion' => $puntuacion
-                    ]);
+                    header("Location: detalles.php?id=" . $_POST['pelicula_id']);
 
                     exit;
                 }
@@ -93,14 +86,7 @@
                 // AJAX
                 if ($esAjax) {
 
-                    echo json_encode([
-                        'ok' => true,
-                        'action' => 'created',
-                        'id_resena' => $id,
-                        'titulo_resena' => $titulo,
-                        'contenido' => $contenido,
-                        'puntuacion' => $puntuacion
-                    ]);
+                   header("Location: detalles.php?id=" . $_POST['pelicula_id']);
 
                     exit;
                 }
@@ -133,14 +119,7 @@
                 $id_usuario
             ]);
 
-            echo json_encode([
-                'ok' => true,
-                'action' => 'edited',
-                'id_resena' => $id_resena,
-                'titulo_resena' => $titulo,
-                'contenido' => $contenido,
-                'puntuacion' => $puntuacion
-            ]);
+            header("Location: detalles.php?id=" . $_POST['pelicula_id']);
 
             exit;
         }
@@ -157,25 +136,28 @@
 
             $stmt->execute([$id_resena, $id_usuario]);
 
-            echo json_encode([
-                'ok' => true,
-                'action' => 'deleted',
-                'id_resena' => $id_resena
-            ]);
+            header("Location: detalles.php?id=" . $_POST['pelicula_id']);
 
             exit;
         }
 
-        echo json_encode([
-            'ok' => false,
-            'error' => 'accion_no_valida'
-        ]);
+        // Comprobamos si tenemos la peli para volver a ella, si no, lo mandamos al catálogo
+        $id_retorno = $_POST['pelicula_id'] ?? '';
+        if ($id_retorno) {
+            header("Location: detalles.php?id=" . $id_retorno . "&error=1");
+        } else {
+            header("Location: index.php"); 
+        }
+        exit;
 
     } catch (PDOException $e) {
 
-        echo json_encode([
-            'ok' => false,
-            'error' => $e->getMessage()
-        ]);
+        $id_retorno = $_POST['pelicula_id'] ?? '';
+        if ($id_retorno) {
+            header("Location: detalles.php?id=" . $id_retorno . "&error=1");
+        } else {
+            header("Location: index.php"); 
+        }
+        exit;
     }
 ?>

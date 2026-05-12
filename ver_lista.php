@@ -102,7 +102,7 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <!-- TOTAL DE PELÍCULAS -->
                     <span class="lista-total">
-                        <?= count($peliculas) ?> películas
+                        <?= count($peliculas) ?> <?= count($peliculas) == 1 ? 'película' : 'películas' ?>
                     </span>
 
                     <!-- EDICIÓN DE LA LISTA -->
@@ -124,19 +124,34 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <i class="fa-solid fa-trash"></i>
                                 Eliminar
                             </button>
+
+                             <?php 
+                                if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'detalles.php') === false) {
+                                    $_SESSION['pagina_volver'] = $_SERVER['HTTP_REFERER'];
+                                }
+                                
+                                $pagina_volver = $_SESSION['pagina_volver'] ?? 'index.php'; 
+                                $pagina_volver .= '#titulo-listas';
+                            ?>
+                            <a href="<?= htmlspecialchars($pagina_volver) ?>" class="boton-volver" style="color:#e50914;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                </svg>
+                                Volver
+                            </a>
+
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
-
+        
         <!-- GALERIA DE PELÍCULAS -->
         <div class="galeria">
             <?php foreach ($peliculas as $peli): ?>
                 <div class="tarjeta pelicula" data-id="<?= $peli['id_produccion'] ?>">
                     <?php if ($lista['id_usuario'] == $id_usuario): ?>
-                        <button class="btn-eliminar-pelicula"
-                            onclick="eliminarPeliculaLista(<?= $peli['id_produccion'] ?>)">
+                        <button class="btn-eliminar-pelicula" title="Eliminar película" onclick="prepararEliminacion(<?= $peli['id_produccion'] ?>)">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     <?php endif; ?>
@@ -220,8 +235,20 @@ $peliculas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
+        
+        <div id="modalEliminarPelicula" class="modal">
+            <div class="modal-contenido">
+                <h2 class="titulo-modal">¿Eliminar película?</h2>
+                <p style="color: #888; text-align: center;">La película desaparecerá de la lista.</p>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+                    <button onclick="ejecutarEliminacion()" class="btn-rojo btnlistas">Eliminar</button>
+                    <button onclick="cerrarModal('modalEliminarPelicula')" class="btn-secundario">Cancelar</button>
+                </div>
+            </div>
+        </div>
 
         <script src="js/modales.js"></script>
+
         <?php include 'includes/footer.php'; ?>
     </body>
 </html>

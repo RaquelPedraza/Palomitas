@@ -58,10 +58,10 @@ try {
         $notaUsuario = $datoUser['puntuacion'];
     }
 
-    if (isset($_SESSION['usuario_id']) && isset($peli['id_produccion'])) {
+   if (isset($_SESSION['usuario_id']) && isset($id_pelicula)) {
         $sql_fav = "SELECT 1 FROM favoritos WHERE id_usuario = ? AND id_produccion = ?";
         $stmt_fav = $pdo->prepare($sql_fav);
-        $stmt_fav->execute([$_SESSION['usuario_id'], $peli['id_produccion']]);
+        $stmt_fav->execute([$_SESSION['usuario_id'], $id_pelicula]);
         
         if ($stmt_fav->fetchColumn()) {
             $esFav = true;
@@ -138,13 +138,20 @@ $nombres_paises = [
     <!-- NAVABAR -->
     <?php include 'includes/navbar.php'; ?>
 
-    <a href="javascript:history.back()" class="boton-volver">
+    <?php 
+        if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'detalles.php') === false) {
+            $_SESSION['pagina_volver'] = $_SERVER['HTTP_REFERER'];
+        }
+        
+        $pagina_volver = $_SESSION['pagina_volver'] ?? 'index.php'; 
+        $pagina_volver .= '#filtrar';
+    ?>
+    <a href="<?= htmlspecialchars($pagina_volver) ?>" class="boton-volver">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
         Volver
     </a>
-    
 
     <div class="ficha">
         <div class="poster">
@@ -197,7 +204,6 @@ $nombres_paises = [
                             <!-- RATING -->
                              <div class="iconos-accion btn-rating" onclick="abrirModal('modalRating')">
                                 <i class="fas fa-star"></i>
-
                                 <span class="texto-rating">
                                     <?php if ($notaUsuario !== null): ?>
                                         <?= number_format($notaUsuario, 1) ?>
@@ -210,13 +216,13 @@ $nombres_paises = [
                             <!-- COMENTARIO -->
                              <div class="iconos-accion btn-comentario" onclick="abrirModal('modalComentario')">
                                 <i class="fas fa-comment"></i>
-                                <span>Escribir reseña</span>
+                                <span>Escribir/modificar reseña</span>
                             </div>
 
                             <!-- FAVORITO Y LISTAS -->
-                            <button class="iconos-accion corazon-detalles" onclick="toggleFavorito(this, <?= $peli['id_produccion'] ?>)">
+                            <button class="iconos-accion corazon-detalles" onclick="toggleFavorito(this, <?= $id_pelicula ?>)">
                                 <i class="<?= $esFav ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
-                                <span>Añadir a favoritos</span>
+                                <span class="texto-favorito"><?= $esFav ? 'Quitar de favoritos' : 'Añadir a favoritos' ?></span>
                             </button>
                             
                             <div class="contenedor-listas">
@@ -237,6 +243,8 @@ $nombres_paises = [
                         <span class="cerrar" onclick="cerrarModal('modalRating')">&times;</span>
                         <h2 class="titulo-modal">Tu valoración</h2>
                         <form action="guardar_resena.php" method="POST">
+                            <input type="hidden" name="action" value="crear"> 
+            
                             <input type="hidden" name="pelicula_id" value="<?= $id_pelicula ?>">
                             <div class="rating">
                                 <?php for ($i = 10; $i >= 1; $i--): ?>
@@ -251,7 +259,7 @@ $nombres_paises = [
                                     <label for="star<?= $i ?>"><i class="fas fa-star"></i></label>
                                 <?php endfor; ?>
                             </div>
-
+                            
                             <button type="submit" class="btn-rojo">Guardar</button>
                         </form>
                     </div>
@@ -289,9 +297,7 @@ $nombres_paises = [
                                 value="<?= htmlspecialchars($resenaUsuario['titulo_resena'] ?? '') ?>"
                             >
 
-                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general">
-                                <?= htmlspecialchars($resenaUsuario['contenido'] ?? '') ?>
-                            </textarea>
+                            <textarea name="texto" rows="4" placeholder="Escribe tu reseña..." required class="textarea-general"><?= htmlspecialchars($resenaUsuario['contenido'] ?? '') ?></textarea>
 
                             <button type="submit" class="btn-rojo">
                                 <?= $resenaUsuario ? 'Guardar cambios' : 'Publicar' ?>
@@ -341,15 +347,22 @@ $nombres_paises = [
                         <?php foreach ($comentarios as $coment): ?>
                             <div class="caja-comentario" id="resena-<?= $coment['id_resena'] ?>">
                                 <div class="comentario-header">
-                                    <strong class="usuario"><?= htmlspecialchars($coment['nombre_usuario']) ?></strong>
-                                    <span class="estrellas-comentario">
+                                        <strong class="usuario"><a href="perfil.php?id=<?= $coment['id_usuario'] ?>" style="color: inherit; text-decoration: none;"><?= htmlspecialchars($coment['nombre_usuario']) ?></a></strong>                                    
+                                        <span class="estrellas-comentario">
                                         <?= mostrarEstrellas($coment['puntuacion']) ?>
                                         <span class="numero"><?= $coment['puntuacion'] ?>/10</span>
                                     </span>
                                 </div>
                                 <strong class="titulo-comentario"><?= htmlspecialchars($coment['titulo_resena']) ?></strong>
                                 <p><?= nl2br(htmlspecialchars($coment['contenido'])) ?></p>
-                                <p class="fecha-comentario"><?= date('d-m-Y', strtotime($coment['fecha'])) ?></p>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px;">
+                                    <a href="perfil.php?id=<?= $coment['id_usuario'] ?>" style="color: #b80710; text-decoration: none; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px;">
+                                        Ver perfil
+                                    </a>
+                                    <p class="fecha-comentario" style="margin: 0;">
+                                        <?= date('d-m-Y', strtotime($coment['fecha'])) ?>
+                                    </p>
+                                </div>                             
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?> 
@@ -357,7 +370,7 @@ $nombres_paises = [
                     <?php endif; ?>
                 </div>
             </div>
-
+            </div>
         </div>
     </div>
     <div id="toast" class="toast"></div>
