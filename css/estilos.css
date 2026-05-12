@@ -362,13 +362,12 @@ select.input-filtro option {
 /*---- SECCIÓN DE DETALLES ----*/
 /* El contenedor del enlace */
 .boton-volver {
-  display: inline-flex; /* Esto pone la flecha y el texto en la misma línea */
-  align-items: center; /* ESTA es la magia: los centra verticalmente de forma perfecta */
-  gap: 8px; /* Separación exacta entre la flecha y el texto */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-left: 100px;
-  text-decoration: none; /* Por si acaso te sale subrayado */
+  text-decoration: none;
   color: #ccc;
-  /* ... mantén aquí el color o fuente que ya le tuvieras puesto ... */
 }
 
 .boton-volver svg {
