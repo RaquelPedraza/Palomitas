@@ -2,7 +2,7 @@
 
 > **Organiza, evalúa y vive el cine en tu idioma.**
 
-![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow)
+![Estado](https://img.shields.io/badge/Estado-%20Completado-green)
 ![Versión](https://img.shields.io/badge/Versión-1.0.0-blue)
 ![PHP](https://img.shields.io/badge/Backend-PHP-777BB4)
 ![MySQL](https://img.shields.io/badge/DB-MySQL-4479A1)
