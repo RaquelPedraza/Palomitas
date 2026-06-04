@@ -20,6 +20,7 @@
             <?php if (isset($_SESSION['usuario_id'])): ?> 
                 <a href="perfil.php">Mi Perfil</a>
                 <a href="mis_listas.php">Mis listas</a>
+                <a href="mensajes.php">Mensajes</a>
             <?php endif; ?>
 
             <a href="index.php">Catálogo</a>
