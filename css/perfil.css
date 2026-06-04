@@ -1,253 +1,145 @@
 .perfil-layout {
   display: flex;
-  gap: 30px;
-  width: 92%;
-  max-width: 1400px;
-  margin: 40px auto;
+  gap: 20px;
+  width: 90%;
+  margin: auto;
   color: var(--text);
-  align-items: flex-start;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
+/* SIDEBAR */
 .perfil-sidebar {
-  width: 280px;
-  background: linear-gradient(180deg, #1a1a1a, #121212);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 30px 25px;
+  width: 25%;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 12px;
   position: sticky;
   top: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.perfil-avatar {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  height: fit-content;
 }
 
 .perfil-avatar img {
-  width: 170px;
-  height: 170px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid var(--primary);
-  box-shadow: 0 0 30px rgba(229, 9, 20, 0.3);
+  width: 80%;
+  border-radius:50%;
+  display: block;
+  margin: 0 auto;
 }
 
 .perfil-sidebar h2 {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-.perfil-sidebar a {
-  transition: 0.2s ease;
-}
-
-.perfil-sidebar a:hover {
-  opacity: 0.8;
-}
-
+/* STATS */
 .perfil-stats {
-  margin-top: 25px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .perfil-stats div {
-  background: #1f1f1f;
-  padding: 16px 10px;
-  border-radius: 14px;
-  text-align: center;
-  transition: 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: var(--bg);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
-.perfil-stats div:hover {
-  transform: translateY(-3px);
-  background: #262626;
-}
-
-.perfil-stats strong {
-  display: block;
-  font-size: 22px;
-  color: var(--primary);
-  margin-bottom: 5px;
-}
-
-/* =========================
-   MAIN
-========================= */
 
 .perfil-main {
-  flex: 1;
+  width: 75%;
 }
 
-/* =========================
-   TABS
-========================= */
-
+/* PESTAÑAS */
 .perfil-tabs {
   display: flex;
-  gap: 15px;
-  background: #181818;
+  justify-content: center;
+  gap: 10px;
+  background: var(--bg-card);
   padding: 10px;
-  border-radius: 18px;
-  margin-bottom: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 .tab {
-  flex: 1;
   background: transparent;
   border: none;
-  color: #aaa;
-  padding: 14px;
-  border-radius: 12px;
+  color: var(--text);
+  padding: 10px 15px;
   cursor: pointer;
-  transition: 0.25s ease;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.tab:hover {
-  background: #242424;
-  color: white;
 }
 
 .tab.active {
-  background: var(--primary);
-  color: white;
+  color: var(--primary);
 }
 
-/* =========================
-   CONTENIDO
-========================= */
-
-.tab-content{
-  display:none;
+.tab-content {
+  display: none;
 }
 
-#resenas.active{
-  display:block;
-}
-
-#listas.active{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:20px;
-}
-
-#clips.active{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:20px;
+.tab-content.active {
+  display: block;
 }
 
 /* RESEÑAS */
 .resena-wrapper {
   display: flex;
-  gap: 20px;
-  background: linear-gradient(180deg, #181818, #111);
-  padding: 20px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: 0.25s ease;
+  gap: 15px;
+  background: #111;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border-left: 4px solid var(--primary);
 }
 
-.resena-wrapper:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
-}
-
-.wrapper.clickable {
+.resena-wrapper.clickable {
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .resena-wrapper.clickable:hover {
   transform: scale(1.01);
 }
 
+/* TARJETA */
 .tarjeta-mini {
-  width: 160px;
+  width: 140px;
+  transform-origin: top left;
 }
 
 .tarjeta-mini img {
-  width: 100%;
-  border-radius: 14px;
+  height: auto;
   object-fit: cover;
 }
 
 .tarjeta-mini .info {
-  padding-top: 10px;
+  padding: 5px 8px;
 }
 
 .tarjeta-mini .titulo {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-
-.tarjeta-mini .meta-datos {
-  font-size: 12px;
-  color: #aaa;
-}
-
-.resena-detalle {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.detalle-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.resena-rating {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.estrellas {
-  color: #ffd700;
-}
-
-.texto-rating {
-  font-weight: bold;
-  color: white;
-}
-
-.resena-detalle h4 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.resena-detalle p {
-  color: #ccc;
-  line-height: 1.6;
-}
-
-.fecha-comentario {
-  margin-top: auto;
-  color: #777 !important;
   font-size: 13px;
 }
 
-/* =========================
-   BOTONES ACCIONES
-========================= */
+.tarjeta-mini .meta-datos {
+  font-size: 11px;
+}
 
-.perfil-acciones {
+.resena-pelicula {
+  flex-shrink: 0;
+}
+
+/* DETALLE */
+.resena-detalle {
+  flex: 1;
+  position: relative;
+}
+
+.resena-detalle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.resena-acciones {
   display: flex;
   gap: 10px;
 }
@@ -256,11 +148,8 @@
 .resena-acciones button {
   background: none;
   border: none;
-  border-radius: 10px;
-  background: #1f1f1f;
-  color: #aaa;
+  color: var(--text-muted);
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
 .resena-acciones a:hover,
@@ -268,21 +157,7 @@
   color: var(--primary);
 }
 
-.perfil-acciones i {
-  font-size: 16px;
-}
-
-/* =========================
-   LISTAS
-========================= */
-
-#listas.active {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-
-}
-
+/* LISTAS */
 .card-lista {
   background: var(--bg-card);
   padding: 15px;
@@ -290,31 +165,12 @@
   margin-bottom: 10px;
 }
 
-/* =========================
-   CLIPS
-========================= */
-
-#clips {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-#clips.active {
-  display: grid;
-}
-
+/* CLIPS */
 .card-clip {
-  background: #181818;
-  padding: 15px;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: 0.25s ease;
-}
-
-.card-clip:hover {
-  transform: translateY(-5px);
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .card-clip iframe {
@@ -338,33 +194,12 @@
   .perfil-layout {
     flex-direction: column;
     width: 95%;
-    gap: 25px;
   }
 
   .perfil-sidebar {
     width: 100%;
     position: relative;
     top: 0;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    padding: 30px 25px;
-  }
-
-  .perfil-avatar img {
-    width: 140px;
-    height: 140px;
-  }
-
-  .perfil-stats {
-    width: 100%;
-    max-width: 500px;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
   }
 
   .perfil-main {
@@ -372,18 +207,15 @@
   }
 
   .perfil-tabs {
-    width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .perfil-tabs::-webkit-scrollbar {
-    display: none;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 5px;
   }
 
   .tab {
-    white-space: nowrap;
-    min-width: 160px;
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
   }
 
   .resena-wrapper {
@@ -392,102 +224,28 @@
   }
 
   .resena-pelicula {
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .tarjeta.tarjeta-mini {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    transform: none;
   }
 
-  .tarjeta-mini {
-    width: 220px;
-  }
-
-  #listas {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #clips {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================
-   RESPONSIVE MÓVIL
-========================= */
-
-@media (max-width: 768px) {
-
-  body {
-    padding: 10px;
-  }
-
-  .perfil-layout {
-    width: 100%;
-    margin: 20px auto;
-    gap: 20px;
-  }
-
-  .perfil-sidebar {
-    padding: 25px 18px;
-    border-radius: 18px;
-  }
-
-  .perfil-avatar img {
-    width: 115px;
-    height: 115px;
-    border-width: 3px;
-  }
-
-  .perfil-sidebar h2 {
-    font-size: 24px;
-    text-align: center;
-  }
-
-  .perfil-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .perfil-stats div {
-    padding: 14px 10px;
-  }
-
-  .perfil-stats strong {
-    font-size: 18px;
-  }
-
-  .perfil-tabs {
-    padding: 8px;
-    gap: 8px;
-    border-radius: 14px;
-  }
-
-  .tab {
-    padding: 12px;
-    font-size: 13px;
-    border-radius: 10px;
-    min-width: 120px;
-  }
-
-  .resena-wrapper {
-    padding: 16px;
-    border-radius: 18px;
-  }
-
-  .tarjeta-mini {
-    width: 180px;
-  }
-
-  .tarjeta-mini img {
-    border-radius: 12px;
+  .tarjeta img {
+    height: 150px;
+    object-fit: cover;
   }
 
   .resena-detalle {
-    width: 100%;
+    flex: 1;
   }
 
   .resena-detalle-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .resena-acciones {
@@ -495,56 +253,18 @@
     gap: 8px;
   }
 
-  #clips {
-    grid-template-columns: 1fr;
-  }
-
-  .card-clip {
-    padding: 12px;
-  }
-
-  .card-clip iframe {
-    height: 220px;
-  }
 }
-
-/* =========================
-   RESPONSIVE MÓVIL PEQUEÑO
-========================= */
 
 @media (max-width: 480px) {
 
-  .perfil-sidebar {
-    padding: 20px 14px;
-  }
-
-  .perfil-avatar img {
-    width: 95px;
-    height: 95px;
-  }
-
-  .perfil-sidebar h2 {
-    font-size: 20px;
-  }
-
   .perfil-stats {
+    display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
-  .perfil-stats div {
+  .perfil-tabs {
     font-size: 12px;
-    padding: 12px 8px;
-  }
-
-  .perfil-stats strong {
-    font-size: 16px;
-  }
-
-  .tab {
-    min-width: auto;
-    flex: 1;
-    font-size: 12px;
-    padding: 10px 8px;
+    justify-content: center;
   }
 
   .resena-detalle-header {
@@ -555,8 +275,10 @@
     gap: 6px;
   }
 
-  .tarjeta-mini {
-    width: 150px;
+  .resena-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
   .resena-acciones {
@@ -565,25 +287,12 @@
     gap: 1px;
   }
 
-  .resena-detalle p {
-    font-size: 13px;
+  .resena-rating .estrellas {
+    display: inline-block;
   }
 
-  .estrellas i:not(:first-child) {
+  .resena-rating .estrellas i:not(:first-child) {
     display: none;
   }
 
-  .texto-rating {
-    font-size: 14px;
-  }
-
-  .resena-acciones button {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-  }
-
-  .card-clip iframe {
-    height: 190px;
-  }
 }
