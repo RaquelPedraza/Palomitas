@@ -50,6 +50,19 @@ $stmt->execute([
 
 $mensajes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+/*Marcar como leidos*/
+$update = $pdo->prepare("
+    UPDATE mensajes
+    SET leido = 1
+    WHERE receptor_id = ?
+    AND emisor_id = ?
+");
+
+$update->execute([
+    $miId,
+    $otroUsuario
+]);
+
 header('Content-Type: application/json');
 
 echo json_encode($mensajes);
