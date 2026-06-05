@@ -50,6 +50,9 @@ async function cargarUsuarios() {
 
                 cargarMensajes();
 
+                document.getElementById("cabeceraChat")
+                    .innerText = usuario.nombre;
+
             });
 
             listaUsuarios.appendChild(div);
