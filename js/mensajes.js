@@ -26,7 +26,22 @@ async function cargarUsuarios() {
             div.classList.add("usuario");
 
             div.innerHTML = `
-                <strong>${usuario.nombre}</strong>
+                <div class="usuario-info">
+
+                    <span>
+                        ${usuario.nombre}
+                    </span>
+
+                    ${usuario.pendientes > 0
+                    ?
+                    `<span class="badge">
+                            ${usuario.pendientes}
+                        </span>`
+                    :
+                    ''
+                }
+
+                </div>
             `;
 
             div.addEventListener("click", () => {
