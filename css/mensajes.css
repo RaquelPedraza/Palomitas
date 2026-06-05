@@ -103,6 +103,10 @@
     align-items:center;
 }
 
+.usuario.activo{
+    background:#e50914;
+}
+
 .badge{
     background:#e50914;
     color:white;

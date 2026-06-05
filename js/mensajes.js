@@ -45,6 +45,12 @@ async function cargarUsuarios() {
             `;
 
             div.addEventListener("click", () => {
+                
+                document
+                    .querySelectorAll(".usuario")
+                    .forEach(u => u.classList.remove("activo"));
+
+                div.classList.add("activo");
 
                 usuarioSeleccionado = usuario.id_usuario;
 
