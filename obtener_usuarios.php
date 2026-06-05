@@ -19,16 +19,28 @@ $pdo = new PDO(
 
 // Obtenemos todos los usuarios excepto el actual
 $stmt = $pdo->prepare("
-    SELECT
-        id_usuario,
-        nombre,
-        avatar
-    FROM usuarios
-    WHERE id_usuario != ?
-    ORDER BY nombre ASC
+SELECT
+    u.id_usuario,
+    u.nombre,
+    u.avatar,
+
+    (
+        SELECT COUNT(*)
+        FROM mensajes m
+        WHERE m.emisor_id = u.id_usuario
+        AND m.receptor_id = ?
+        AND m.leido = 0
+    ) AS pendientes
+
+FROM usuarios u
+
+WHERE u.id_usuario != ?
+
+ORDER BY nombre ASC
 ");
 
 $stmt->execute([
+    $_SESSION['usuario_id'],
     $_SESSION['usuario_id']
 ]);
 
