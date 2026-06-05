@@ -66,10 +66,9 @@ $pdo = new PDO(
 
         <!-- CHAT -->
         <section class="chat">
-            
+
             <div id="cabeceraChat" class="cabecera-chat">
 
-                Selecciona un usuario
 
             </div>
 

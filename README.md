@@ -21,6 +21,25 @@ El objetivo principal es optimizar la gestión de la experiencia audiovisual, pe
 * **Reels Cinéfilos:** Una funcionalidad única para compartir clips cortos o enlaces embebidos (YouTube/Vimeo) organizados por emociones (ej. "finales impactantes" o "escenas románticas").
 * **Comunidad Social:** Sistema de seguidores, feed de actividad reciente y notificaciones de listas o reseñas de amigos.
 
+# Sistema de Mensajería Privada
+
+Se ha implementado un sistema de mensajería privada entre usuarios que permite:
+
+- Comunicación en tiempo real mediante AJAX.
+- Visualización de conversaciones.
+- Actualización automática cada 2 segundos.
+- Contador de mensajes no leídos.
+- Marcado automático de mensajes leídos.
+- Diseño responsive para dispositivos móviles.
+
+Tecnologías utilizadas:
+
+- PHP
+- MySQL
+- JavaScript (Fetch API)
+- AJAX
+- CSS3
+
 ### Para Administradores
 * **Panel de Control:** Gestión integral de usuarios (CRUD), revisión de listas y moderación de contenido.
 * **Estadísticas:** Visualización de patrones de uso, títulos más valorados e informes de interacción para la toma de decisiones.

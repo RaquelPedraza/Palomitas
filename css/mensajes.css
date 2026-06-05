@@ -107,6 +107,15 @@
     background:#e50914;
 }
 
+.cabecera-chat{
+    padding:15px 20px;
+    border-bottom:1px solid #333;
+    font-size:18px;
+    font-weight:bold;
+    color:white;
+
+}
+
 .badge{
     background:#e50914;
     color:white;
