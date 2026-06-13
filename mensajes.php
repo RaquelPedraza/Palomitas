@@ -47,6 +47,9 @@ $pdo = new PDO(
     <!-- Guardamos el usuario actual para JS -->
     <script>
         window.usuarioActual = <?= $_SESSION['usuario_id'] ?>;
+
+        window.usuarioInicial =
+            <?= isset($_GET['usuario']) ? (int)$_GET['usuario'] : 'null' ?>;
     </script>
 
     <div class="contenedor-chat">

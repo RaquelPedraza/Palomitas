@@ -26,26 +26,36 @@ async function cargarUsuarios() {
             div.classList.add("usuario");
 
             div.innerHTML = `
-                <div class="usuario-info">
+    <div class="usuario-info">
 
-                    <span>
-                        ${usuario.nombre}
-                    </span>
+        <div class="usuario-datos">
 
-                    ${usuario.pendientes > 0
+            <img
+                src="${usuario.avatar ? usuario.avatar : 'img/default-avatar.png'}"
+                class="avatar-chat"
+                alt="Avatar"
+            >
+
+            <span class="nombre-chat">
+                ${usuario.nombre}
+            </span>
+
+        </div>
+
+        ${usuario.pendientes > 0
                     ?
                     `<span class="badge">
-                            ${usuario.pendientes}
-                        </span>`
+                ${usuario.pendientes}
+            </span>`
                     :
                     ''
                 }
 
-                </div>
-            `;
+    </div>
+`;
 
             div.addEventListener("click", () => {
-                
+
                 document
                     .querySelectorAll(".usuario")
                     .forEach(u => u.classList.remove("activo"));
@@ -62,6 +72,21 @@ async function cargarUsuarios() {
             });
 
             listaUsuarios.appendChild(div);
+
+            if (
+                window.usuarioInicial &&
+                parseInt(window.usuarioInicial) === parseInt(usuario.id_usuario)
+            ) {
+
+                usuarioSeleccionado = usuario.id_usuario;
+
+                div.classList.add("activo");
+
+                document.getElementById("cabeceraChat")
+                    .innerText = usuario.nombre;
+
+                cargarMensajes();
+            }
 
         });
 
@@ -196,11 +221,7 @@ setInterval(() => {
 
 }, 2000);
 
-/*
-|--------------------------------------------------------------------------
-| SEGURIDAD BÁSICA XSS
-|--------------------------------------------------------------------------
-*/
+/* Seguridad básica*/
 function escapeHTML(texto) {
 
     const div = document.createElement("div");

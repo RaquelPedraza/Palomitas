@@ -7,55 +7,55 @@ if (!isset($_SESSION['usuario_id'])) {
 require_once 'includes/functions.php';
 require_once 'config/secrets.php';
 
-    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
+$pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass);
 
-    $id_usuario = $_GET['id'] ?? $_SESSION['usuario_id'] ?? null;
+$id_usuario = $_GET['id'] ?? $_SESSION['usuario_id'] ?? null;
 
-    if (!$id_usuario) {
-        die("Usuario no encontrado");
-    }
+if (!$id_usuario) {
+    die("Usuario no encontrado");
+}
 
-    /* USUARIO */
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
-    $stmt->execute([$id_usuario]);
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+/* USUARIO */
+$stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
+$stmt->execute([$id_usuario]);
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    /* SEGUIDORES */
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguido = ?");
-    $stmt->execute([$id_usuario]);
-    $seguidores = $stmt->fetchColumn();
+/* SEGUIDORES */
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguido = ?");
+$stmt->execute([$id_usuario]);
+$seguidores = $stmt->fetchColumn();
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguidor = ?");
-    $stmt->execute([$id_usuario]);
-    $siguiendo = $stmt->fetchColumn();
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguidor = ?");
+$stmt->execute([$id_usuario]);
+$siguiendo = $stmt->fetchColumn();
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguidor = ?");
-    $stmt->execute([$id_usuario]);
-    $siguiendo = $stmt->fetchColumn();
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM seguidores WHERE id_seguidor = ?");
+$stmt->execute([$id_usuario]);
+$siguiendo = $stmt->fetchColumn();
 
-    /* COMPROBAR BOTÓN DE SEGUIR */
-    $es_mi_perfil = ($id_usuario == $_SESSION['usuario_id']);
-    $lo_sigo = false;
+/* COMPROBAR BOTÓN DE SEGUIR */
+$es_mi_perfil = ($id_usuario == $_SESSION['usuario_id']);
+$lo_sigo = false;
 
-    if (!$es_mi_perfil) {
-        $check = $pdo->prepare("SELECT id_seguidor FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
-        $check->execute([$_SESSION['usuario_id'], $id_usuario]);
-        $lo_sigo = $check->fetch() ? true : false;
-    }
-   
-    /* RESEÑAS */
-    $stmt = $pdo->prepare("
+if (!$es_mi_perfil) {
+    $check = $pdo->prepare("SELECT id_seguidor FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
+    $check->execute([$_SESSION['usuario_id'], $id_usuario]);
+    $lo_sigo = $check->fetch() ? true : false;
+}
+
+/* RESEÑAS */
+$stmt = $pdo->prepare("
     SELECT r.*, p.titulo, p.portada, p.anio, p.pais
     FROM resenas r
     JOIN producciones p ON p.id_produccion = r.id_produccion
     WHERE r.id_usuario = ?
     ORDER BY r.fecha DESC
     ");
-    $stmt->execute([$id_usuario]);
-    $resenas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute([$id_usuario]);
+$resenas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    /* LISTAS */
-    $stmt = $pdo->prepare("
+/* LISTAS */
+$stmt = $pdo->prepare("
         SELECT l.*,
             COUNT(lp.id_produccion) AS total_peliculas
         FROM listas l
@@ -64,33 +64,34 @@ require_once 'config/secrets.php';
         WHERE l.id_usuario = ?
         GROUP BY l.id_lista
     ");
-    $stmt->execute([$id_usuario]);
-    $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute([$id_usuario]);
+$listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    /* CLIPS */
-    $stmt = $pdo->prepare("
+/* CLIPS */
+$stmt = $pdo->prepare("
     SELECT c.*, p.titulo
     FROM clips c
     JOIN producciones p ON p.id_produccion = c.id_produccion
     WHERE c.id_usuario = ?
     ORDER BY c.fecha_subida DESC
     ");
-    $stmt->execute([$id_usuario]);
-    $clips = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute([$id_usuario]);
+$clips = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    /* LÓGICA DE SEGUIMIENTO */
-    $es_mi_perfil = (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $id_usuario);
-    $ya_le_sigo = false;
+/* LÓGICA DE SEGUIMIENTO */
+$es_mi_perfil = (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $id_usuario);
+$ya_le_sigo = false;
 
-    if (isset($_SESSION['usuario_id']) && !$es_mi_perfil) {
-        $check = $pdo->prepare("SELECT 1 FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
-        $check->execute([$_SESSION['usuario_id'], $id_usuario]);
-        $ya_le_sigo = $check->fetchColumn();
-    }
+if (isset($_SESSION['usuario_id']) && !$es_mi_perfil) {
+    $check = $pdo->prepare("SELECT 1 FROM seguidores WHERE id_seguidor = ? AND id_seguido = ?");
+    $check->execute([$_SESSION['usuario_id'], $id_usuario]);
+    $ya_le_sigo = $check->fetchColumn();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,17 +120,40 @@ require_once 'config/secrets.php';
 
             <?php if ($es_mi_perfil): ?>
                 <div style="margin-bottom: 20px;">
-                    <a href="editar_usuario.php?id=<?= $_SESSION['usuario_id'] ?>" 
-                    style="color: #aaa; text-decoration: none; font-size: 0.9em; text-align: center; display: block;">
-                    <i class="fa-solid fa-pen"></i> Editar mis datos
+                    <a href="editar_usuario.php?id=<?= $_SESSION['usuario_id'] ?>"
+                        style="color: #aaa; text-decoration: none; font-size: 0.9em; text-align: center; display: block;">
+                        <i class="fa-solid fa-pen"></i> Editar mis datos
                     </a>
                 </div>
-                <?php else: ?>
+            <?php else: ?>
                 <div style="margin-bottom: 20px; text-align: center;">
-                    <button onclick="toggleSeguimiento(<?= $id_usuario ?>)" 
-                            style="background-color: #e50914; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9em; font-weight: bold;">
+                    <button onclick="toggleSeguimiento(<?= $id_usuario ?>)"
+                        style="
+                            background-color: #e50914;
+                            color: white; 
+                            border: none; 
+                            padding: 8px 16px;
+                            border-radius: 4px; 
+                            cursor: pointer;
+                            font-size: 0.9em; 
+                            font-weight: bold;">
                         <?= $lo_sigo ? '<i class="fa-solid fa-user-minus"></i> Dejar de seguir' : '<i class="fa-solid fa-user-plus"></i> Seguir' ?>
                     </button>
+                    <a
+                        href="mensajes.php?usuario=<?= $id_usuario ?>"
+                        style="
+                            display:block;
+                            margin-top:10px;
+                            background:#444;
+                            color:white;
+                            text-decoration:none;
+                            padding:8px 16px;
+                            border-radius:4px;
+                            font-weight:bold;
+    ">
+                        <i class="fa-solid fa-envelope"></i>
+                        Enviar mensaje
+                    </a>
                 </div>
             <?php endif; ?>
 
@@ -162,66 +186,65 @@ require_once 'config/secrets.php';
             <div id="resenas" class="tab-content active">
 
                 <?php foreach ($resenas as $r): ?>
-                <div class="wrapper clickable"
-                    onclick="window.location.href='detalles.php?id=<?= $r['id_produccion'] ?>&from=perfil.php'">
-                    <div class="resena-pelicula">
-                        <div class="tarjeta tarjeta-mini">
-                            <img src="<?= $r['portada'] ?>"
-                                onerror="this.src='img/no-poster.png'">
-                            <div class="info">
-                                <div class="titulo"><?= htmlspecialchars($r['titulo']) ?></div>
-                                <div class="meta-datos">
-                                    <span><?= $r['anio'] ?></span>
-                                    <?php if (!empty($r['pais'])): ?>
-                                        <span class="etiqueta-pais"><?= $r['pais'] ?></span>
-                                    <?php endif; ?>
+                    <div class="wrapper clickable"
+                        onclick="window.location.href='detalles.php?id=<?= $r['id_produccion'] ?>&from=perfil.php'">
+                        <div class="resena-pelicula">
+                            <div class="tarjeta tarjeta-mini">
+                                <img src="<?= $r['portada'] ?>"
+                                    onerror="this.src='img/no-poster.png'">
+                                <div class="info">
+                                    <div class="titulo"><?= htmlspecialchars($r['titulo']) ?></div>
+                                    <div class="meta-datos">
+                                        <span><?= $r['anio'] ?></span>
+                                        <?php if (!empty($r['pais'])): ?>
+                                            <span class="etiqueta-pais"><?= $r['pais'] ?></span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="resena-detalle">
-                        <div class="detalle-header">
-                            <div class="resena-rating">
-                                <div class="estrellas">
-                                    <?= mostrarEstrellas($r['puntuacion'] ?? 0) ?>
+                        <div class="resena-detalle">
+                            <div class="detalle-header">
+                                <div class="resena-rating">
+                                    <div class="estrellas">
+                                        <?= mostrarEstrellas($r['puntuacion'] ?? 0) ?>
+                                    </div>
+                                    <div class="texto-rating">
+                                        <?= $r['puntuacion'] ?>/10
+                                    </div>
                                 </div>
-                                <div class="texto-rating">
-                                    <?= $r['puntuacion'] ?>/10
-                                </div>
-                            </div>
 
-                            <div class="perfil-acciones" onclick="event.stopPropagation()">
-                                <!-- EDITAR RESEÑA -->
-                                <button
-                                    class="btn-editar"
-                                    style="cursor: pointer;"
-                                    onclick="abrirModalEditarResena(
+                                <div class="perfil-acciones" onclick="event.stopPropagation()">
+                                    <!-- EDITAR RESEÑA -->
+                                    <button
+                                        class="btn-editar"
+                                        style="cursor: pointer;"
+                                        onclick="abrirModalEditarResena(
                                         <?= $r['id_resena'] ?>,
                                         <?= $r['puntuacion'] ?>,
                                         `<?= htmlspecialchars(addslashes($r['titulo_resena'])) ?>`,
                                         `<?= htmlspecialchars(addslashes($r['contenido'])) ?>`
                                     )"
-                                    title="Editar reseña"
-                                >
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <!-- ELIMINAR RESEÑA -->
-                                <button type="button" style="cursor: pointer;" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                        title="Editar reseña">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <!-- ELIMINAR RESEÑA -->
+                                    <button type="button" style="cursor: pointer;" onclick="abrirModalEliminar(<?= $r['id_resena'] ?>)" title="Eliminar reseña">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
+
+                            <!-- DATOS RESEÑA -->
+                            <h4><?= htmlspecialchars($r['titulo_resena']) ?></h4>
+                            <p><?= nl2br(htmlspecialchars($r['contenido'])) ?></p>
+                            <p class="fecha-comentario"><?= date('d-m-Y', strtotime($r['fecha'])) ?></p>
+
                         </div>
-                        
-                        <!-- DATOS RESEÑA -->
-                        <h4><?= htmlspecialchars($r['titulo_resena']) ?></h4>
-                        <p><?= nl2br(htmlspecialchars($r['contenido'])) ?></p>
-                        <p class="fecha-comentario"><?= date('d-m-Y', strtotime($r['fecha'])) ?></p>
 
                     </div>
-
-                </div>
 
                 <?php endforeach; ?>
 
@@ -276,7 +299,7 @@ require_once 'config/secrets.php';
             </div>
         </div>
     </div>
-                            
+
     <!-- MODAL EDITAR RESEÑA-->
     <div id="modalEditarResena" class="modal">
         <div class="modal-contenido">
@@ -297,8 +320,7 @@ require_once 'config/secrets.php';
                             id="edit-star<?= $i ?>"
                             name="puntuacion"
                             value="<?= $i ?>"
-                            required
-                        >
+                            required>
 
                         <label for="edit-star<?= $i ?>">
                             <i class="fas fa-star"></i>
@@ -311,15 +333,13 @@ require_once 'config/secrets.php';
                     name="titulo_resena"
                     id="editar_titulo_resena"
                     maxlength="200"
-                    class="input-general"
-                >
+                    class="input-general">
 
                 <textarea
                     name="texto"
                     id="editar_contenido_resena"
                     rows="6"
-                    class="textarea-general"
-                ></textarea>
+                    class="textarea-general"></textarea>
 
                 <button type="submit" class="btn-rojo">
                     Guardar cambios
@@ -327,7 +347,7 @@ require_once 'config/secrets.php';
             </form>
         </div>
     </div>
-    
+
     <!-- MODAL ELIMINAR LISTA -->
     <div id="modalEliminarListaPerfil" class="modal">
         <div class="modal-contenido">
@@ -388,12 +408,13 @@ require_once 'config/secrets.php';
             </form>
         </div>
     </div>
-    
+
     <script src="js/modales.js"></script>
     <Script src="js/perfil.js"></script>
     <script src="js/seguidores.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <?php include 'includes/footer.php'; ?>
 </body>
+
 </html>
